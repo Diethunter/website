@@ -1,0 +1,2 @@
+tasks:
+  - init: npm install && cd frontend && npm install
