@@ -7,13 +7,10 @@ export default class User extends BaseModel {
   public id: number
 
   @column()
-  public email: string
+  public username: string
 
   @column({ serializeAs: null })
   public password: string
-
-  @column()
-  public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

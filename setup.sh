@@ -4,6 +4,7 @@ npm install
 cd ..
 mkdir tmp
 touch tmp/db.sqlite3
+node ace migration:run
 cat .env.example >> .env
 echo "Remember to fill in data for .env"
 echo "App key:"
