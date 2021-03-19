@@ -6,7 +6,7 @@ export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
+  @column({ columnName: "email"})
   public username: string
 
   @column({ serializeAs: null })
