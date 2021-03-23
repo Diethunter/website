@@ -1,4 +1,4 @@
-cat .env.example >> .env
+cat .env.example > .env
 npm install
 #Save the following scripts for when I start making frontend
 #cd frontend
