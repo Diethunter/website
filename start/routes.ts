@@ -28,4 +28,6 @@ Route.get('/ping', async () => {
 //API routes for user auth
 Route.group(() => {
   Route.post("/register", "UsersController.register")
+
+  Route.post("/login", "UsersController.login")
 }).prefix("/auth")

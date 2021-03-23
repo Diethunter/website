@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import RegistrationValidator from "App/Validators/RegistrationValidator"
-import ApiToken from "Contracts/apitoken"
+import UserValidator from 'App/Validators/UserValidator'
+import ApiToken from 'Contracts/apitoken'
 import User from "App/Models/User"
 
 export default class UsersController {
@@ -8,13 +9,11 @@ export default class UsersController {
   /*
   * Registers and auto logs in a new user.
   * Route: POST /auth/register
-  * Params: {
-  * username: string,
-  * password: string
-  * }
-  * Returns: {
-  * token: ApiToken
-  * }
+  *
+  * @param user {string} The requested username
+  * @param password {string} The password
+  *
+  * @return token {ApiToken} The API token for the user
   */
   public async register({ request, auth }: HttpContextContract): Promise<ApiToken> {
 
@@ -38,4 +37,13 @@ export default class UsersController {
     return token.toJSON()
   }
 
+  public async login({ request, auth }: HttpContextContract): Promise<ApiToken> {
+
+    //Validate
+    const userInfo = await request.validate(UserValidator)
+
+    const token = await auth.attempt(userInfo.username, userInfo.password)
+
+    return token.toJSON()
+  }
 }

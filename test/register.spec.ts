@@ -4,18 +4,18 @@ import User from "App/Models/User"
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
-test.group("Test user authentication", async function() {
-  test("Test user registration", async function(assert) {
+test.group("Test user registration", async function() {
+  test("Test raw registration", async function(assert) {
     let { text }: any = await supertest(BASE_URL)
     .post("/auth/register")
-    .send({ "username": "AvidCoder123", "password": "supersecretpassword"})
+    .send({ "username": "register_AvidCoder123", "password": "supersecretpassword"})
     .expect(200)
 
     text = JSON.parse(text)
 
     assert.exists(text.token)
 
-    let registered = await User.findBy("username", "AvidCoder123")
+    let registered = await User.findBy("username", "register_AvidCoder123")
 
     assert.exists(registered)
   })
@@ -23,10 +23,10 @@ test.group("Test user authentication", async function() {
   test("Test validating required fields", async function(assert) {
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "SomeRandomUser"})
+    .send({username: "register_SomeRandomUser"})
     .expect(422);
 
-    let incorrectUser = await User.findBy("username", "SomeRandomUser")
+    let incorrectUser = await User.findBy("username", "register_SomeRandomUser")
 
     assert.notExists(incorrectUser)
 
@@ -35,15 +35,15 @@ test.group("Test user authentication", async function() {
   test("Prevent duplicate users", async function(assert) {
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "DuplicateUser1", password: "supersecretpassword"})
+    .send({username: "register_DuplicateUser", password: "supersecretpassword"})
     .expect(200);
 
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "DuplicateUser1", password: "supersecretpassword"})
+    .send({username: "register_DuplicateUser", password: "supersecretpassword"})
     .expect(422);
 
-    let dupes = await User.findBy("username", "DuplicateUser1")
+    let dupes = await User.findBy("username", "register_DuplicateUser")
 
     assert.exists(dupes)
   })
