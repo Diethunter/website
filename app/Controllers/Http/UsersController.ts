@@ -37,6 +37,15 @@ export default class UsersController {
     return token.toJSON()
   }
 
+  /*
+  * Logs in a user.
+  * Route: POST /auth/login
+  *
+  * @param user {string} The username
+  * @param password {string} The password
+  *
+  * @return token {ApiToken} The API token for the user
+  */
   public async login({ request, auth }: HttpContextContract): Promise<ApiToken> {
 
     //Validate
