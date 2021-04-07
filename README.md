@@ -1,3 +1,3 @@
-# CoinHub (Work in Progress)
+# Ricetta (Work in Progress)
 
-The platform for selling Hypixel Skyblock coins.
+Find, create and share recipes.
