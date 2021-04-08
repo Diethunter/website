@@ -31,3 +31,7 @@ Route.group(() => {
 
   Route.post("/login", "UsersController.login")
 }).prefix("/auth")
+
+Route.group(() => {
+  //TODO: Add recipe routes
+}).prefix('/recipes')

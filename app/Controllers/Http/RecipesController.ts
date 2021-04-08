@@ -16,7 +16,9 @@ export default class RecipesController {
   * @return id {number} A unique ID to identify the recipe
   */
   public async create({ request, auth }: HttpContextContract): Promise<number> {
+    await auth.authenticate()
 
+    //TODO: Validate recipe
   }
 
 }
