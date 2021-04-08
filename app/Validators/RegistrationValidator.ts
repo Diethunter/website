@@ -31,7 +31,8 @@ export default class RegistrationValidator {
         column: "username"
       })
     ]),
-    "password": schema.string()
+    "password": schema.string(),
+    "name": schema.string()
   })
 
 	/**
@@ -50,6 +51,8 @@ export default class RegistrationValidator {
     "username.string": "Username must be a string.",
     "username.unique": "Usernames must be unique.",
     "password.required": "A password is required.",
-    "password.string": "Passwords must be a string."
+    "password.string": "Passwords must be a string.",
+    "name.required": "Name is required.",
+    "name.string": "Name must be a string"
   }
 }

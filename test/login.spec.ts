@@ -9,13 +9,13 @@ test.group("Test user login", async function() {
     //Register a user first
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "login_AvidCoder123", password: "SuperSecretPassword"})
+    .send({username: "login_AvidCoder123", password: "SuperSecretPassword", name: "MyName Jeff"})
     .expect(200)
 
     //Now try to login the user
     let { text }: any = await supertest(BASE_URL)
     .post("/auth/login")
-    .send({username: "login_AvidCoder123", password: "SuperSecretPassword"})
+    .send({username: "login_AvidCoder123", password: "SuperSecretPassword", name: "MyName Jeff"})
     .expect(200)
 
     text = JSON.parse(text)
@@ -28,7 +28,7 @@ test.group("Test user login", async function() {
     //Register a user first
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "login_testuser1", password: "SuperSecretPassword"})
+    .send({username: "login_testuser1", password: "SuperSecretPassword", name: "MyName Jeff"})
     .expect(200)
 
     //Now try to login the user
@@ -43,7 +43,7 @@ test.group("Test user login", async function() {
     //Register a user first
     await supertest(BASE_URL)
     .post("/auth/register")
-    .send({username: "login_testuser2", password: "SuperSecretPassword"})
+    .send({username: "login_testuser2", password: "SuperSecretPassword", name: "MyName Jeff"})
     .expect(200)
 
     //Now try to login the user

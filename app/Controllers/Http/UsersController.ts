@@ -23,11 +23,14 @@ export default class UsersController {
     //Retrieve username and password values from validated request body.
     const username: string = userInfo.username
     const password: string = userInfo.password
+    const name: string = userInfo.name
 
-    //Create a new user and store it in Database
+    //Create a new user and store it in Database, and fill in name
     await User.create({
       username,
-      password
+      password,
+      name,
+      verified: false
     });
 
     //Auto log in the new user
