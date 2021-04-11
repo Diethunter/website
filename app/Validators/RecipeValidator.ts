@@ -1,4 +1,4 @@
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RecipeValidator {
@@ -25,6 +25,17 @@ export default class RecipeValidator {
 	 *    ```
 	 */
   public schema = schema.create({
+		title: schema.string(),
+		ingredients: schema.object().members({
+			amount: schema.string(),
+			name: schema.string(),
+			notes: schema.string()
+		}),
+		instructions: schema.array().members(
+			schema.string()
+		),
+		halal: schema.boolean(),
+		kosher: schema.boolean()
   })
 
 	/**
@@ -38,5 +49,12 @@ export default class RecipeValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+  public messages = {
+		"title.required": "Title is required",
+		"ingredients.*": "Ingredients must be of proper format.",
+		"instructions.*": "Instructions must be of proper format.",
+		"halal.boolean": "Halal should be a boolean.",
+		"kosher.boolean": "Kosher should be a boolean.",
+
+	}
 }

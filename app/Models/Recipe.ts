@@ -3,6 +3,7 @@ import { BaseModel, column, BelongsTo, belongsTo, hasMany, HasMany } from '@ioc:
 import User from 'App/Models/User'
 import Comment from 'App/Models/Comment'
 import Ingredient from 'contracts/ingredient'
+import Nutrient from 'contracts/nutrient'
 
 export default class Recipe extends BaseModel {
   @column({ isPrimary: true })
@@ -24,7 +25,10 @@ export default class Recipe extends BaseModel {
   public ingredients: Array<Ingredient>
 
   @column()
-  public instructions: Array<string>
+	public instructions: Array<string>
+
+	@column()
+	public nutrition: Array<Nutrient>
 
   @column()
   public halal: boolean
