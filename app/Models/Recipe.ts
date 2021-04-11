@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, BelongsTo, belongsTo, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import User from 'App/Models/User'
 import Comment from 'App/Models/Comment'
+import Ingredient from 'contracts/ingredient'
 
 export default class Recipe extends BaseModel {
   @column({ isPrimary: true })
@@ -20,7 +21,7 @@ export default class Recipe extends BaseModel {
   public title: string
 
   @column()
-  public ingredients: Array<string>
+  public ingredients: Array<Ingredient>
 
   @column()
   public instructions: Array<string>
