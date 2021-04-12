@@ -61,6 +61,8 @@ export default class RecipesController {
 	 * @param maxProtein {number} Maximum amount of protein in grams
 	 * @param minCarbs {number} Minimum amount of carbohydrates in grams
 	 * @param maxCarbs {number} Maximum amount of carbohydrates in grams
+	 * @param minFat {number} Minimum fat
+	 * @param maxFat {number} Max fat
 	 * @param halal {boolean} If a recipe must be halal-friendly
 	 * @param kosher {boolean} If a recipe must be kosher-friendly
 	 * @param exclude {Ingredient[]} Exclude a certain ingredient i.e. for Allergies
@@ -69,7 +71,9 @@ export default class RecipesController {
 	 * @return Recipes {Recipe[] | Error} Recipes matching the constraints
 	 */
 
-	public async search({ request }: HttpContextContract): Promise<Object[]> {}
+	public async search({ request }: HttpContextContract): Promise<Object[]> {
+
+	}
 
 	/**
 	 * Comment on a recipe
