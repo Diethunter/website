@@ -56,4 +56,12 @@ test.group('Test recipes', async function () {
 		let recipe = await Recipe.find(text)
 		assert.exists(recipe)
 	})
+	test('Validate a recipe', async function (assert) {
+		let token = await register('recipe_validaterecipe')
+		let { text } = await supertest(BASE_URL)
+		.post('/recipes/new')
+		.set("Authorization", "Bearer "+ token)
+		.send({})
+		.expect(422)
+	})
 })
