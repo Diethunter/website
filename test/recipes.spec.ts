@@ -45,12 +45,12 @@ const TEST_RECIPE = {
 	kosher: true,
 }
 
-test.group('Test searching recipes', async function () {
+test.group('Test recipes', async function () {
 	test('Create a recipe', async function (assert) {
-		let token = await register('recipe_createRecipe')
+		let token = await register('recipe_createrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/create')
-		.set("Authorization", "Bearer "+ token.token)
+		.post('/recipes/new')
+		.set("Authorization", "Bearer "+ token)
 		.send(TEST_RECIPE)
 		.expect(200)
 		let recipe = await Recipe.find(text)

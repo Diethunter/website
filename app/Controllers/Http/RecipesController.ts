@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Recipe from 'App/Models/Recipe'
 import RecipeValidator from 'App/Validators/RecipeValidator'
-import Database from '@ioc:Adonis/Lucid/Database'
 import CommentValidator from 'App/Validators/CommentValidator'
 import Comment from 'App/Models/Comment'
 
