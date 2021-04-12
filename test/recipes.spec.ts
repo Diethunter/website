@@ -33,7 +33,7 @@ const TEST_RECIPE = {
 			amount: '100',
 			unit: 'g',
 			percentOfDailyNeeds: 0.05
-		}
+		},
 		{
 			name: 'Carbohydrates',
 			amount: '100',
@@ -99,5 +99,22 @@ test.group('Test recipes', async function () {
 			})
 		).text
 		assert.exists(findRecipe)
+	})
+	test("Edit recipe", async function(assert) {
+		let token = await register('recipe_createrecipe')
+		let { text } = await supertest(BASE_URL)
+		.post('/recipes/new')
+		.set("Authorization", "Bearer "+ token)
+		.send(TEST_RECIPE)
+		.expect(200)
+		await supertest(BASE_URL)
+		.put('/recipes/edit/'+text)
+		.set("Authorization", "Bearer "+ token)
+		.send({
+			title: "ThisRecipeIsChanged"
+		})
+		.expect(200)
+		let recipe = await Recipe.find(text)
+		assert.equal(recipe!.title, "ThisRecipeIsChanged")
 	})
 })

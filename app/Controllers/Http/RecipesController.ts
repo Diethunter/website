@@ -47,7 +47,6 @@ export default class RecipesController {
 		let recipeId = request.param('id')
 		//Attempt to find it
 		let recipe = await Recipe.find(recipeId)
-		console.log(recipe?.nutrition)
 		//If found, return it otherwise 404
 		if (recipe) {
 			return recipe.toJSON()

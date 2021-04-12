@@ -47,7 +47,6 @@ export default class Recipe extends BaseModel {
 	@computed()
 	public get calories() {
 		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Calories')
-		console.log(calorieCount)
 		return calorieCount.amount
 	}
 
