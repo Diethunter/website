@@ -15,7 +15,7 @@ const TEST_RECIPE = {
 		},
 	],
 	instructions: ['Boil the tears', 'Fry the boiled salt'],
-	nutrition: [
+	nutrition: JSON.stringify([
 		{
 			name: 'Calories',
 			amount: '100',
@@ -40,7 +40,7 @@ const TEST_RECIPE = {
 			unit: 'mg',
 			percentOfDailyNeeds: 0.05,
 		},
-	],
+	]),
 	halal: false,
 	kosher: true,
 }

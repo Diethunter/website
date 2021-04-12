@@ -36,7 +36,7 @@ export default class Recipe extends BaseModel {
 	public instructions: Array<string>
 
 	@column()
-	public nutrition: Array<Nutrient>
+	public nutrition: string
 
 	@column()
 	public halal: boolean
@@ -46,31 +46,31 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get calories() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Calories')
-		return calorieCount?.amount
+		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Calories')
+		return JSON.parse(calorieCount!).amount
 	}
 
 	@computed()
 	public get minerals() {
-		return this.nutrition.map((nutrient) => nutrient.name)
+		return this.nutrition.split(",").map((nutrient) => JSON.parse(nutrient).name)
 	}
 
 	@computed()
 	public get protein() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Protein')
-		return calorieCount?.amount
+		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Protein')
+		return JSON.parse(calorieCount!).amount
 	}
 
 	@computed()
 	public get fat() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Fat')
-		return calorieCount?.amount
+		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Fat')
+		return JSON.parse(calorieCount!).amount
 	}
 
 	@computed()
 	public get carbs() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Carbohydrates')
-		return calorieCount?.amount
+		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Carbohydrates')
+		return JSON.parse(calorieCount!).amount
 	}
 
 	@column.dateTime({ autoCreate: true })

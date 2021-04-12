@@ -35,14 +35,7 @@ export default class RecipeValidator {
 		instructions: schema.array().members(schema.string()),
 		halal: schema.boolean(),
 		kosher: schema.boolean(),
-		nutrition: schema.array().members(
-			schema.object().members({
-				name: schema.string(),
-				amount: schema.number(),
-				unit: schema.string(),
-				percentOfDailyNeeds: schema.number(),
-			})
-		),
+		nutrition: schema.string()
 	})
 
 	/**
