@@ -17,7 +17,7 @@ export default class Comment extends BaseModel {
 	public text: string
 
 	@column()
-	public rating: 1 | 2 | 3 | 4 | 5
+	public rating: number
 
 	@belongsTo(() => User)
 	public user: BelongsTo<typeof User>

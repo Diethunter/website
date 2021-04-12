@@ -1,5 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, BelongsTo, belongsTo, hasMany, HasMany, computed } from '@ioc:Adonis/Lucid/Orm'
+import {
+	BaseModel,
+	column,
+	BelongsTo,
+	belongsTo,
+	hasMany,
+	HasMany,
+	computed,
+} from '@ioc:Adonis/Lucid/Orm'
 import User from 'App/Models/User'
 import Comment from 'App/Models/Comment'
 import Ingredient from 'contracts/ingredient'
@@ -38,7 +46,7 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get calories() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == "Calories")
+		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Calories')
 		return calorieCount?.amount
 	}
 
@@ -49,19 +57,19 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get protein() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == "Protein")
+		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Protein')
 		return calorieCount?.amount
 	}
 
 	@computed()
 	public get fat() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == "Fat")
+		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Fat')
 		return calorieCount?.amount
 	}
 
 	@computed()
 	public get carbs() {
-		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == "Carbohydrates")
+		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Carbohydrates')
 		return calorieCount?.amount
 	}
 
