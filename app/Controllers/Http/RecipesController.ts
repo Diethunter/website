@@ -45,7 +45,7 @@ export default class RecipesController {
 
 	public async find({ request, response }: HttpContextContract): Promise<Object | void> {
 		//Get recipe id from request
-		let { recipeId } = request.all()
+		let recipeId = request.param('id')
 		//Attempt to find it
 		let recipe = await Recipe.find(recipeId)
 		//If found, return it otherwise 404
@@ -167,7 +167,6 @@ export default class RecipesController {
 	 * @param token {ApiToken} Login token
 	 * @param text {string} Your comment on the recipe
 	 * @param rating {1|2|3|4|5} Rating of recipe
-	 * @param id {number} The recipe ID
 	 * @return success {“Success” | “Failure”} If the message was a success
 	 */
 
@@ -178,6 +177,7 @@ export default class RecipesController {
 		try {
 			await Comment.create({
 				...comment,
+				recipe_id: request.param('id'),
 				user_id: auth.user!.id,
 			})
 			return 'Success'
@@ -202,17 +202,25 @@ export default class RecipesController {
 	 *
 	 */
 
-	public async edit({ request, response }: HttpContextContract): Promise<'Success' | void> {
+	public async edit({ request, response, auth }: HttpContextContract): Promise<'Success' | void> {
+		//Get all constraints
 		let contraints = request.all()
-		let recipeToEdit = await Recipe.find(contraints.id)
+		//Find the Recipe
+		let recipeToEdit = await Recipe.find(request.param('id'))
 		if (!recipeToEdit) {
 			return response.notFound()
 		}
+		//Check if user owns the recipe
+		if(recipeToEdit.user_id !== auth.user!.id) {
+			return response.unauthorized()
+		}
+		//Edit recipe
 		contraints.title ? recipeToEdit!.title = contraints.title : null
 		contraints.ingredients ? recipeToEdit!.ingredients = contraints.ingredient : null
 		contraints.instructions ? recipeToEdit!.instructions = contraints.instructions : null
 		contraints.halal ? recipeToEdit!.halal = contraints.halal : null
 		contraints.kosher ? recipeToEdit!.kosher = contraints.kosher : null
+		//Save changes
 		recipeToEdit.save()
 		return "Success"
 	}
@@ -228,5 +236,16 @@ export default class RecipesController {
 	 *
 	 */
 
-	public async delete({ request, auth }: HttpContextContract): Promise<'Success' | 'Failure'> {}
+	public async delete({ request, auth, response }: HttpContextContract): Promise<'Success' | void> {
+		let recipe: number = request.param('id')
+		let recipeToDelete = await Recipe.find(recipe)
+		if(!recipeToDelete) {
+			return response.notFound()
+		}
+		if(recipeToDelete.user_id !== auth.user!.id) {
+			return response.unauthorized()
+		}
+		recipeToDelete.delete()
+		return "Success"
+	}
 }

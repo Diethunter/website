@@ -24,7 +24,6 @@ export default class CommentValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
-		recipe: schema.number(),
 		text: schema.string(),
 		rating: schema.enum([1, 2, 3, 4, 5]),
 	})
