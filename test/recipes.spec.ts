@@ -29,7 +29,13 @@ const TEST_RECIPE = {
 			percentOfDailyNeeds: 0.05,
 		},
 		{
-			name: 'Carbs',
+			name: 'Protein',
+			amount: '100',
+			unit: 'g',
+			percentOfDailyNeeds: 0.05
+		}
+		{
+			name: 'Carbohydrates',
 			amount: '100',
 			unit: 'g',
 			percentOfDailyNeeds: 0.05,
@@ -58,7 +64,7 @@ test.group('Test recipes', async function () {
 	})
 	test('Validate a recipe', async function (assert) {
 		let token = await register('recipe_validaterecipe')
-		let { text } = await supertest(BASE_URL)
+		await supertest(BASE_URL)
 		.post('/recipes/new')
 		.set("Authorization", "Bearer "+ token)
 		.send({})

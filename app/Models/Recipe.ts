@@ -11,7 +11,7 @@ import {
 import User from 'App/Models/User'
 import Comment from 'App/Models/Comment'
 import Ingredient from 'contracts/ingredient'
-import Nutrient from 'contracts/nutrient'
+
 
 export default class Recipe extends BaseModel {
 	@column({ isPrimary: true })
@@ -46,31 +46,32 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get calories() {
-		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Calories')
-		return JSON.parse(calorieCount!).amount
+		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Calories')
+		console.log(calorieCount)
+		return calorieCount.amount
 	}
 
 	@computed()
 	public get minerals() {
-		return this.nutrition.split(",").map((nutrient) => JSON.parse(nutrient).name)
+		return JSON.parse(this.nutrition).map((nutrient) => nutrient.name)
 	}
 
 	@computed()
 	public get protein() {
-		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Protein')
-		return JSON.parse(calorieCount!).amount
+		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Protein')
+		return calorieCount.amount
 	}
 
 	@computed()
 	public get fat() {
-		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Fat')
-		return JSON.parse(calorieCount!).amount
+		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Fat')
+		return calorieCount.amount
 	}
 
 	@computed()
 	public get carbs() {
-		let calorieCount = this.nutrition.split(",").find((nutrient) => JSON.parse(nutrient).name == 'Carbohydrates')
-		return JSON.parse(calorieCount!).amount
+		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Carbohydrates')
+		return calorieCount.amount
 	}
 
 	@column.dateTime({ autoCreate: true })
