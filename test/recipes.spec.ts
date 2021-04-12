@@ -1,6 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 import Recipe from 'App/Models/Recipe'
+import { register } from "./utils"
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
@@ -46,6 +47,13 @@ const TEST_RECIPE = {
 
 test.group('Test searching recipes', async function () {
 	test('Create a recipe', async function (assert) {
-		let { text } = await supertest(BASE_URL).post('/recipes/create').send(TEST_RECIPE)
+		let token = await register('recipe_createRecipe')
+		let { text } = await supertest(BASE_URL)
+		.post('/recipes/create')
+		.set("Authorization", "Bearer "+ token.token)
+		.send(TEST_RECIPE)
+		.expect(200)
+		let recipe = await Recipe.find(text)
+		assert.exists(recipe)
 	})
 })
