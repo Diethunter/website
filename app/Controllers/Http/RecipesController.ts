@@ -62,7 +62,6 @@ export default class RecipesController {
 	 *
 	 * @param minCalories {number} Minimum amount of calories
 	 * @param maxCalories {number} Maximum amount of calories
-	 * @param minerals {Mineral[]} Minerals required in the recipe
 	 * @param minProtein {number} Minimum amount of protein in grams
 	 * @param maxProtein {number} Maximum amount of protein in grams
 	 * @param minCarbs {number} Minimum amount of carbohydrates in grams
@@ -151,14 +150,7 @@ export default class RecipesController {
 		if (serializedRecipes.length < 1) {
 			return response.notFound()
 		}
-		//Filter minerals
-		constraints.minerals
-			? serializedRecipes.filter((recipe) =>
-					recipe.minerals.map((ingredient) => ingredient in recipe.ingredients)
-			  )
-			: null
-
-		return constraints ? serializedRecipes : response.notFound()
+		return serializedRecipes
 	}
 
 	/**
