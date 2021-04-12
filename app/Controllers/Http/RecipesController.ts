@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Recipe from 'App/Models/Recipe'
+import RecipeValidator from "App/Validators/RecipeValidator"
 
 export default class RecipesController {
 	/**
@@ -10,12 +11,25 @@ export default class RecipesController {
 	 * @param title {string} A name for the recipe
 	 * @param ingredients {Ingredient[]} Ingredients and amounts for the recipe
 	 * @param instructions {string[]} Sequential instructions for cooking the recipe
+	 * @param nutrition {Nutrient[]} Nutrients in food
 	 * @param halal {boolean} Whether the recipe is halal
 	 * @param kosher {boolean} Whether the recipe is kosher
 	 *
 	 * @return id {number} A unique ID to identify the recipe
 	 */
-	public async create({ request, auth }: HttpContextContract): Promise<number> {}
+	public async create({ request, auth }: HttpContextContract): Promise<number> {
+		//Validate the recipe
+		let recipe = await request.validate(RecipeValidator)
+
+		//Create the recipe
+		let created: Recipe = await Recipe.create({
+			...recipe,
+			user_id: auth.user!.id
+		})
+
+		//Return the recipe ID
+		return created.id
+	}
 
 	/**
 	 * Find a recipe by ID.
