@@ -11,7 +11,7 @@ import Application from '@ioc:Adonis/Core/Application'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
 
 const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
-  /*
+	/*
   |--------------------------------------------------------------------------
   | Connection
   |--------------------------------------------------------------------------
@@ -21,10 +21,10 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   | file.
   |
   */
-  connection: Env.get('DB_CONNECTION'),
+	connection: Env.get('DB_CONNECTION'),
 
-  connections: {
-    /*
+	connections: {
+		/*
     |--------------------------------------------------------------------------
     | SQLite
     |--------------------------------------------------------------------------
@@ -35,17 +35,17 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
     | npm i sqlite3
     |
     */
-    sqlite: {
-      client: 'sqlite',
-      connection: {
-        filename: Application.tmpPath('db.sqlite3'),
-      },
-      useNullAsDefault: true,
-      healthCheck: false,
-      debug: false,
-    },
+		sqlite: {
+			client: 'sqlite',
+			connection: {
+				filename: Application.tmpPath('db.sqlite3'),
+			},
+			useNullAsDefault: true,
+			healthCheck: false,
+			debug: false,
+		},
 
-    /*
+		/*
     |--------------------------------------------------------------------------
     | MySQL config
     |--------------------------------------------------------------------------
@@ -56,21 +56,21 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
     | npm i mysql
     |
     */
-    mysql: {
-      client: 'mysql',
-      connection: {
-        host: Env.get('MYSQL_HOST'),
-        port: Env.get('MYSQL_PORT'),
-        user: Env.get('MYSQL_USER'),
-        password: Env.get('MYSQL_PASSWORD', ''),
-        database: Env.get('MYSQL_DB_NAME'),
-      },
-      healthCheck: false,
-      debug: false,
-    },
-  },
+		mysql: {
+			client: 'mysql',
+			connection: {
+				host: Env.get('MYSQL_HOST'),
+				port: Env.get('MYSQL_PORT'),
+				user: Env.get('MYSQL_USER'),
+				password: Env.get('MYSQL_PASSWORD', ''),
+				database: Env.get('MYSQL_DB_NAME'),
+			},
+			healthCheck: false,
+			debug: false,
+		},
+	},
 
-  /*
+	/*
   |--------------------------------------------------------------------------
   | ORM Configuration
   |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   | - Or define a custom function to compute the primary key for a given model.
   |
   */
-  orm: {},
+	orm: {},
 }
 
 export default databaseConfig

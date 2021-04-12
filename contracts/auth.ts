@@ -8,7 +8,7 @@
 import User from 'App/Models/User'
 
 declare module '@ioc:Adonis/Addons/Auth' {
-  /*
+	/*
   |--------------------------------------------------------------------------
   | Providers
   |--------------------------------------------------------------------------
@@ -20,8 +20,8 @@ declare module '@ioc:Adonis/Addons/Auth' {
   | You can also create and register your own custom providers.
   |
   */
-  interface ProvidersList {
-    /*
+	interface ProvidersList {
+		/*
     |--------------------------------------------------------------------------
     | User Provider
     |--------------------------------------------------------------------------
@@ -33,13 +33,13 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | different Lucid models.
     |
     */
-    user: {
-      implementation: LucidProviderContract<typeof User>
-      config: LucidProviderConfig<typeof User>
-    }
-  }
+		user: {
+			implementation: LucidProviderContract<typeof User>
+			config: LucidProviderConfig<typeof User>
+		}
+	}
 
-  /*
+	/*
   |--------------------------------------------------------------------------
   | Guards
   |--------------------------------------------------------------------------
@@ -55,8 +55,8 @@ declare module '@ioc:Adonis/Addons/Auth' {
   | Every guard needs a provider for looking up users from the database.
   |
   */
-  interface GuardsList {
-    /*
+	interface GuardsList {
+		/*
     |--------------------------------------------------------------------------
     | OAT Guard
     |--------------------------------------------------------------------------
@@ -65,9 +65,9 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | to authenticate requests.
     |
     */
-    api: {
-      implementation: OATGuardContract<'user', 'api'>
-      config: OATGuardConfig<'user'>
-    }
-  }
+		api: {
+			implementation: OATGuardContract<'user', 'api'>
+			config: OATGuardConfig<'user'>
+		}
+	}
 }

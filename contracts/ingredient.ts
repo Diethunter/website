@@ -1,5 +1,5 @@
 export default interface Ingredient {
-	amount: string,
-	name: string,
+	amount: string
+	name: string
 	notes: string
 }

@@ -4,6 +4,4 @@ import Recipe from 'App/Models/Recipe'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
-test.group("Test Recipes", async function() {
-
-})
+test.group('Test Recipes', async function () {})

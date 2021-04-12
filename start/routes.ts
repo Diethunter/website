@@ -22,16 +22,16 @@ import Route from '@ioc:Adonis/Core/Route'
 
 //Test and healthcheck route
 Route.get('/ping', async () => {
-  return "pong"
+	return 'pong'
 })
 
 //API routes for user auth
 Route.group(() => {
-  Route.post("/register", "UsersController.register")
+	Route.post('/register', 'UsersController.register')
 
-  Route.post("/login", "UsersController.login")
-}).prefix("/auth")
+	Route.post('/login', 'UsersController.login')
+}).prefix('/auth')
 
 Route.group(() => {
-  //TODO: Add recipe routes
+	//TODO: Add recipe routes
 }).prefix('/recipes')

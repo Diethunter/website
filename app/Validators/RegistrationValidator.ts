@@ -2,8 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RegistrationValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,16 +23,16 @@ export default class RegistrationValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
-    "username": schema.string({}, [
-      rules.unique({
-        table: "users",
-        column: "username"
-      })
-    ]),
-    "password": schema.string(),
-    "name": schema.string()
-  })
+	public schema = schema.create({
+		username: schema.string({}, [
+			rules.unique({
+				table: 'users',
+				column: 'username',
+			}),
+		]),
+		password: schema.string(),
+		name: schema.string(),
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -46,13 +45,13 @@ export default class RegistrationValidator {
 	 * }
 	 *
 	 */
-  public messages = {
-    "username.required": "Username is required.",
-    "username.string": "Username must be a string.",
-    "username.unique": "Usernames must be unique.",
-    "password.required": "A password is required.",
-    "password.string": "Passwords must be a string.",
-    "name.required": "Name is required.",
-    "name.string": "Name must be a string"
-  }
+	public messages = {
+		'username.required': 'Username is required.',
+		'username.string': 'Username must be a string.',
+		'username.unique': 'Usernames must be unique.',
+		'password.required': 'A password is required.',
+		'password.string': 'Passwords must be a string.',
+		'name.required': 'Name is required.',
+		'name.string': 'Name must be a string',
+	}
 }

@@ -2,8 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class UserValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,10 +23,10 @@ export default class UserValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
-    "username": schema.string(),
-    "password": schema.string()
-  })
+	public schema = schema.create({
+		username: schema.string(),
+		password: schema.string(),
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -40,11 +39,11 @@ export default class UserValidator {
 	 * }
 	 *
 	 */
-  public messages = {
-    "username.required": "Username is required.",
-    "username.string": "Username must be a string.",
-    "username.unique": "Usernames must be unique.",
-    "password.required": "A password is required.",
-    "password.string": "Passwords must be a string."
-  }
+	public messages = {
+		'username.required': 'Username is required.',
+		'username.string': 'Username must be a string.',
+		'username.unique': 'Usernames must be unique.',
+		'password.required': 'A password is required.',
+		'password.string': 'Passwords must be a string.',
+	}
 }
