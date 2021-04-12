@@ -203,18 +203,18 @@ export default class RecipesController {
 			return response.notFound()
 		}
 		//Check if user owns the recipe
-		if(recipeToEdit.user_id !== auth.user!.id) {
+		if (recipeToEdit.user_id !== auth.user!.id) {
 			return response.unauthorized()
 		}
 		//Edit recipe
-		contraints.title ? recipeToEdit!.title = contraints.title : null
-		contraints.ingredients ? recipeToEdit!.ingredients = contraints.ingredient : null
-		contraints.instructions ? recipeToEdit!.instructions = contraints.instructions : null
-		contraints.halal ? recipeToEdit!.halal = contraints.halal : null
-		contraints.kosher ? recipeToEdit!.kosher = contraints.kosher : null
+		contraints.title ? (recipeToEdit!.title = contraints.title) : null
+		contraints.ingredients ? (recipeToEdit!.ingredients = contraints.ingredient) : null
+		contraints.instructions ? (recipeToEdit!.instructions = contraints.instructions) : null
+		contraints.halal ? (recipeToEdit!.halal = contraints.halal) : null
+		contraints.kosher ? (recipeToEdit!.kosher = contraints.kosher) : null
 		//Save changes
 		recipeToEdit.save()
-		return "Success"
+		return 'Success'
 	}
 
 	/**
@@ -231,13 +231,13 @@ export default class RecipesController {
 	public async delete({ request, auth, response }: HttpContextContract): Promise<'Success' | void> {
 		let recipe: number = request.param('id')
 		let recipeToDelete = await Recipe.find(recipe)
-		if(!recipeToDelete) {
+		if (!recipeToDelete) {
 			return response.notFound()
 		}
-		if(recipeToDelete.user_id !== auth.user!.id) {
+		if (recipeToDelete.user_id !== auth.user!.id) {
 			return response.unauthorized()
 		}
 		recipeToDelete.delete()
-		return "Success"
+		return 'Success'
 	}
 }
