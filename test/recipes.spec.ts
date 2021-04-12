@@ -142,8 +142,8 @@ test.group('Test recipes', async function () {
 		.post('/recipes/comment/'+text)
 		.set("Authorization", "Bearer "+ token)
 		.send({
-			title: "Very nice recipe",
-			rating: "5"
+			text: "Very nice recipe",
+			rating: 5
 		})
 		.expect(200)
 	})
