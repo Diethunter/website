@@ -131,4 +131,20 @@ test.group('Test recipes', async function () {
 		let recipe = await Recipe.find(text)
 		assert.notExists(recipe)
 	})
+	test("Comment on recipe", async function(assert) {
+		let token = await register('recipe_commentrecipe')
+		let { text } = await supertest(BASE_URL)
+		.post('/recipes/new')
+		.set("Authorization", "Bearer "+ token)
+		.send(TEST_RECIPE)
+		.expect(200)
+		await supertest(BASE_URL)
+		.post('/recipes/comment/'+text)
+		.set("Authorization", "Bearer "+ token)
+		.send({
+			title: "Very nice recipe",
+			rating: "5"
+		})
+		.expect(200)
+	})
 })
