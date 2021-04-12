@@ -93,22 +93,42 @@ export default class RecipesController {
 		//Filter calories
 		constraints.minCalories ? serializedRecipes.filter((recipe) => recipe.calories > constraints.minCalories) : null
 		constraints.maxCalories ? serializedRecipes.filter((recipe) => recipe.calories < constraints.maxCalories) : null
+		//Return if no results
+		if(serializedRecipes.length < 1) {
+			return response.notFound()
+		}
 		//Filter protein
 		constraints.minProtein ? serializedRecipes.filter((recipe) => recipe.protein > constraints.minProtein) : null
 		constraints.maxProtein ? serializedRecipes.filter((recipe) => recipe.protein < constraints.maxProtein) : null
+		//Return if no results
+		if(serializedRecipes.length < 1) {
+			return response.notFound()
+		}
 		//Filter carbs
 		constraints.minCarbs ? serializedRecipes.filter((recipe) => recipe.carbs > constraints.minCarbs) : null
 		constraints.maxCarbs ? serializedRecipes.filter((recipe) => recipe.carbs < constraints.maxCarbs) : null
+		//Return if no results
+		if(serializedRecipes.length < 1) {
+			return response.notFound()
+		}
 		//Filter Fat
 		constraints.minCarbs ? serializedRecipes.filter((recipe) => recipe.carbs > constraints.minCarbs) : null
 		constraints.maxCarbs ? serializedRecipes.filter((recipe) => recipe.carbs < constraints.maxCarbs) : null
+		//Return if no results
+		if(serializedRecipes.length < 1) {
+			return response.notFound()
+		}
 		//Filter ingredients
 		constraints.include ? serializedRecipes.filter((recipe) => constraints.include.map((ingredient) => ingredient in recipe.ingredients)) : null
 		constraints.exclude ? serializedRecipes.filter((recipe) => constraints.exclude.map((ingredient) => !(ingredient in recipe.ingredients))) : null
+		//Return if no results
+		if(serializedRecipes.length < 1) {
+			return response.notFound()
+		}
 		//Filter minerals
 		constraints.minerals ? serializedRecipes.filter((recipe) => recipe.minerals.map((ingredient) => ingredient in recipe.ingredients)) : null
 
-		return contraints ? constraints : response.notFound()
+		return constraints ? serializedRecipes : response.notFound()
 	}
 
 	/**
