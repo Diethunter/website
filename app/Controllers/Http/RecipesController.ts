@@ -40,7 +40,15 @@ export default class RecipesController {
 	 * @return recipe {Recipe | Error } The recipe the ID refers to if it exists
 	 */
 
-	public async find({ request }: HttpContextContract): Promise<Object> {}
+	public async find({ request, response }: HttpContextContract): Promise<Object | void> {
+		let { recipeId } = request.all()
+		let recipe = await Recipe.find(recipeId)
+		if (recipe) {
+			return recipe.toJSON()
+		} else {
+			return response.notFound()
+		}
+	}
 
 	/**
 	 * Search for a recipe with constraints
