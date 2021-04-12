@@ -202,7 +202,20 @@ export default class RecipesController {
 	 *
 	 */
 
-	public async edit({ request, auth }): Promise<'Success' | 'Failure'> {}
+	public async edit({ request, response }: HttpContextContract): Promise<'Success' | void> {
+		let contraints = request.all()
+		let recipeToEdit = await Recipe.find(contraints.id)
+		if (!recipeToEdit) {
+			return response.notFound()
+		}
+		contraints.title ? recipeToEdit!.title = contraints.title : null
+		contraints.ingredients ? recipeToEdit!.ingredients = contraints.ingredient : null
+		contraints.instructions ? recipeToEdit!.instructions = contraints.instructions : null
+		contraints.halal ? recipeToEdit!.halal = contraints.halal : null
+		contraints.kosher ? recipeToEdit!.kosher = contraints.kosher : null
+		recipeToEdit.save()
+		return "Success"
+	}
 
 	/**
 	 * Delete a recipe
@@ -215,5 +228,5 @@ export default class RecipesController {
 	 *
 	 */
 
-	public async delete({ request, auth }): Promise<'Success' | 'Failure'> {}
+	public async delete({ request, auth }: HttpContextContract): Promise<'Success' | 'Failure'> {}
 }
