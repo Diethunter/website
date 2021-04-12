@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Recipe from 'App/Models/Recipe'
 import RecipeValidator from "App/Validators/RecipeValidator"
+import Database from "@ioc:Adonis/Lucid/Database"
 
 export default class RecipesController {
 	/**
@@ -41,8 +42,11 @@ export default class RecipesController {
 	 */
 
 	public async find({ request, response }: HttpContextContract): Promise<Object | void> {
+		//Get recipe id from request
 		let { recipeId } = request.all()
+		//Attempt to find it
 		let recipe = await Recipe.find(recipeId)
+		//If found, return it otherwise 404
 		if (recipe) {
 			return recipe.toJSON()
 		} else {
@@ -71,8 +75,40 @@ export default class RecipesController {
 	 * @return Recipes {Recipe[] | Error} Recipes matching the constraints
 	 */
 
-	public async search({ request }: HttpContextContract): Promise<Object[]> {
+	public async search({ request, response }: HttpContextContract): Promise<Object[] | void> {
+		//Get recipe constraints
+		let constraints = request.all()
+		//Get recipes with the halal and kosher
+		let recipeQuery = Recipe.query()
+		if(constraints.halal) {
+			recipeQuery = recipeQuery.where('halal', true)
+		}
+		if(constraints.kosher) {
+			recipeQuery = recipeQuery.where('kosher', true)
+		}
+		let recipes: Recipe[] = await recipeQuery
 
+		let serializedRecipes = recipes.map((recipe) => recipe.toJSON())
+
+		//Filter calories
+		constraints.minCalories ? serializedRecipes.filter((recipe) => recipe.calories > constraints.minCalories) : null
+		constraints.maxCalories ? serializedRecipes.filter((recipe) => recipe.calories < constraints.maxCalories) : null
+		//Filter protein
+		constraints.minProtein ? serializedRecipes.filter((recipe) => recipe.protein > constraints.minProtein) : null
+		constraints.maxProtein ? serializedRecipes.filter((recipe) => recipe.protein < constraints.maxProtein) : null
+		//Filter carbs
+		constraints.minCarbs ? serializedRecipes.filter((recipe) => recipe.carbs > constraints.minCarbs) : null
+		constraints.maxCarbs ? serializedRecipes.filter((recipe) => recipe.carbs < constraints.maxCarbs) : null
+		//Filter Fat
+		constraints.minCarbs ? serializedRecipes.filter((recipe) => recipe.carbs > constraints.minCarbs) : null
+		constraints.maxCarbs ? serializedRecipes.filter((recipe) => recipe.carbs < constraints.maxCarbs) : null
+		//Filter ingredients
+		constraints.include ? serializedRecipes.filter((recipe) => constraints.include.map((ingredient) => ingredient in recipe.ingredients)) : null
+		constraints.exclude ? serializedRecipes.filter((recipe) => constraints.exclude.map((ingredient) => !(ingredient in recipe.ingredients))) : null
+		//Filter minerals
+		constraints.minerals ? serializedRecipes.filter((recipe) => recipe.minerals.map((ingredient) => ingredient in recipe.ingredients)) : null
+
+		return contraints ? constraints : response.notFound()
 	}
 
 	/**
