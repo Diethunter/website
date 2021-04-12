@@ -81,4 +81,23 @@ test.group('Test recipes', async function () {
 		.get("/recipes/"+text)
 		.expect(200)
 	})
+	test("Search recipes", async function(assert) {
+		let token = await register('recipe_searchrecipe')
+		let { text } = await supertest(BASE_URL)
+		.post('/recipes/new')
+		.set("Authorization", "Bearer "+ token)
+		.send(TEST_RECIPE)
+		.expect(200)
+		let findRecipe = (
+			await supertest(BASE_URL)
+			.post("/search")
+			.send({
+				minCalories: "99",
+				minProtein: "99",
+				minCarbs: "99",
+				minFat: "99"
+			})
+		).text
+		assert.exists(findRecipe)
+	})
 })
