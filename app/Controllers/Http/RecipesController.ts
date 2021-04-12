@@ -36,7 +36,7 @@ export default class RecipesController {
 
 	/**
 	 * Find a recipe by ID.
-	 * Route: GET /recipe/:id
+	 * Route: GET /recipes/:id
 	 *
 	 * @param id {number} Unique recipe ID
 	 *
