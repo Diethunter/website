@@ -32,7 +32,7 @@ Route.group(() => {
 	Route.post('/login', 'UsersController.login')
 }).prefix('/auth')
 
-Route.get("/user/:username", "UsersController.profile")
+Route.get('/user/:username', 'UsersController.profile')
 
 Route.group(() => {
 	Route.post('/search', 'RecipesController.search')

@@ -10,8 +10,6 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import User from 'App/Models/User'
 import Comment from 'App/Models/Comment'
-import Ingredient from 'contracts/ingredient'
-
 
 export default class Recipe extends BaseModel {
 	@column({ isPrimary: true })
@@ -69,7 +67,9 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get carbs() {
-		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Carbohydrates')
+		let calorieCount = JSON.parse(this.nutrition).find(
+			(nutrient) => nutrient.name == 'Carbohydrates'
+		)
 		return calorieCount.amount
 	}
 

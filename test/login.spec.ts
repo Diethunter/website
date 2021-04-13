@@ -6,7 +6,7 @@ const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
 test.group('Test user login', async function () {
 	test('Test raw login', async function (assert) {
-		await register("login_AvidCoder123")
+		await register('login_AvidCoder123')
 
 		//Now try to login the user
 		let { text }: any = await supertest(BASE_URL)
@@ -25,7 +25,7 @@ test.group('Test user login', async function () {
 
 	test('Incorrect login should not work', async function (assert) {
 		//Register a user first
-		await register("login_testuser1")
+		await register('login_testuser1')
 
 		//Now try to login the user
 		await supertest(BASE_URL)
@@ -36,7 +36,7 @@ test.group('Test user login', async function () {
 
 	test('Logging in a nonexistant user should not work', async function (assert) {
 		//Register a user first
-		await register("login_testuser2")
+		await register('login_testuser2')
 
 		//Now try to login the user
 		await supertest(BASE_URL)

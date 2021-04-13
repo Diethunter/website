@@ -94,7 +94,7 @@ export default class RecipesController {
 			recipeQuery = recipeQuery.where('kosher', true)
 		}
 
-		await recipeQuery.preload("comments")
+		await recipeQuery.preload('comments')
 		await recipeQuery.preload('user')
 
 		let recipes: Recipe[] = await recipeQuery
@@ -172,7 +172,11 @@ export default class RecipesController {
 	 * @return success {“Success” | “Failure”} If the message was a success
 	 */
 
-	public async comment({ request, auth, response }: HttpContextContract): Promise<'Success' | void> {
+	public async comment({
+		request,
+		auth,
+		response,
+	}: HttpContextContract): Promise<'Success' | void> {
 		//Validate comment
 		let comment = await request.validate(CommentValidator)
 		//Create comment

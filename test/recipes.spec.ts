@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 import Recipe from 'App/Models/Recipe'
-import { register } from "./utils"
+import { register } from './utils'
 import Comment from 'App/Models/Comment'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
@@ -33,7 +33,7 @@ const TEST_RECIPE = {
 			name: 'Protein',
 			amount: '100',
 			unit: 'g',
-			percentOfDailyNeeds: 0.05
+			percentOfDailyNeeds: 0.05,
 		},
 		{
 			name: 'Carbohydrates',
@@ -56,100 +56,100 @@ test.group('Test recipes', async function () {
 	test('Create a recipe', async function (assert) {
 		let token = await register('recipe_createrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		let recipe = await Recipe.find(text)
 		assert.exists(recipe)
 	})
 	test('Validate a recipe', async function (assert) {
 		let token = await register('recipe_validaterecipe')
 		await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send({})
-		.expect(422)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send({})
+			.expect(422)
 	})
 	test('Find a recipe', async function (assert) {
 		let token = await register('recipe_findrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		await supertest(BASE_URL)
-		.get("/recipes/"+text)
-		.expect(200)
+			.get('/recipes/' + text)
+			.expect(200)
 	})
-	test("Search recipes", async function(assert) {
+	test('Search recipes', async function (assert) {
 		let token = await register('recipe_searchrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		let findRecipe = (
-			await supertest(BASE_URL)
-			.post("/search")
-			.send({
-				minCalories: "99",
-				minProtein: "99",
-				minCarbs: "99",
-				minFat: "99"
+			await supertest(BASE_URL).post('/search').send({
+				minCalories: '99',
+				minProtein: '99',
+				minCarbs: '99',
+				minFat: '99',
 			})
 		).text
 		assert.exists(findRecipe)
 	})
-	test("Edit recipe", async function(assert) {
+	test('Edit recipe', async function (assert) {
 		let token = await register('recipe_editrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		await supertest(BASE_URL)
-		.put('/recipes/edit/'+text)
-		.set("Authorization", "Bearer "+ token)
-		.send({
-			title: "ThisRecipeIsChanged"
-		})
-		.expect(200)
+			.put('/recipes/edit/' + text)
+			.set('Authorization', 'Bearer ' + token)
+			.send({
+				title: 'ThisRecipeIsChanged',
+			})
+			.expect(200)
 		let recipe = await Recipe.find(text)
-		assert.equal(recipe!.title, "ThisRecipeIsChanged")
+		assert.equal(recipe!.title, 'ThisRecipeIsChanged')
 	})
-	test("Delete recipe", async function(assert) {
+	test('Delete recipe', async function (assert) {
 		let token = await register('recipe_deleterecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		await supertest(BASE_URL)
-		.delete("/recipes/delete/"+text)
-		.set("Authorization", "Bearer "+ token)
-		.expect(200)
+			.delete('/recipes/delete/' + text)
+			.set('Authorization', 'Bearer ' + token)
+			.expect(200)
 		let recipe = await Recipe.find(text)
 		assert.notExists(recipe)
 	})
-	test("Comment on recipe", async function(assert) {
+	test('Comment on recipe', async function (assert) {
 		let token = await register('recipe_commentrecipe')
 		let { text } = await supertest(BASE_URL)
-		.post('/recipes/new')
-		.set("Authorization", "Bearer "+ token)
-		.send(TEST_RECIPE)
-		.expect(200)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
 		await supertest(BASE_URL)
-		.post('/recipes/comment/'+text)
-		.set("Authorization", "Bearer "+ token)
-		.send({
-			text: "Very nice recipe",
-			rating: 5
-		})
-		.expect(200)
-		let comment = (await supertest(BASE_URL)
-		.get("/recipes/"+text)
-		.expect(200)).text
+			.post('/recipes/comment/' + text)
+			.set('Authorization', 'Bearer ' + token)
+			.send({
+				text: 'Very nice recipe',
+				rating: 5,
+			})
+			.expect(200)
+		let comment = (
+			await supertest(BASE_URL)
+				.get('/recipes/' + text)
+				.expect(200)
+		).text
 		assert.exists(JSON.parse(comment).comments)
 		assert.exists(JSON.parse(comment).user)
 	})

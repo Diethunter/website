@@ -56,7 +56,7 @@ export default class UsersController {
 		return token.toJSON()
 	}
 
-		/**
+	/**
 	 * Get a user's profile
 	 * Route: GET /user/:username
 	 *
@@ -70,12 +70,11 @@ export default class UsersController {
 		//Get username
 		let username = request.param('username')
 
-		let user = await User
-		.query()
-		.where("username", username)
-		.preload("recipes")
-		.preload("comments")
-		.first()
+		let user = await User.query()
+			.where('username', username)
+			.preload('recipes')
+			.preload('comments')
+			.first()
 
 		if (!user) {
 			return response.notFound()
