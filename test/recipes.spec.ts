@@ -151,5 +151,6 @@ test.group('Test recipes', async function () {
 		.get("/recipes/"+text)
 		.expect(200)).text
 		assert.exists(JSON.parse(comment).comments)
+		assert.exists(JSON.parse(comment).user)
 	})
 })

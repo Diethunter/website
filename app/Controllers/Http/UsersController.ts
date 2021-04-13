@@ -55,4 +55,32 @@ export default class UsersController {
 
 		return token.toJSON()
 	}
+
+		/**
+	 * Get a user's profile
+	 * Route: GET /user/:username
+	 *
+	 * @param token {ApiToken} Login token
+	 * @param username {string} The username
+	 *
+	 * @return User {Object} the user
+	 *
+	 */
+	public async profile({ request, response }: HttpContextContract): Promise<Object | void> {
+		//Get username
+		let username = request.param('username')
+
+		let user = await User
+		.query()
+		.where("username", username)
+		.preload("recipes")
+		.preload("comments")
+		.first()
+
+		if (!user) {
+			return response.notFound()
+		}
+
+		return user.toJSON()
+	}
 }

@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import Recipe from "App/Models/Recipe"
+import Comment from "App/Models/Comment"
 
 export default class User extends BaseModel {
 	@column({ isPrimary: true })
@@ -17,6 +19,12 @@ export default class User extends BaseModel {
 
 	@column()
 	public verified: boolean
+
+	@hasMany(()=>Recipe)
+	public recipes: HasMany<typeof Recipe>
+
+	@hasMany(()=>Comment)
+	public comments: HasMany<typeof Comment>
 
 	@column.dateTime({ autoCreate: true })
 	public createdAt: DateTime

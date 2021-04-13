@@ -55,6 +55,7 @@ export default class RecipesController {
 		//If found, return it otherwise 404
 		if (recipe) {
 			await recipe.preload('comments')
+			await recipe.preload('user')
 			return recipe.toJSON()
 		} else {
 			return response.notFound()
@@ -94,6 +95,7 @@ export default class RecipesController {
 		}
 
 		await recipeQuery.preload("comments")
+		await recipeQuery.preload('user')
 
 		let recipes: Recipe[] = await recipeQuery
 
