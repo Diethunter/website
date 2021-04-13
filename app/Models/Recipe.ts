@@ -18,7 +18,7 @@ export default class Recipe extends BaseModel {
 	public id: number
 
 	@column()
-	public user_id: number
+	public userId: number
 
 	@belongsTo(() => User)
 	public user: BelongsTo<typeof User>
@@ -30,10 +30,10 @@ export default class Recipe extends BaseModel {
 	public title: string
 
 	@column()
-	public ingredients: Array<Ingredient>
+	public ingredients: string
 
 	@column()
-	public instructions: Array<string>
+	public instructions: string
 
 	@column()
 	public nutrition: string

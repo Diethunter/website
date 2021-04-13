@@ -8,10 +8,10 @@ export default class Comment extends BaseModel {
 	public id: number
 
 	@column()
-	public user_id: number
+	public userId: number
 
 	@column()
-	public recipe_id: number
+	public recipeId: number
 
 	@column()
 	public text: string

@@ -25,8 +25,13 @@ export default class RecipesController {
 
 		//Create the recipe
 		let created: Recipe = await Recipe.create({
-			...recipe,
-			user_id: auth.user!.id,
+			title: recipe.title,
+			ingredients: JSON.stringify(recipe.ingredients),
+			instructions: JSON.stringify(recipe.instructions),
+			nutrition: recipe.nutrition,
+			halal: recipe.halal,
+			kosher: recipe.kosher,
+			userId: auth.user!.id,
 		})
 
 		//Return the recipe ID
@@ -49,6 +54,7 @@ export default class RecipesController {
 		let recipe = await Recipe.find(recipeId)
 		//If found, return it otherwise 404
 		if (recipe) {
+			await recipe.preload('comments')
 			return recipe.toJSON()
 		} else {
 			return response.notFound()
@@ -86,6 +92,9 @@ export default class RecipesController {
 		if (constraints.kosher) {
 			recipeQuery = recipeQuery.where('kosher', true)
 		}
+
+		await recipeQuery.preload("comments")
+
 		let recipes: Recipe[] = await recipeQuery
 
 		let serializedRecipes = recipes.map((recipe) => recipe.toJSON())
@@ -161,19 +170,19 @@ export default class RecipesController {
 	 * @return success {“Success” | “Failure”} If the message was a success
 	 */
 
-	public async comment({ request, auth }: HttpContextContract): Promise<'Success' | 'Failure'> {
+	public async comment({ request, auth, response }: HttpContextContract): Promise<'Success' | void> {
 		//Validate comment
 		let comment = await request.validate(CommentValidator)
 		//Create comment
 		try {
 			await Comment.create({
 				...comment,
-				recipe_id: request.param('id'),
-				user_id: auth.user!.id,
+				recipeId: request.param('id'),
+				userId: auth.user!.id,
 			})
 			return 'Success'
 		} catch {
-			return 'Failure'
+			return response.internalServerError()
 		}
 	}
 
@@ -202,7 +211,7 @@ export default class RecipesController {
 			return response.notFound()
 		}
 		//Check if user owns the recipe
-		if (recipeToEdit.user_id !== auth.user!.id) {
+		if (recipeToEdit.userId !== auth.user!.id) {
 			return response.unauthorized()
 		}
 		//Edit recipe
@@ -233,7 +242,7 @@ export default class RecipesController {
 		if (!recipeToDelete) {
 			return response.notFound()
 		}
-		if (recipeToDelete.user_id !== auth.user!.id) {
+		if (recipeToDelete.userId !== auth.user!.id) {
 			return response.unauthorized()
 		}
 		recipeToDelete.delete()

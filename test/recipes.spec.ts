@@ -2,6 +2,7 @@ import test from 'japa'
 import supertest from 'supertest'
 import Recipe from 'App/Models/Recipe'
 import { register } from "./utils"
+import Comment from 'App/Models/Comment'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
@@ -146,5 +147,9 @@ test.group('Test recipes', async function () {
 			rating: 5
 		})
 		.expect(200)
+		let comment = (await supertest(BASE_URL)
+		.get("/recipes/"+text)
+		.expect(200)).text
+		assert.exists(JSON.parse(comment).comments)
 	})
 })
