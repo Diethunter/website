@@ -90,7 +90,7 @@ test.group('Test recipes', async function () {
 			.send(TEST_RECIPE)
 			.expect(200)
 		let findRecipe = (
-			await supertest(BASE_URL).post('/search').send({
+			await supertest(BASE_URL).post('/recipes/search').send({
 				minCalories: '99',
 				minProtein: '99',
 				minCarbs: '99',
@@ -98,7 +98,25 @@ test.group('Test recipes', async function () {
 				name: 'Some Recipe'
 			})
 		).text
-		assert.exists(findRecipe)
+		assert.isNotEmpty(findRecipe)
+	})
+	test.failing('Search recipes by name', async function (assert) {
+		let token = await register('recipe_searchbynamerecipe')
+		let { text } = await supertest(BASE_URL)
+			.post('/recipes/new')
+			.set('Authorization', 'Bearer ' + token)
+			.send(TEST_RECIPE)
+			.expect(200)
+		let findRecipe = (
+			await supertest(BASE_URL).post('/recipes/search').send({
+				minCalories: '99',
+				minProtein: '99',
+				minCarbs: '99',
+				minFat: '99',
+				name: 'kuashdkah'
+			})
+		).text
+		assert.isNotEmpty(findRecipe)
 	})
 	test('Edit recipe', async function (assert) {
 		let token = await register('recipe_editrecipe')

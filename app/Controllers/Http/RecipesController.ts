@@ -96,7 +96,7 @@ export default class RecipesController {
 			recipeQuery = recipeQuery.where('kosher', true)
 		}
 
-		constraints.name ? recipeQuery.where('rawTitle', 'like', `%${constraints.name.toLowerCase()}%`) : null
+		recipeQuery.where('rawTitle', 'like', `%${constraints.name.toLowerCase()}%`)
 
 		await recipeQuery.preload('comments')
 		await recipeQuery.preload('user')
