@@ -78,6 +78,7 @@ export default class RecipesController {
 	 * @param kosher {boolean} If a recipe must be kosher-friendly
 	 * @param exclude {Ingredient[]} Exclude a certain ingredient i.e. for Allergies
 	 * @param include {Ingredient[]} Ingredients that must be in the recipe
+	 * @param name {string} Name of recipe
 	 *
 	 * @return Recipes {Recipe[] | Error} Recipes matching the constraints
 	 */
@@ -94,10 +95,12 @@ export default class RecipesController {
 			recipeQuery = recipeQuery.where('kosher', true)
 		}
 
+		constraints.name ? recipeQuery.where('title', 'like', `%${constraints.name}%`) : null
+
 		await recipeQuery.preload('comments')
 		await recipeQuery.preload('user')
 
-		let recipes: Recipe[] = await recipeQuery
+		let recipes: Recipe[] = await recipeQuery.limit(20)
 
 		let serializedRecipes = recipes.map((recipe) => recipe.toJSON())
 

@@ -153,16 +153,14 @@ test.group('Test recipes', async function () {
 		assert.exists(JSON.parse(comment).comments)
 		assert.exists(JSON.parse(comment).user)
 	})
-	test("User profile", async function(assert) {
+	test('User profile', async function (assert) {
 		let token = await register('recipe_profilerecipe')
 		await supertest(BASE_URL)
 			.post('/recipes/new')
 			.set('Authorization', 'Bearer ' + token)
 			.send(TEST_RECIPE)
 			.expect(200)
-		let { text } = await supertest(BASE_URL)
-		.get("/user/recipe_profilerecipe")
-		.expect(200)
+		let { text } = await supertest(BASE_URL).get('/user/recipe_profilerecipe').expect(200)
 
 		assert.exists(text)
 	})
