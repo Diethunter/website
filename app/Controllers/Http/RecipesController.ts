@@ -26,6 +26,7 @@ export default class RecipesController {
 		//Create the recipe
 		let created: Recipe = await Recipe.create({
 			title: recipe.title,
+			rawTitle: recipe.title.toLowerCase(),
 			ingredients: JSON.stringify(recipe.ingredients),
 			instructions: JSON.stringify(recipe.instructions),
 			nutrition: recipe.nutrition,
@@ -95,7 +96,7 @@ export default class RecipesController {
 			recipeQuery = recipeQuery.where('kosher', true)
 		}
 
-		constraints.name ? recipeQuery.where('title', 'like', `%${constraints.name}%`) : null
+		constraints.name ? recipeQuery.where('rawTitle', 'like', `%${constraints.name.toLowerCase()}%`) : null
 
 		await recipeQuery.preload('comments')
 		await recipeQuery.preload('user')

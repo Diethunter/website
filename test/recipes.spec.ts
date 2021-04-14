@@ -95,6 +95,7 @@ test.group('Test recipes', async function () {
 				minProtein: '99',
 				minCarbs: '99',
 				minFat: '99',
+				name: 'Some Recipe'
 			})
 		).text
 		assert.exists(findRecipe)

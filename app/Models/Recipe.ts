@@ -28,6 +28,9 @@ export default class Recipe extends BaseModel {
 	public title: string
 
 	@column()
+	public rawTitle: string
+
+	@column()
 	public ingredients: string
 
 	@column()
