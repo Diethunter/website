@@ -1,18 +1,20 @@
 <form on:submit|preventDefault={submit}>
 	<label>Username</label>
-	<br>
+	<br />
 	<span style="color:red;">{errors.username || ""}</span>
 	<input type="username" class="form-control" placeholder="Username" bind:value={username}>
-	<br>
+	<br />
 	<label>Password</label>
-	<br>
+	<br />
 	<span style="color:red;">{errors.password || ""}</span>
 	<input type="password" class="form-control" placeholder="Password" bind:value={password}>
-	<hr>
+	<hr />
 	<button type="submit" class="btn btn-primary">Log in</button>
 </form>
 
 <script lang="ts">
+import { backend } from "../api/Backend"
+
   let username;
   let password;
   let errors = {};
@@ -25,6 +27,12 @@
       : (errors.password = "");
     !username
       ? (errors.username = "Username must not be empty.")
-      : (errors.username = "");
+			: (errors.username = "");
+		if(!errors) {
+			backend.login(username, password)
+			return
+		} else {
+			return
+		}
   }
 </script>

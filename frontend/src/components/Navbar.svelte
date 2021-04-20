@@ -13,12 +13,14 @@
 			<li class="nav-item">
 				<Link class="nav-link" to="/search">Search Recipes</Link>
 			</li>
+			{#if !loggedIn}
 			<li class="nav-item">
 				<Link class="nav-link" to="/login">Login</Link>
 			</li>
 			<li class="nav-item">
 				<Link class="nav-link" to="/register">Register</Link>
 			</li>
+			{/if}
 			<li class="nav-item">
 				<Link class="nav-link" to="/about">About Us</Link>
 			</li>
@@ -28,4 +30,12 @@
 
 <script lang="ts">
 import { Link } from "svelte-navigator";
+import { backend } from "../api/Backend"
+import { authToken } from "../api/store"
+
+let loggedIn: boolean
+
+authToken.subscribe(() => {
+	loggedIn = backend.loggedIn()
+})
 </script>

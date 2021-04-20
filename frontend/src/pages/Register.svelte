@@ -2,17 +2,17 @@
 	<label>Username</label>
 	<br>
 	<span style="color:red;">{errors.username || ""}</span>
-	<input type="username" class="form-control" placeholder="Username" bind:value={username}>
+	<input type="username" class="form-control" placeholder="Username" bind:value={username} />
 	<br>
 	<label>Password</label>
 	<br>
 	<span style="color:red;">{errors.password || ""}</span>
-	<input type="password" class="form-control" placeholder="Password" bind:value={password}>
+	<input type="password" class="form-control" placeholder="Password" bind:value={password} />
 	<br>
 	<label>Confirm Password</label>
 	<br>
 	<span style="color:red;">{errors.confirm || ""}</span>
-	<input type="password" class="form-control" placeholder="Confirm Password" bind:value={confirmPassword}>
+	<input type="password" class="form-control" placeholder="Confirm Password" bind:value={confirmPassword} />
 	<hr>
 	<button type="submit" class="btn btn-primary">Log in</button>
 </form>
