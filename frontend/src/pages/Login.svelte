@@ -1,19 +1,19 @@
 <form on:submit|preventDefault={submit}>
-	<label>Username</label>
-	<br />
+	<label for="">Username</label>
+	<br>
 	<span style="color:red;">{errors.username || ""}</span>
 	<input type="username" class="form-control" placeholder="Username" bind:value={username}>
-	<br />
-	<label>Password</label>
-	<br />
+	<br>
+	<label for="">Password</label>
+	<br>
 	<span style="color:red;">{errors.password || ""}</span>
 	<input type="password" class="form-control" placeholder="Password" bind:value={password}>
-	<hr />
+	<hr>
 	<button type="submit" class="btn btn-primary">Log in</button>
 </form>
 
 <script lang="ts">
-import { backend } from "../api/Backend"
+import { backend } from "src/api/Backend"
 
   let username;
   let password;
@@ -30,8 +30,6 @@ import { backend } from "../api/Backend"
 			: (errors.username = "");
 		if(!errors) {
 			backend.login(username, password)
-			return
-		} else {
 			return
 		}
   }
