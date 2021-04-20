@@ -1,2 +1,5 @@
 tasks:
   - init: chmod +x setup.sh && ./setup.sh
+vscode:
+  extensions:
+    - svelte.svelte-vscode
