@@ -1,9 +1,8 @@
 cat .env.example > .env
 npm install
-#Save the following scripts for when I start making frontend
-#cd frontend
-#npm install
-#cd ..
+cd frontend
+npm install
+cd ..
 mkdir tmp
 touch tmp/db.sqlite3
 node ace migration:run
