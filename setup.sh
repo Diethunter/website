@@ -1,8 +1,5 @@
 cat .env.example > .env
 npm install
-cd frontend
-npm install
-cd ..
 mkdir tmp
 touch tmp/db.sqlite3
 node ace migration:run
