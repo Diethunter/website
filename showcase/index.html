@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+		<script>
+			var backend_url = "https://3333-gray-sole-2v9dsvml.ws-us03.gitpod.io"
+
+			function register(username, name, password) {
+				fetch(backend_url + "/auth/register", {
+					method: "POST",
+					body: JSON.stringify({
+						username,
+						name,
+						password
+					})
+				})
+					.then(res => res.json())
+					.then(token => console.log(token))
+					.catch(err => console.log(err))
+			}
+		</script>
+	</head>
+	<h1>Technical Showcase of Diet Hunter</h1>
+	<h2>By AvidCoder123</h2>
+	<hr>
+	<h1>Register a user</h1>
+	<div x-data="{username: '', password: '', name: ''}">
+		<form @submit.prevent="register(username, name, password)">
+			Username
+			<input class="form-control" x-model="username" placeholder = "Username"><br>
+			Name
+			<input class="form-control" x-model="name" placeholder="Name"><br>
+			Password
+			<input class="form-control" x-model="password" type="password" placeholder="Password"><br>
+			<button class="btn btn-primary" type="submit">Register</button>
+		</form>
+	</div>
+</html>
