@@ -1,7 +1,16 @@
 <nb-layout>
 
   <nb-layout-header fixed>
-    <h3 [routerLink]="'/'">Diet Hunter</h3>
+    <nb-actions size="large">
+      <nb-action><h3 [routerLink]="'/'">Diet Hunter</h3></nb-action>
+      {{isLoggedIn}}
+      <ng-template *ngIf="isLoggedIn">
+        <nb-action><h4>Logged In</h4></nb-action>
+      </ng-template>
+      <ng-template *ngIf="!isLoggedIn">
+        <nb-action><h4>Logged Out</h4></nb-action>
+      </ng-template>
+    </nb-actions>
   </nb-layout-header>
 
   <nb-layout-column>
