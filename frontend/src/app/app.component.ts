@@ -9,9 +9,7 @@ import { AuthService } from "./services/auth.service"
 export class AppComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
-  public isLoggedIn: boolean = true
-
-  public message="hi"
+  public isLoggedIn?: boolean
 
   ngOnInit() {
     this.auth.isLoggedIn.subscribe(

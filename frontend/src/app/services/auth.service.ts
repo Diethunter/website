@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor() {
+      this.isLoggedIn.next(true)
+  }
 
-  public isLoggedIn: Observable<boolean> = new Observable(subscriber => subscriber.next(true))
+  public isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false) as BehaviorSubject<boolean>
 }
