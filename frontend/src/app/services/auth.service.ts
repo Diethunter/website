@@ -6,9 +6,13 @@ import { BehaviorSubject } from 'rxjs'
 })
 export class AuthService {
 
-  constructor() {
-      this.isLoggedIn.next(true)
-  }
+  constructor() { }
 
   public isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false) as BehaviorSubject<boolean>
+
+  public attempt(username: string, password: string): boolean {
+    //Auto log in for now
+    this.isLoggedIn.next(true)
+    return true
+  }
 }
