@@ -10,6 +10,11 @@ export enum AuthCodes {
   userDoesNotExist
 }
 
+export interface User {
+  username: string,
+  name: string
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +25,11 @@ export class AuthService {
     private router: Router
   ) { }
 
-  public inMemoryCache = new Map<string, {name: string, password: string}>()
+  public userCache = new Map<string, {name: string, password: string}>()
 
   public isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 
-  public currentUser = new BehaviorSubject<{username: string; name: string}|undefined>(undefined)
+  public currentUser = new BehaviorSubject<User|undefined>(undefined)
 
   public signOut(): void {
     this.isLoggedIn.next(false)
@@ -34,11 +39,11 @@ export class AuthService {
   }
 
   public signUp(username: string, name: string, password: string): AuthCodes {
-    if (this.inMemoryCache.get(username)) {
+    if (this.userCache.get(username)) {
       //If a user with the same username exists, then send error
       return AuthCodes.usernameTaken
     } else {
-      this.inMemoryCache.set(username, {name, password})
+      this.userCache.set(username, {name, password})
       this.isLoggedIn.next(true)
       this.currentUser.next({username, name})
       return AuthCodes.success
@@ -47,7 +52,7 @@ export class AuthService {
 
   public attempt(username: string, password: string): AuthCodes {
     //Get user from memory
-    let user = this.inMemoryCache.get(username)
+    let user = this.userCache.get(username)
     if(!user) {
       //If user does not exist, send error
       this.isLoggedIn.next(false)

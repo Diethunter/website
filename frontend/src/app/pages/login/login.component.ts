@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     let attempt = this.auth.attempt(username, password)
     if(attempt == AuthCodes.success) {
       this.toast.success("Successfully Authenticated!")
-      this.router.navigate(["/"])
+      this.router.navigate(["/dashboard"])
 
     } else if(attempt == AuthCodes.userDoesNotExist) {
       this.toast.danger("That user does not exist")
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.auth.isLoggedIn.subscribe(_ => this.isLoggedIn = _)
     if(this.isLoggedIn) {
-      this.router.navigate(["/"])
+      this.router.navigate(["/dasnboard"])
     }
   }
 

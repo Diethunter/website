@@ -10,6 +10,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms"
 import { SignupComponent } from './pages/signup/signup.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { SignupComponent } from './pages/signup/signup.component';
     LandingComponent,
     LoginComponent,
     SignupComponent,
+    DashboardComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

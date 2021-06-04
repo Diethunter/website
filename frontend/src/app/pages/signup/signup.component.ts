@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
     let attempt = this.auth.signUp(username, name, password)
     if(attempt == AuthCodes.success) {
       this.toast.success("Successfully Registered!")
-      return this.router.navigate(["/"])
+      return this.router.navigate(["/dashboard"])
     } else if(attempt == AuthCodes.usernameTaken) {
       this.toast.danger("Username taken")
     }
@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.auth.isLoggedIn.subscribe(_ => this.isLoggedIn = _)
     if(this.isLoggedIn) {
-      this.router.navigate(["/"])
+      this.router.navigate(["/dashboard"])
     }
   }
 
