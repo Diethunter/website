@@ -1,9 +1,8 @@
 <h2>Log In</h2><hr>
 <form [formGroup] = "loginForm" (ngSubmit)="logIn()">
-  <nb-alert status="danger" *ngIf="valid"> The Username or Password is Incorrect.</nb-alert>
   <label>Username</label><br>
-  <input formControlName="username" nbInput fullWidth><br><hr>
+  <input formControlName="username" placeholder="Username" nbInput fullWidth><br><hr>
   <label>Password</label><br>
-  <input type="password" formControlName="password" nbInput fullWidth><br><hr>
+  <input type="password" placeholder="Password" formControlName="password" nbInput fullWidth><br><hr>
   <button type="submit" [disabled]="!loginForm.valid" nbButton>Log In</button>
 </form>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
-import { AuthService } from "../../services/auth.service"
+import { Component, OnInit } from "@angular/core"
+import { Router } from "@angular/router"
+import { AuthCodes, AuthService } from "../../services/auth.service"
 import { FormBuilder, Validators } from "@angular/forms"
-import { NbToastrService } from '@nebular/theme'
+import { NbToastrService } from "@nebular/theme"
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   private isLoggedIn?: boolean
 
   public loginForm = this.fb.group({
-    username: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+    username: ['', Validators.required],
     password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
   })
 
@@ -29,11 +29,15 @@ export class LoginComponent implements OnInit {
     const username = this.loginForm.get("username")!.value
     const password = this.loginForm.get("password")!.value
     let attempt = this.auth.attempt(username, password)
-    if(attempt) {
+    if(attempt == AuthCodes.success) {
       this.toast.success("Successfully Authenticated!")
       this.router.navigate(["/"])
-    } else {
-      this.valid = attempt
+
+    } else if(attempt == AuthCodes.userDoesNotExist) {
+      this.toast.danger("That user does not exist")
+
+    } else if(attempt == AuthCodes.incorrectPassword) {
+      this.toast.danger("Incorrect password")
     }
   }
 

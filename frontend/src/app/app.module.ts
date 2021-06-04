@@ -8,19 +8,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from "@angular/forms"
+import { SignupComponent } from './pages/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'default' }),
+    NbThemeModule.forRoot({ name: "default" }),
     NbLayoutModule,
     NbEvaIconsModule,
     NbButtonModule,
@@ -28,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms'
     ReactiveFormsModule,
     NbInputModule,
     NbAlertModule,
-    NbToastrModule.forRoot()
+    NbToastrModule.forRoot(),
+    FormsModule,
   ],
   providers: [NbToastrService],
   bootstrap: [AppComponent]
