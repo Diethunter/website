@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
       this.toast.success("Successfully Registered!")
       return this.router.navigate(["/dashboard"])
     } else if(attempt == AuthCodes.usernameTaken) {
-      this.toast.danger("Username taken")
+      this.toast.warning("Username taken")
     }
     return
   }

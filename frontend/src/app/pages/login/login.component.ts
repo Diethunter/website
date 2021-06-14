@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
       this.router.navigate(["/dashboard"])
 
     } else if(attempt == AuthCodes.userDoesNotExist) {
-      this.toast.danger("That user does not exist")
+      this.toast.warning("That user does not exist")
 
     } else if(attempt == AuthCodes.incorrectPassword) {
-      this.toast.danger("Incorrect password")
+      this.toast.warning("Incorrect password")
     }
   }
 

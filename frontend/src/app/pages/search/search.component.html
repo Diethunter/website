@@ -1,0 +1,58 @@
+<h1>Search Recipes</h1>
+<hr>
+<form [formGroup]="searchForm" (ngSubmit)="search()" (keydown.enter)="$event.preventDefault()">
+  <label>Recipe Name</label><br>
+  <input nbInput fullWidth placeholder="Recipe Name" formControlName="name">
+  <br><br>
+  <nb-toggle [(checked)]="advanced">Toggle Advanced Search</nb-toggle>
+  <ng-container *ngIf="advanced">
+    <hr>
+    <label>Calories (kcal)</label>
+    <br>
+    <input nbInput type="number" placeholder="Min Calories" formControlName="minCalories">
+    &nbsp;&nbsp;
+    <input nbInput type="number" placeholder="Max Calories" formControlName="maxCalories">
+    <hr>
+    <label>Protein (grams)</label>
+    <br>
+    <input nbInput type="number" placeholder="Min Protein" formControlName="minProtein">
+    &nbsp;&nbsp;
+    <input nbInput type="number" placeholder="Max Protein" formControlName="maxProtein">
+    <hr>
+    <label>Carbohydrates (grams)</label>
+    <br>
+    <input nbInput type="number" placeholder="Min Carbs" formControlName="minCarbs">
+    &nbsp;&nbsp;
+    <input nbInput type="number" placeholder="Max Carbs" formControlName="maxCarbs">
+    <hr>
+    <label>Fat (grams)</label>
+    <br>
+    <input nbInput type="number" placeholder="Min Fat" formControlName="minFat">
+    &nbsp;&nbsp;
+    <input nbInput type="number" placeholder="Max Fat" formControlName="maxFat">
+    <hr>
+    <label><span title="For example, Minerals you have deficiencies in">Include all these nutrients</span></label>
+    <nb-tag-list *ngIf="includeTree" (tagRemove)="onIncludeTagRemove($event)" appdelay>
+      <nb-tag *ngFor="let tree of includeTree" [text]="tree!" removable></nb-tag>
+      <input type="text" nbTagInput (tagAdd)="onIncludeTagAdd($event)" fullWidth>
+    </nb-tag-list>
+    <label><span title="For example, ingredients you are allergic to">Exclude all these nutrients</span></label>
+    <nb-tag-list *ngIf="excludeTree" (tagRemove)="ExcludeTagRemove($event)" appdelay>
+      <nb-tag *ngFor="let tree of excludeTree" [text]="tree!" removable></nb-tag>
+      <input type="text" nbTagInput (tagAdd)="onExcludeTagAdd($event)" fullWidth>
+    </nb-tag-list>
+    <hr>
+    <nb-checkbox [(checked)]="checkedBoxes.halal">Halal</nb-checkbox>
+    <br>
+    <nb-checkbox [(checked)]="checkedBoxes.kosher" >Kosher</nb-checkbox>
+    <br>
+    <nb-checkbox [(checked)]="checkedBoxes.vegetarian">Vegetarian</nb-checkbox>
+    <br>
+    <nb-checkbox [(checked)]="checkedBoxes.vegan" (checkedChange)="checkedBoxes.vegetarian=true">Vegan</nb-checkbox>
+    <br>
+    <nb-checkbox [(checked)]="checkedBoxes.nutfree">Nut-free</nb-checkbox>
+    <br>
+  </ng-container>
+  <hr>
+  <button nbButton type="submit">Search</button>
+</form>

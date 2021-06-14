@@ -1,0 +1,16 @@
+<ng-container *ngFor="let result of results">
+  <nb-alert (click)="router.navigate(['/recipe/'+result[0]])">
+    <b><i>{{result[1].title}}</i></b>
+    <br>
+    {{result[1].description}}
+    <span *ngIf="result[1].rating !== undefined">
+      <app-rating [rating]="result[1].rating"></app-rating>
+    </span>
+    Created by {{result[1].username}}
+  </nb-alert>
+</ng-container>
+<ng-container *ngIf="pagenumber !== pageamount">
+  <button nbButton (click)="nextPage()" status="primary">Next page</button>
+</ng-container>
+
+<!--TODO: Make it so that clicking on a recipe will redirect to its page-->

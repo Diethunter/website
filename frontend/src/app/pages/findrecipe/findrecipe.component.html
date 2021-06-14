@@ -1,0 +1,33 @@
+<h1>{{recipe!.title}}</h1>
+<h2><i>{{recipe!.description}}</i></h2>
+<h4>Created by {{recipe!.username}}</h4>
+<hr>
+Accommodates for the following dietary restrictions:
+<ul>
+  <li *ngIf="recipe!.halal">Halal</li>
+  <li *ngIf="recipe!.kosher">Kosher</li>
+  <li *ngIf="recipe!.vegan">Vegan</li>
+  <li *ngIf="recipe!.vegetarian">Vegetarian</li>
+  <li *ngIf="recipe!.nutfree">Nut-free</li>
+</ul>
+<hr>
+<h6>Ingredients</h6>
+<nb-card size="small">
+    <nb-list>
+      <nb-list-item *ngFor="let ingredient of recipe!.ingredients">
+          {{ingredient.amount}} of {{ingredient.ingredient}} ({{ingredient.notes ? ingredient.notes : ""}})
+      </nb-list-item>
+    </nb-list>
+</nb-card>
+<hr>
+<h6>Instructions</h6>
+<ol>
+  <li *ngFor="let instruction of recipe!.instructions">
+    {{instruction}}
+  </li>
+</ol>
+<hr>
+<!--TODO: Some nutrition infographic here-->
+Super informative infographic
+<hr>
+

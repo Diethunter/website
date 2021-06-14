@@ -6,13 +6,22 @@ import { SignupComponent } from './pages/signup/signup.component'
 import { AuthGuard } from "./guards/auth.guard"
 import { DashboardComponent } from "./pages/dashboard/dashboard.component"
 import { SearchComponent } from "./pages/search/search.component"
+import { NotfoundComponent } from "./pages/notfound/notfound.component"
+import { CoffeeComponent } from "./pages/coffee/coffee.component"
+import { SearchresultsComponent } from "./pages/searchresults/searchresults.component"
+import { FindrecipeComponent } from "./pages/findrecipe/findrecipe.component"
 
 const routes: Routes = [
   { path:"", component: LandingComponent},
   { path:"search", component: SearchComponent},
   { path:"login", component: LoginComponent},
   { path:"signup", component: SignupComponent},
-  { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]}
+  { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: "notfound", component: NotfoundComponent},
+  { path: "coffee", component: CoffeeComponent},
+  { path: "results", component: SearchresultsComponent},
+  { path: "recipe/:id", component: FindrecipeComponent},
+  { path: "**", redirectTo: "notfound"}
 ];
 
 @NgModule({
