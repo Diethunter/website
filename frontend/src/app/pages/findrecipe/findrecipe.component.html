@@ -1,33 +1,51 @@
-<h1>{{recipe!.title}}</h1>
+<h1>{{recipe!.title}}&nbsp;&nbsp;<app-rating [rating]="recipe!.rating"></app-rating></h1>
 <h2><i>{{recipe!.description}}</i></h2>
-<h4>Created by {{recipe!.username}}</h4>
-<hr>
-Accommodates for the following dietary restrictions:
-<ul>
-  <li *ngIf="recipe!.halal">Halal</li>
-  <li *ngIf="recipe!.kosher">Kosher</li>
-  <li *ngIf="recipe!.vegan">Vegan</li>
-  <li *ngIf="recipe!.vegetarian">Vegetarian</li>
-  <li *ngIf="recipe!.nutfree">Nut-free</li>
-</ul>
-<hr>
-<h6>Ingredients</h6>
-<nb-card size="small">
-    <nb-list>
-      <nb-list-item *ngFor="let ingredient of recipe!.ingredients">
-          {{ingredient.amount}} of {{ingredient.ingredient}} ({{ingredient.notes ? ingredient.notes : ""}})
-      </nb-list-item>
-    </nb-list>
-</nb-card>
-<hr>
-<h6>Instructions</h6>
-<ol>
-  <li *ngFor="let instruction of recipe!.instructions">
-    {{instruction}}
-  </li>
-</ol>
-<hr>
-<!--TODO: Some nutrition infographic here-->
-Super informative infographic
+<h6>Created by {{recipe!.username}}</h6>
 <hr>
 
+<nb-alert status="info">
+  Accommodates for the following dietary restrictions:
+  <ul>
+    <li *ngIf="recipe!.halal" class="white">Halal</li>
+    <li *ngIf="recipe!.kosher" class="white">Kosher</li>
+    <li *ngIf="recipe!.vegan" class="white">Vegan</li>
+    <li *ngIf="recipe!.vegetarian" class="white">Vegetarian</li>
+    <li *ngIf="recipe!.nutfree" class="white">Nut-free</li>
+  </ul>
+</nb-alert>
+<hr>
+<h6>Ingredients</h6>
+<nb-alert accent="success">
+  <ul>
+    <li *ngFor="let ingredient of recipe!.ingredients">
+      {{ingredient.amount}} of {{ingredient.ingredient}} ({{ingredient.notes ? ingredient.notes : ""}})
+    </li>
+  </ul>
+</nb-alert>
+<hr>
+<h6>Instructions</h6>
+<nb-alert accent="danger">
+  <ol>
+    <li *ngFor="let instruction of recipe!.instructions">
+      {{instruction}}
+    </li>
+  </ol>
+</nb-alert>
+<hr>
+<h6>Nutrition</h6>
+<nb-alert accent="primary">
+  <span><i>Calories</i>&nbsp;&nbsp;{{recipe!.nutrition.calories}} kcal</span>
+  <br>
+  <span><i>Fat</i>&nbsp;&nbsp;{{recipe!.nutrition.fat}} grams</span>
+  <br>
+  <span><i>Carbohydrates</i>&nbsp;&nbsp;{{recipe!.nutrition.carbs}} grams</span>
+  <br>
+  <span><i>Protein</i>&nbsp;&nbsp;{{recipe!.nutrition.protein}} grams</span>
+</nb-alert>
+<hr>
+<h6>Comments</h6>
+<nb-alert status="basic">
+  <span>Dummy user&nbsp;&nbsp;<app-rating [rating]="4"></app-rating></span>
+  <br>
+  <i>Tasty recipe but not spicy enough.</i>
+</nb-alert>

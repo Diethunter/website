@@ -2,7 +2,6 @@ import test from 'japa'
 import supertest from 'supertest'
 import Recipe from 'App/Models/Recipe'
 import { register } from './utils'
-import Comment from 'App/Models/Comment'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
@@ -63,7 +62,7 @@ test.group('Test recipes', async function () {
 		let recipe = await Recipe.find(text)
 		assert.exists(recipe)
 	})
-	test('Validate a recipe', async function (assert) {
+	test('Validate a recipe', async function () {
 		let token = await register('recipe_validaterecipe')
 		await supertest(BASE_URL)
 			.post('/recipes/new')
@@ -71,7 +70,7 @@ test.group('Test recipes', async function () {
 			.send({})
 			.expect(422)
 	})
-	test('Find a recipe', async function (assert) {
+	test('Find a recipe', async function () {
 		let token = await register('recipe_findrecipe')
 		let { text } = await supertest(BASE_URL)
 			.post('/recipes/new')
@@ -84,7 +83,7 @@ test.group('Test recipes', async function () {
 	})
 	test('Search recipes', async function (assert) {
 		let token = await register('recipe_searchrecipe')
-		let { text } = await supertest(BASE_URL)
+		await supertest(BASE_URL)
 			.post('/recipes/new')
 			.set('Authorization', 'Bearer ' + token)
 			.send(TEST_RECIPE)
@@ -102,7 +101,7 @@ test.group('Test recipes', async function () {
 	})
 	test.failing('Search recipes by name', async function (assert) {
 		let token = await register('recipe_searchbynamerecipe')
-		let { text } = await supertest(BASE_URL)
+		await supertest(BASE_URL)
 			.post('/recipes/new')
 			.set('Authorization', 'Bearer ' + token)
 			.send(TEST_RECIPE)

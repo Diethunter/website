@@ -6,19 +6,19 @@ export interface Recipe {
   title: string,
   ingredients: Array<{amount: string, ingredient: string, notes?: string}>
   instructions: Array<string>,
-  nutrition: Object,
+  nutrition: {
+    calories: number,
+    fat: number,
+    carbs: number,
+    protein: number
+  },
   halal: boolean,
   kosher: boolean,
   vegan: boolean,
   vegetarian: boolean,
   nutfree: boolean,
   description: string,
-  rating?: 1|2|3|4|5,
-  comments?: Array<{
-    rating: 1|2|3|4|5,
-    username: string,
-    text: string
-  }>
+  rating: 1|2|3|4|5,
 }
 
 export interface RecipeSearchParams {
@@ -54,21 +54,23 @@ export class RecipeService {
     auth.currentUser.subscribe(_ => this.currentUser = _)
     for(let i = 0; i<20; i++) {
       this.create({
-        username: "hi",
-        title: "hi",
+        username: "Diet Hunter Team",
+        title: "Fried Garlic",
         ingredients: [{ amount: "6oz", ingredient: "Garlic", notes: "Sliced and diced" }],
-        instructions: ["hi"],
-        nutrition: {},
+        instructions: ["Fry the garlic."],
+        nutrition: {
+          calories: 200,
+          fat: 5,
+          protein: 0,
+          carbs: 5
+        },
         halal: true,
         kosher: true,
         vegan: true,
         vegetarian: true,
-        nutfree: false,
-        description: "Healthy recipe",
-        rating: 4,
-        comments: [
-          {rating:4, username:"no", text: "good"}
-        ]
+        nutfree: true,
+        description: "Tasty meal to eat by yourself",
+        rating: 4
       })
     }
   }
