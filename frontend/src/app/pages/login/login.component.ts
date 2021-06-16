@@ -18,6 +18,19 @@ export class LoginComponent implements OnInit {
 
   private isLoggedIn?: boolean
 
+  public showPassword = false;
+
+  public getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  public toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   public loginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]

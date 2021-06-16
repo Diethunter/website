@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-    NbToastrService,
-    NbThemeModule,
-    NbLayoutModule,
-    NbButtonModule,
-    NbActionsModule,
-    NbInputModule,
-    NbAlertModule,
-    NbToastrModule,
-    NbTreeGridModule,
-    NbCheckboxModule,
-    NbTagModule,
-    NbToggleModule,
-    NbCardModule,
-    NbListModule,
-    NbBadgeModule,
-    NbIconModule,
+  NbToastrService,
+  NbThemeModule,
+  NbLayoutModule,
+  NbButtonModule,
+  NbActionsModule,
+  NbInputModule,
+  NbAlertModule,
+  NbToastrModule,
+  NbTreeGridModule,
+  NbCheckboxModule,
+  NbTagModule,
+  NbToggleModule,
+  NbCardModule,
+  NbListModule,
+  NbBadgeModule,
+  NbIconModule, NbSelectModule, NbFormFieldModule,
 } from "@nebular/theme"
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +35,8 @@ import { AppdelayDirective } from './directives/appdelay.directive';
 import { SearchresultsComponent } from './pages/searchresults/searchresults.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { FindrecipeComponent } from './pages/findrecipe/findrecipe.component';
+import { RecipeResultComponent } from './components/recipe-result/recipe-result.component';
+import { ExploreComponent } from './pages/explore/explore.component';
 
 @NgModule({
   declarations: [
@@ -51,30 +53,34 @@ import { FindrecipeComponent } from './pages/findrecipe/findrecipe.component';
     SearchresultsComponent,
     RatingComponent,
     FindrecipeComponent,
+    RecipeResultComponent,
+    ExploreComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        NbThemeModule.forRoot({name: "default"}),
-        NbLayoutModule,
-        NbEvaIconsModule,
-        NbButtonModule,
-        NbActionsModule,
-        ReactiveFormsModule,
-        NbInputModule,
-        NbAlertModule,
-        NbToastrModule.forRoot(),
-        FormsModule,
-        NbTreeGridModule,
-        NbCheckboxModule,
-        NbTagModule,
-        NbToggleModule,
-        NbCardModule,
-        NbListModule,
-        NbBadgeModule,
-        NbIconModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NbThemeModule.forRoot({name: "default"}),
+    NbLayoutModule,
+    NbEvaIconsModule,
+    NbButtonModule,
+    NbActionsModule,
+    ReactiveFormsModule,
+    NbInputModule,
+    NbAlertModule,
+    NbToastrModule.forRoot(),
+    FormsModule,
+    NbTreeGridModule,
+    NbCheckboxModule,
+    NbTagModule,
+    NbToggleModule,
+    NbCardModule,
+    NbListModule,
+    NbBadgeModule,
+    NbIconModule,
+    NbSelectModule,
+    NbFormFieldModule,
+  ],
   providers: [NbToastrService],
   bootstrap: [AppComponent]
 })

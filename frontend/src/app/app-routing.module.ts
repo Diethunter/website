@@ -10,6 +10,7 @@ import { NotfoundComponent } from "./pages/notfound/notfound.component"
 import { CoffeeComponent } from "./pages/coffee/coffee.component"
 import { SearchresultsComponent } from "./pages/searchresults/searchresults.component"
 import { FindrecipeComponent } from "./pages/findrecipe/findrecipe.component"
+import {ExploreComponent} from "./pages/explore/explore.component";
 
 const routes: Routes = [
   { path:"", component: LandingComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: "coffee", component: CoffeeComponent},
   { path: "results", component: SearchresultsComponent},
   { path: "recipe/:id", component: FindrecipeComponent},
+  { path: "explore", component: ExploreComponent},
   { path: "**", redirectTo: "notfound"}
 ];
 

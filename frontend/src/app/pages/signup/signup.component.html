@@ -9,7 +9,8 @@
   <label>Password</label>
   <input nbInput fullWidth placeholder="Password" formControlName="password" type="password"><br><hr>
   <label>Confirm Password</label>
-  <input nbInput fullWidth placeholder="Confirm password" type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}">
+  <input [status]="(signupForm.get('password')!.value !== confirmPassword && signupForm.get('password')!.touched ? 'danger' : 'basic') " nbInput fullWidth placeholder="Confirm password" type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}">
   <br><hr>
   <button type="submit" [disabled]="!signupForm.valid || (signupForm.get('password')!.value !== confirmPassword)" nbButton> Sign Up </button>
 </form>
+<h6>Already have an account? <a routerLink="/login">Log in</a></h6>

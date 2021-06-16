@@ -3,6 +3,15 @@
   <label>Username</label><br>
   <input formControlName="username" placeholder="Username" nbInput fullWidth><br><hr>
   <label>Password</label><br>
-  <input type="password" placeholder="Password" formControlName="password" nbInput fullWidth><br><hr>
+  <nb-form-field><input type="password" placeholder="Password" formControlName="password" nbInput fullWidth [type]="getInputType()"><br>
+    <button type="button" nbSuffix nbButton ghost (click)="toggleShowPassword()">
+      <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+               pack="eva"
+               [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+      </nb-icon>
+    </button></nb-form-field>
+  <hr>
   <button type="submit" [disabled]="!loginForm.valid" nbButton>Log In</button>
 </form>
+<hr>
+<h6>Don't have an account? <a routerLink="/signup">Sign up</a></h6>

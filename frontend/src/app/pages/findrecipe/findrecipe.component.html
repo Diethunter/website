@@ -3,14 +3,14 @@
 <h6>Created by {{recipe!.username}}</h6>
 <hr>
 
-<nb-alert status="info">
+<nb-alert accent="info">
   Accommodates for the following dietary restrictions:
   <ul>
-    <li *ngIf="recipe!.halal" class="white">Halal</li>
-    <li *ngIf="recipe!.kosher" class="white">Kosher</li>
-    <li *ngIf="recipe!.vegan" class="white">Vegan</li>
-    <li *ngIf="recipe!.vegetarian" class="white">Vegetarian</li>
-    <li *ngIf="recipe!.nutfree" class="white">Nut-free</li>
+    <li *ngIf="recipe!.halal">Halal</li>
+    <li *ngIf="recipe!.kosher">Kosher</li>
+    <li *ngIf="recipe!.vegan">Vegan</li>
+    <li *ngIf="recipe!.vegetarian">Vegetarian</li>
+    <li *ngIf="recipe!.nutfree">Nut-free</li>
   </ul>
 </nb-alert>
 <hr>
@@ -43,9 +43,32 @@
   <span><i>Protein</i>&nbsp;&nbsp;{{recipe!.nutrition.protein}} grams</span>
 </nb-alert>
 <hr>
-<h6>Comments</h6>
-<nb-alert status="basic">
-  <span>Dummy user&nbsp;&nbsp;<app-rating [rating]="4"></app-rating></span>
+
+<ng-container *ngIf="currentUser">
+  <h6>Comment down below!</h6>
+  <nb-select [(selected)]="commentRating">
+    <nb-option [value]="'title'">Rating out of 5</nb-option>
+    <nb-option [value]="1">1</nb-option>
+    <nb-option [value]="2">2</nb-option>
+    <nb-option [value]="3">3</nb-option>
+    <nb-option [value]="4">4</nb-option>
+    <nb-option [value]="5">5</nb-option>
+  </nb-select>
+  <hr>
+  <h6 class="skinnyheader">Your review</h6>
+  <textarea nbInput [(ngModel)]="commentText" [rows]="5" [cols]="100"></textarea>
   <br>
-  <i>Tasty recipe but not spicy enough.</i>
+  <button nbButton [disabled]="commentRating == 'title' || commentText == ''" (click) = "comment()">Submit</button>
+  <hr>
+</ng-container>
+<ng-container *ngIf="!currentUser">
+  <b>You must <a routerLink="/login">log in</a> to comment.</b>
+</ng-container>
+<h6>Comments</h6>
+<hr>
+<nb-alert status="basic" *ngFor="let comment of comments">
+  <span>{{comment.username}} at {{comment.date.toLocaleDateString()}}</span>
+  &nbsp;&nbsp;<app-rating [rating]="comment.rating"></app-rating>
+  <br>
+  <i>{{comment.text}}</i>
 </nb-alert>

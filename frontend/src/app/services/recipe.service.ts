@@ -120,4 +120,12 @@ export class RecipeService {
     }
     return {"page": entries.slice((page-1)*10, (page*10)-1), "pageamount": entries.length/10}
   }
+
+  public all(page: number) {
+    let entries = Array.from(this.recipeCache.entries())
+    if(entries.length <= 0) {
+      return RecipeStatus.doesNotExist
+    }
+    return {"page": entries.slice((page-1)*10, (page*10)-1), "pageamount": entries.length/10}
+  }
 }

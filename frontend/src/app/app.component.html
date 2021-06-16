@@ -4,10 +4,11 @@
     <nb-actions size="large">
       <nb-action><h3 [routerLink]="isLoggedIn?'/dashboard':'/'">Diet Hunter</h3></nb-action>
       <nb-action *ngIf="isLoggedIn">Logged In As {{currentUser!.username}}</nb-action>
-      <nb-action *ngIf="isLoggedIn" (click)="auth.signOut()">Sign Out</nb-action>
+      <nb-action *ngIf="isLoggedIn" (click)="auth.signOut()">Logout</nb-action>
       <nb-action *ngIf="!isLoggedIn"><h5 [routerLink]="'/login'">Log In</h5></nb-action>
       <nb-action *ngIf="!isLoggedIn"><h5 [routerLink]="'/signup'">Sign Up</h5></nb-action>
       <nb-action><h5 [routerLink]="'/search'">Search</h5></nb-action>
+      <nb-action><h5 [routerLink]="'/explore'" [queryParams]="{page: 1}">Explore</h5></nb-action>
     </nb-actions>
   </nb-layout-header>
 

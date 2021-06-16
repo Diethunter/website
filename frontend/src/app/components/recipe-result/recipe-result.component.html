@@ -1,0 +1,16 @@
+<nb-alert
+  (click)="router.navigate(['/recipe/'+result[0]])"
+  (mouseenter)="isHovered=true"
+  (mouseleave)="isHovered=false"
+  [accent]="isHovered ? 'primary' : 'basic'">
+  <b>
+    <ng-container *ngIf="isHovered"><u>{{result[1].title}}</u></ng-container>
+    <ng-container *ngIf="!isHovered">{{result[1].title}}</ng-container>
+  </b>
+  <br>
+  <i>{{result[1].description}}</i>
+  <span *ngIf="result[1].rating !== undefined">
+      <app-rating [rating]="result[1].rating"></app-rating>
+    </span>
+  Created by {{result[1].username}}
+</nb-alert>
