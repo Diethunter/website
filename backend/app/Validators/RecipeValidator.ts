@@ -28,14 +28,15 @@ export default class RecipeValidator {
 		ingredients: schema.array().members(
 			schema.object().members({
 				amount: schema.string(),
-				name: schema.string(),
-				notes: schema.string(),
+				ingredient: schema.string(),
+				notes: schema.string.optional(),
 			})
 		),
+		description: schema.string(),
 		instructions: schema.array().members(schema.string()),
 		halal: schema.boolean(),
 		kosher: schema.boolean(),
-		nutrition: schema.string(),
+		nutfree: schema.boolean()
 	})
 
 	/**

@@ -10,7 +10,11 @@ import { NotfoundComponent } from "./pages/notfound/notfound.component"
 import { CoffeeComponent } from "./pages/coffee/coffee.component"
 import { SearchresultsComponent } from "./pages/searchresults/searchresults.component"
 import { FindrecipeComponent } from "./pages/findrecipe/findrecipe.component"
-import {ExploreComponent} from "./pages/explore/explore.component";
+import { ExploreComponent } from "./pages/explore/explore.component";
+import { CreateComponent } from "./pages/create/create.component";
+import { EditComponent } from "./pages/edit/edit.component";
+import { DeleteComponent } from "./pages/delete/delete.component";
+
 
 const routes: Routes = [
   { path:"", component: LandingComponent},
@@ -23,11 +27,16 @@ const routes: Routes = [
   { path: "results", component: SearchresultsComponent},
   { path: "recipe/:id", component: FindrecipeComponent},
   { path: "explore", component: ExploreComponent},
+  { path: "create", component: CreateComponent, canActivate: [AuthGuard]},
+  { path: "edit/:id", component: EditComponent, canActivate: [AuthGuard]},
+  { path: "delete/:id", component: DeleteComponent, canActivate: [AuthGuard]},
   { path: "**", redirectTo: "notfound"}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabled'
+})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

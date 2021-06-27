@@ -3,6 +3,7 @@ import { Router } from "@angular/router"
 import { AuthCodes, AuthService } from "../../services/auth.service"
 import { FormBuilder, Validators } from "@angular/forms"
 import { NbToastrService } from "@nebular/theme"
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-signup',
@@ -15,10 +16,26 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private fb: FormBuilder,
-    private toast: NbToastrService
+    private toast: NbToastrService,
+    private location: Location
   ) { }
 
-  private isLoggedIn?: boolean
+  public logInWithGoogle() {
+    this.auth.signInOauth()
+  }
+
+  public showPassword = false;
+
+  public getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  public toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   //Variable holding the value of the confirm password field
   public confirmPassword?: string
@@ -38,20 +55,23 @@ export class SignupComponent implements OnInit {
     if(password !== this.confirmPassword) {
       return this.passwordsMatch = false
     }
-    let attempt = this.auth.signUp(username, name, password)
-    if(attempt == AuthCodes.success) {
-      this.toast.success("Successfully Registered!")
-      return this.router.navigate(["/dashboard"])
-    } else if(attempt == AuthCodes.usernameTaken) {
-      this.toast.warning("Username taken")
-    }
+    this.auth.signUp(username, name, password)
+      .then(attempt => {
+        if(attempt == AuthCodes.success) {
+          this.toast.success("Successfully Registered!")
+          this.router.navigate(["/dashboard"])
+        } else {
+          this.toast.warning("Username taken")
+        }
+      })
     return
   }
 
+  public currentUser? = this.auth.currentUser.value
+
   ngOnInit(): void {
-    this.auth.isLoggedIn.subscribe(_ => this.isLoggedIn = _)
-    if(this.isLoggedIn) {
-      this.router.navigate(["/dashboard"])
+    if(this.currentUser) {
+      this.location.back()
     }
   }
 

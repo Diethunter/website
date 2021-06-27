@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './services/auth.service'
+import {AuthService, User} from './services/auth.service'
+import {NbThemeService} from "@nebular/theme";
 
 @Component({
   selector: 'app-root',
@@ -7,24 +8,34 @@ import { AuthService } from './services/auth.service'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService,
+              private themeService: NbThemeService) {
+    this.themeService.changeTheme(this.theme)
+  }
 
-  public isLoggedIn?: boolean
-
-  public currentUser?: {username: string, name: string}
+  public currentUser? = {} as User
 
   public copyrightYear = (new Date()).getFullYear()
+
+  public theme:"default"|"dark"|"cosmic" = localStorage.getItem("theme") as "default"|"dark"|"cosmic" || "default"
 
   public signOut() {
     return
   }
 
   public ngOnInit() {
-    this.auth.isLoggedIn.subscribe(
-      login => this.isLoggedIn = login
-    )
-    this.auth.currentUser.subscribe(
-      user => this.currentUser = user
-    )
+    this.auth.currentUser.subscribe(_ => this.currentUser = _)
+  }
+
+  public changeTheme() {
+    if(this.theme == "default") {
+      this.theme = "dark"
+    } else if(this.theme == "dark") {
+      this.theme = "cosmic"
+    } else if(this.theme == "cosmic") {
+      this.theme = "default"
+    }
+    this.themeService.changeTheme(this.theme)
+    localStorage.setItem("theme", this.theme)
   }
 }

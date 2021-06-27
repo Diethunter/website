@@ -4,6 +4,8 @@ import { Recipe, RecipeService, RecipeStatus } from "../../services/recipe.servi
 import {AuthService, User} from "../../services/auth.service";
 import {CommentService, CommentStatus, Comment} from "../../services/comment.service";
 import {NbToastRef, NbToastrService} from "@nebular/theme";
+import {Location} from "@angular/common";
+import {DateTime} from 'luxon'
 
 @Component({
   selector: 'app-findrecipe',
@@ -17,11 +19,34 @@ export class FindrecipeComponent implements OnInit {
               private recipeService: RecipeService,
               private auth: AuthService,
               public commentService: CommentService,
-              private toastr: NbToastrService) { }
+              private toastr: NbToastrService,
+              private location: Location) {
 
-  public recipe?: Recipe
+    let recipeID = this.activatedRoute.snapshot.paramMap.get("id")
+    if(!recipeID) {
+      this.location.back()
+    } else {
+      this.recipeId = Number(recipeID)
+      this.recipeService.find(Number(recipeID))
+        .then(recipe => {
+          if(recipe == RecipeStatus.doesNotExist) {
+            this.router.navigate(["/notfound"])
+          } else {
+            this.recipe = recipe as Recipe
+            this.comments = (recipe as Recipe).comments
+            this.cuisine = this.recipeService.formatCuisine((recipe as Recipe).cuisine)
+          }
+        })
+    }
+  }
 
-  public currentUser?: User
+  public recipe?: Recipe = {} as Recipe
+
+  public luxon = DateTime
+
+  public cuisine: string = ""
+
+  public currentUser?: User = this.auth.currentUser.value
 
   public commentRating: 1|2|3|4|5|"title" = "title"
 
@@ -29,45 +54,35 @@ export class FindrecipeComponent implements OnInit {
 
   public comment() {
     let comment = {
-      username: this.currentUser!.username,
+      user: {username: this.currentUser!.username},
       recipeId: this.recipeId,
       rating: this.commentRating as 1|2|3|4|5,
       text: this.commentText,
-      date: new Date()
+      created_at: DateTime.now().toISO()
     }
-    let create = this.commentService.create(comment)
-    if(create == CommentStatus.doesNotExist) {
-      return this.toastr.warning("That recipe does not exist.")
-    } else if(!(create instanceof NbToastRef)) {
-      this.comments.unshift(comment)
-      this.commentRating = "title"
-      this.commentText = ""
-      return
-    } else {
-      return
-    }
+    this.commentService.create(comment)
+      .then(create => {
+        if(create == CommentStatus.doesNotExist) {
+          return this.toastr.warning("That recipe does not exist.")
+        } else if(!(create instanceof NbToastRef)) {
+          this.comments.unshift(comment)
+          this.commentRating = "title"
+          this.commentText = ""
+          return this.toastr.success("Success!")
+        } else {
+          return
+        }
+      })
   }
 
   public comments: Comment[] = []
 
   public recipeId: number = 0
 
-  ngOnInit(): void {
-    this.auth.currentUser.subscribe(_ => this.currentUser = _)
+  public expand = false
 
-    let recipeID = this.activatedRoute.snapshot.paramMap.get("id")
-    if(!recipeID) {
-      this.router.navigate(["dashboard"])
-    } else {
-      this.recipeId = Number(recipeID)
-      let recipe = this.recipeService.find(Number(recipeID))
-      if(recipe == RecipeStatus.doesNotExist) {
-        this.router.navigate(["/notfound"])
-      } else {
-        this.recipe = recipe as Recipe
-        this.comments = this.commentService.findByRecipe(this.recipeId) as Comment[]
-      }
-    }
+  ngOnInit(): void {
+
   }
 
 }

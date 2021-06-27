@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  NbToastrService,
-  NbThemeModule,
-  NbLayoutModule,
-  NbButtonModule,
-  NbActionsModule,
-  NbInputModule,
-  NbAlertModule,
-  NbToastrModule,
-  NbTreeGridModule,
-  NbCheckboxModule,
-  NbTagModule,
-  NbToggleModule,
-  NbCardModule,
-  NbListModule,
-  NbBadgeModule,
-  NbIconModule, NbSelectModule, NbFormFieldModule,
+    NbToastrService,
+    NbThemeModule,
+    NbLayoutModule,
+    NbButtonModule,
+    NbActionsModule,
+    NbInputModule,
+    NbAlertModule,
+    NbToastrModule,
+    NbTreeGridModule,
+    NbCheckboxModule,
+    NbTagModule,
+    NbToggleModule,
+    NbCardModule,
+    NbListModule,
+    NbBadgeModule,
+    NbIconModule, NbSelectModule, NbFormFieldModule, NbTooltipModule,
 } from "@nebular/theme"
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +37,16 @@ import { RatingComponent } from './components/rating/rating.component';
 import { FindrecipeComponent } from './pages/findrecipe/findrecipe.component';
 import { RecipeResultComponent } from './components/recipe-result/recipe-result.component';
 import { ExploreComponent } from './pages/explore/explore.component';
+import { UserlinkComponent } from './components/userlink/userlink.component';
+import { CreateComponent } from './pages/create/create.component';
+import { EditComponent } from './pages/edit/edit.component';
+import { DeleteComponent } from './pages/delete/delete.component';
+import { RequiredComponent } from './components/required/required.component';
+import { OwnRecipeComponent } from './components/own-recipe/own-recipe.component';
+
+import {HttpClientModule} from "@angular/common/http";
+import {GoogleLoginProvider, SocialLoginModule} from "angularx-social-login";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -55,33 +65,55 @@ import { ExploreComponent } from './pages/explore/explore.component';
     FindrecipeComponent,
     RecipeResultComponent,
     ExploreComponent,
+    UserlinkComponent,
+    CreateComponent,
+    EditComponent,
+    DeleteComponent,
+    RequiredComponent,
+    OwnRecipeComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    NbThemeModule.forRoot({name: "default"}),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    NbButtonModule,
-    NbActionsModule,
-    ReactiveFormsModule,
-    NbInputModule,
-    NbAlertModule,
-    NbToastrModule.forRoot(),
-    FormsModule,
-    NbTreeGridModule,
-    NbCheckboxModule,
-    NbTagModule,
-    NbToggleModule,
-    NbCardModule,
-    NbListModule,
-    NbBadgeModule,
-    NbIconModule,
-    NbSelectModule,
-    NbFormFieldModule,
-  ],
-  providers: [NbToastrService],
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        NbThemeModule.forRoot({name: "default"}),
+        NbLayoutModule,
+        NbEvaIconsModule,
+        NbButtonModule,
+        NbActionsModule,
+        ReactiveFormsModule,
+        NbInputModule,
+        NbAlertModule,
+        NbToastrModule.forRoot(),
+        FormsModule,
+        NbTreeGridModule,
+        NbCheckboxModule,
+        NbTagModule,
+        NbToggleModule,
+        NbCardModule,
+        NbListModule,
+        NbBadgeModule,
+        NbIconModule,
+        NbSelectModule,
+        NbFormFieldModule,
+        NbTooltipModule,
+        HttpClientModule,
+        SocialLoginModule
+    ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: true, //keeps the user signed in
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(environment.client_id)
+          }
+        ]
+      }
+    },
+    NbToastrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,13 +12,16 @@ export default class User extends BaseModel {
 	public username: string
 
 	@column({ serializeAs: null })
-	public password: string
+	public password?: string
 
 	@column()
 	public name: string
 
 	@column()
 	public verified: boolean
+
+	@column()
+	public accessToken?: string
 
 	@hasMany(() => Recipe)
 	public recipes: HasMany<typeof Recipe>
@@ -35,7 +38,7 @@ export default class User extends BaseModel {
 	@beforeSave()
 	public static async hashPassword(user: User) {
 		if (user.$dirty.password) {
-			user.password = await Hash.make(user.password)
+			user.password = await Hash.make(user.password!)
 		}
 	}
 }

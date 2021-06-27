@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService, User } from "../../services/auth.service"
+import {Component, OnInit} from '@angular/core';
+import {AuthService, User} from "../../services/auth.service"
+import {Recipe, RecipeService, RecipeStatus} from "../../services/recipe.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,13 +10,19 @@ import { AuthService, User } from "../../services/auth.service"
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private auth: AuthService
+    private auth: AuthService,
+    private recipeService: RecipeService
   ) { }
 
-  public currentUser?: User
+  public currentUser?: User = this.auth.currentUser.value
+
+  public recipes: Recipe[] = []
 
   ngOnInit(): void {
-    this.auth.currentUser.subscribe(_ => this.currentUser = _)
+    this.recipeService.getRecipesByUser()
+      .then(recipes => {
+        this.recipes = recipes
+      })
   }
 
 }

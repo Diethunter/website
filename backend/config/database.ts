@@ -41,8 +41,8 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
 				filename: Application.tmpPath('db.sqlite3'),
 			},
 			useNullAsDefault: true,
-			healthCheck: false,
-			debug: false,
+			healthCheck: Env.get("DB_CONNECTION") == 'sqlite',
+			debug: Env.get("DEBUG_QUERIES"),
 		},
 
 		/*
@@ -65,8 +65,8 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
 				password: Env.get('MYSQL_PASSWORD', ''),
 				database: Env.get('MYSQL_DB_NAME'),
 			},
-			healthCheck: false,
-			debug: false,
+			healthCheck: Env.get("DB_CONNECTION") == 'mysql',
+			debug: Env.get("DEBUG_QUERIES"),
 		},
 	},
 

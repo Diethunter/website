@@ -20,4 +20,11 @@ export default Env.rules({
 	APP_KEY: Env.schema.string(),
 	APP_NAME: Env.schema.string(),
 	NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
+	DB_CONNECTION: Env.schema.enum(['sqlite', 'mysql'] as const),
+	SPOONACULAR_API_KEY: Env.schema.string(),
+	REDIS_CONNECTION: Env.schema.enum(['local', 'auth'] as const),
+	REDIS_HOST: Env.schema.string({ format: 'host' }),
+	REDIS_PORT: Env.schema.number(),
+	REDIS_PASSWORD: Env.schema.string.optional(),
+	DEBUG_QUERIES: Env.schema.boolean()
 })

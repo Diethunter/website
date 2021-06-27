@@ -7,7 +7,7 @@ export default class Recipes extends BaseSchema {
 		this.schema.createTable(this.tableName, (table) => {
 			table.increments('id')
 			table.integer('user_id').notNullable().unsigned()
-			table.string('title').notNullable()
+			table.string('title', 512).notNullable()
 			table.json('ingredients').notNullable()
 			table.json('instructions').notNullable()
 			table.boolean('halal').notNullable()

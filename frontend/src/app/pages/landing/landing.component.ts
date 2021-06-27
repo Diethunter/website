@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
+    if(this.auth.currentUser.value) {
+      this.router.navigate(["dashboard"])
+    }
+  }
+
+  public logInWithGoogle() {
+    this.auth.signInOauth()
   }
 
 }

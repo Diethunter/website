@@ -49,8 +49,9 @@ const authConfig: AuthConfig = {
       |
       */
 			tokenProvider: {
-				driver: 'database',
-				table: 'api_tokens',
+				type: 'api',
+				driver: 'redis',
+				redisConnection: 'local',
 				foreignKey: 'user_id',
 			},
 

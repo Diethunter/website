@@ -2,13 +2,15 @@
 
   <nb-layout-header fixed>
     <nb-actions size="large">
-      <nb-action><h3 [routerLink]="isLoggedIn?'/dashboard':'/'">Diet Hunter</h3></nb-action>
-      <nb-action *ngIf="isLoggedIn">Logged In As {{currentUser!.username}}</nb-action>
-      <nb-action *ngIf="isLoggedIn" (click)="auth.signOut()">Logout</nb-action>
-      <nb-action *ngIf="!isLoggedIn"><h5 [routerLink]="'/login'">Log In</h5></nb-action>
-      <nb-action *ngIf="!isLoggedIn"><h5 [routerLink]="'/signup'">Sign Up</h5></nb-action>
-      <nb-action><h5 [routerLink]="'/search'">Search</h5></nb-action>
-      <nb-action><h5 [routerLink]="'/explore'" [queryParams]="{page: 1}">Explore</h5></nb-action>
+      <nb-action><h3 [routerLink]="currentUser?'/dashboard':'/'">Diethunter</h3></nb-action>
+      <nb-action *ngIf="currentUser">Logged In As {{currentUser!.username}}</nb-action>
+      <nb-action *ngIf="currentUser"><h5 [routerLink]="'/create'" nbTooltip="Create a recipe.">Create</h5></nb-action>
+      <nb-action *ngIf="currentUser" (click)="auth.signOut()"><h5 nbTooltip="Log out of your account.">Logout</h5></nb-action>
+      <nb-action *ngIf="!currentUser"><h5 [routerLink]="'/login'" nbTooltip="Log into your account if you have one">Log In</h5></nb-action>
+      <nb-action *ngIf="!currentUser"><h5 [routerLink]="'/signup'" nbTooltip="Sign up for a Diethunter account">Sign Up</h5></nb-action>
+      <nb-action><h5 [routerLink]="'/search'" nbTooltip="Filter and search recipes that fit your needs.">Search</h5></nb-action>
+      <nb-action><h5 [routerLink]="'/explore'" [queryParams]="{page: 1}" nbTooltip="View all recipes without filtering.">Explore</h5></nb-action>
+      <nb-action><nb-icon icon="sun" nbTooltip="Change theme" (click)="changeTheme()"></nb-icon></nb-action>
     </nb-actions>
   </nb-layout-header>
 
@@ -18,7 +20,7 @@
   </nb-layout-column>
 
   <nb-layout-footer fixed>
-  Diet Hunter by the Diet Hunter team. Copyright {{copyrightYear}} Super Successful Startup, Inc.
+  Diethunter: Catchy Slogan Here. Copyright {{copyrightYear}} Diethunter.
   </nb-layout-footer>
 
 </nb-layout>

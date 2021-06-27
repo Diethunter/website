@@ -9,7 +9,7 @@ test.group('Check if test runner is working', async function () {
 	})
 
 	test('Is HTTP tests working', async function (assert) {
-		const { text } = await supertest(BASE_URL).get('/ping').expect(200)
+		const { text } = await supertest(BASE_URL).get('/').expect(200)
 
 		assert.equal<string>(text, 'pong')
 	})

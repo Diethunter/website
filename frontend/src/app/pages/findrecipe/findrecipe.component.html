@@ -1,8 +1,13 @@
 <h1>{{recipe!.title}}&nbsp;&nbsp;<app-rating [rating]="recipe!.rating"></app-rating></h1>
 <h2><i>{{recipe!.description}}</i></h2>
-<h6>Created by {{recipe!.username}}</h6>
+<h6>Created by <app-userlink [username]="recipe!.user.username + ' (aka ' + recipe!.user.name + ')'"></app-userlink></h6>
 <hr>
 
+<nb-alert accent="warning" *ngIf="cuisine">
+  Cuisine:
+  <br>
+  {{cuisine}}
+</nb-alert>
 <nb-alert accent="info">
   Accommodates for the following dietary restrictions:
   <ul>
@@ -18,7 +23,7 @@
 <nb-alert accent="success">
   <ul>
     <li *ngFor="let ingredient of recipe!.ingredients">
-      {{ingredient.amount}} of {{ingredient.ingredient}} ({{ingredient.notes ? ingredient.notes : ""}})
+      {{ingredient.amount}} of {{ingredient.ingredient}} {{ingredient.notes ? "("+ingredient.notes+")" : ""}}
     </li>
   </ul>
 </nb-alert>
@@ -32,16 +37,23 @@
   </ol>
 </nb-alert>
 <hr>
-<h6>Nutrition</h6>
-<nb-alert accent="primary">
-  <span><i>Calories</i>&nbsp;&nbsp;{{recipe!.nutrition.calories}} kcal</span>
-  <br>
-  <span><i>Fat</i>&nbsp;&nbsp;{{recipe!.nutrition.fat}} grams</span>
-  <br>
-  <span><i>Carbohydrates</i>&nbsp;&nbsp;{{recipe!.nutrition.carbs}} grams</span>
-  <br>
-  <span><i>Protein</i>&nbsp;&nbsp;{{recipe!.nutrition.protein}} grams</span>
-</nb-alert>
+<h6>{{expand ? "Hide" : "Show"}} Nutrition</h6>
+<br>
+<nb-toggle [(checked)]="expand"></nb-toggle>
+<ng-container *ngIf="expand">
+  <nb-alert accent="primary">
+    <table>
+      <tr>
+        <th>Nutrient name</th>
+        <th>Nutrient amount</th>
+      </tr>
+      <tr *ngFor="let nutrient of recipe!.nutrition">
+        <td>{{nutrient.name}}</td>
+        <td>{{nutrient.amount}}&nbsp;{{nutrient.unit}}</td>
+      </tr>
+    </table>
+  </nb-alert>
+</ng-container>
 <hr>
 
 <ng-container *ngIf="currentUser">
@@ -67,7 +79,7 @@
 <h6>Comments</h6>
 <hr>
 <nb-alert status="basic" *ngFor="let comment of comments">
-  <span>{{comment.username}} at {{comment.date.toLocaleDateString()}}</span>
+  <span><app-userlink [username]="comment.user.username"></app-userlink> at {{luxon.fromISO(comment.created_at!).toJSDate().toLocaleString()}}</span>
   &nbsp;&nbsp;<app-rating [rating]="comment.rating"></app-rating>
   <br>
   <i>{{comment.text}}</i>

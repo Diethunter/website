@@ -31,26 +31,51 @@
     &nbsp;&nbsp;
     <input nbInput type="number" placeholder="Max Fat" formControlName="maxFat">
     <hr>
-    <label><span title="For example, Minerals you have deficiencies in">Include all these nutrients</span></label>
+    <label><span nbTooltip="For example, Minerals you have deficiencies in">Include all these ingredients</span></label>
     <nb-tag-list *ngIf="includeTree" (tagRemove)="onIncludeTagRemove($event)" appdelay>
       <nb-tag *ngFor="let tree of includeTree" [text]="tree!" removable></nb-tag>
       <input type="text" nbTagInput (tagAdd)="onIncludeTagAdd($event)" fullWidth>
     </nb-tag-list>
-    <label><span title="For example, ingredients you are allergic to">Exclude all these nutrients</span></label>
-    <nb-tag-list *ngIf="excludeTree" (tagRemove)="ExcludeTagRemove($event)" appdelay>
+    <label><span nbTooltip="For example, ingredients you are allergic to">Exclude all these ingredients</span></label>
+    <nb-tag-list *ngIf="excludeTree" (tagRemove)="onExcludeTagRemove($event)" appdelay>
       <nb-tag *ngFor="let tree of excludeTree" [text]="tree!" removable></nb-tag>
       <input type="text" nbTagInput (tagAdd)="onExcludeTagAdd($event)" fullWidth>
     </nb-tag-list>
+    <label><span nbTooltip="Diethunter supports 26 cuisines.">Cuisine</span></label>
+    <br>
+    <nb-select [(selected)]="cuisine" placeholder="Select Cuisine">
+      <nb-option [value]="">Select Cuisine</nb-option>
+      <nb-option *ngFor="let type of cuisineList" [value]="type">{{type}}</nb-option>
+    </nb-select>
     <hr>
-    <nb-checkbox [(checked)]="checkedBoxes.halal">Halal</nb-checkbox>
+    <nb-checkbox [(checked)]="checkedBoxes.halal">
+      <div nbTooltip="Requires a recipe to not contain pork or alcoholic products">Halal
+      </div>
+    </nb-checkbox>
     <br>
-    <nb-checkbox [(checked)]="checkedBoxes.kosher" >Kosher</nb-checkbox>
+    <nb-checkbox [(checked)]="checkedBoxes.kosher" >
+      <div nbTooltip="Requires all meat products in a recipe to only be from animals who have split hooves and chew their cud. Fish must have fins and removable scales. This list is not exhaustive.">
+      Kosher
+    </div>
+    </nb-checkbox>
     <br>
-    <nb-checkbox [(checked)]="checkedBoxes.vegetarian">Vegetarian</nb-checkbox>
+    <nb-checkbox [(checked)]="checkedBoxes.vegetarian" [disabled]="checkedBoxes.vegan">
+      <div [nbTooltip]="checkedBoxes.vegan ? 'To uncheck this box, you must first uncheck the vegan box.' : 'Requires a recipe to not contain meat.'">
+        Vegetarian
+      </div>
+    </nb-checkbox>
     <br>
-    <nb-checkbox [(checked)]="checkedBoxes.vegan" (checkedChange)="checkedBoxes.vegetarian=true">Vegan</nb-checkbox>
+    <nb-checkbox [(checked)]="checkedBoxes.vegan" (checkedChange)="checkedBoxes.vegan? checkedBoxes.vegetarian=true:null">
+      <div nbTooltip="Requires a recipe to not contain meat or any other animal products like eggs, honey, milk, etc.">
+      Vegan
+      </div>
+    </nb-checkbox>
     <br>
-    <nb-checkbox [(checked)]="checkedBoxes.nutfree">Nut-free</nb-checkbox>
+    <nb-checkbox [(checked)]="checkedBoxes.nutfree">
+      <div nbTooltip="Requires a recipe to not contain any nuts.">
+        Nut-free
+      </div>
+    </nb-checkbox>
     <br>
   </ng-container>
   <hr>

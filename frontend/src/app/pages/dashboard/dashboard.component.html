@@ -1,6 +1,7 @@
 <h1>Hello, {{currentUser!.name}}</h1>
-<button nbButton status="success" size="large">+ Create a Recipe</button>
-&nbsp;&nbsp;
-<button nbButton status="primary" size="large">✎ Edit a Recipe</button>
-&nbsp;&nbsp;
-<button nbButton status="danger" size="large"> ✖ Delete a Recipe</button>
+<button nbButton status="primary" size="giant" [routerLink]="'/create'">+ Create a Recipe</button>
+<hr>
+<h3>Your recipes</h3>
+<ng-container *ngFor="let recipe of recipes">
+  <app-own-recipe [recipe]="recipe"></app-own-recipe>
+</ng-container>

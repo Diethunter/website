@@ -28,6 +28,12 @@ export default class Recipe extends BaseModel {
 	public title: string
 
 	@column()
+	public description: string
+
+	@column()
+	public cuisine: string
+
+	@column()
 	public rawTitle: string
 
 	@column()
@@ -37,13 +43,25 @@ export default class Recipe extends BaseModel {
 	public instructions: string
 
 	@column()
-	public nutrition: string
+	public nutrition: any
 
 	@column()
 	public halal: boolean
 
 	@column()
 	public kosher: boolean
+
+	@column()
+	public vegan: boolean
+
+	@column()
+	public vegetarian: boolean
+
+	@column()
+	public nutfree: boolean
+
+	@column()
+	public rating?: number
 
 	@computed()
 	public get calories() {
@@ -58,22 +76,22 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get protein() {
-		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Protein')
-		return calorieCount.amount
+		let proteinCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Protein')
+		return proteinCount.amount
 	}
 
 	@computed()
 	public get fat() {
-		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Fat')
-		return calorieCount.amount
+		let fatCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Fat')
+		return fatCount.amount
 	}
 
 	@computed()
 	public get carbs() {
-		let calorieCount = JSON.parse(this.nutrition).find(
+		let carbCount = JSON.parse(this.nutrition).find(
 			(nutrient) => nutrient.name == 'Carbohydrates'
 		)
-		return calorieCount.amount
+		return carbCount.amount
 	}
 
 	@column.dateTime({ autoCreate: true })

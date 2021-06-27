@@ -12,7 +12,7 @@ export class RecipeResultComponent implements OnInit {
   constructor(public router: Router,
               ) { }
 
-  @Input() result: [number, Recipe] = [0, {} as Recipe]
+  @Input() result: Recipe = {} as Recipe
 
   public isHovered = false
 

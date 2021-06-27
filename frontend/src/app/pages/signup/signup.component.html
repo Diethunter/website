@@ -2,15 +2,25 @@
 <form [formGroup]="signupForm" (ngSubmit)="signUp()">
   <!-- Ex. Password too short, missing field, username taken etc -->
   <nb-alert status="danger" *ngIf="false">Some weird error</nb-alert>
-  <label>Username</label><br>
-  <input nbInput fullWidth placeholder="Username" formControlName="username"><br><hr>
-  <label>Your Name</label>
+  <label nbTooltip="This will be used to identify you on the site.">Username</label><br>
+  <input nbInput fullWidth placeholder="Username" formControlName="username" ><br><hr>
+  <label nbTooltip="This will be publicly displayed along with your username.">Your Name</label>
   <input nbInput fullWidth placeholder="Name" formControlName="name"><br><hr>
   <label>Password</label>
-  <input nbInput fullWidth placeholder="Password" formControlName="password" type="password"><br><hr>
+  <nb-form-field>
+    <input nbTooltip="Must be at least 8 characters long." type="password" placeholder="Password" formControlName="password" nbInput fullWidth [type]="getInputType()"><br>
+    <button type="button" nbSuffix nbButton ghost (click)="toggleShowPassword()">
+      <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+               pack="eva"
+               [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+      </nb-icon>
+    </button>
+  </nb-form-field>
   <label>Confirm Password</label>
   <input [status]="(signupForm.get('password')!.value !== confirmPassword && signupForm.get('password')!.touched ? 'danger' : 'basic') " nbInput fullWidth placeholder="Confirm password" type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}">
   <br><hr>
   <button type="submit" [disabled]="!signupForm.valid || (signupForm.get('password')!.value !== confirmPassword)" nbButton> Sign Up </button>
 </form>
+<hr>
+<button (click)="logInWithGoogle()" nbButton status="basic" size="giant"><img src="assets/google-logo.png" alt="Google logo" width="30px">&nbsp;&nbsp;Log in With Google</button>
 <h6>Already have an account? <a routerLink="/login">Log in</a></h6>

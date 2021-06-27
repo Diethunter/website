@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
 import { Router } from "@angular/router"
+import axios from "axios";
+import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
 
 
 export enum AuthCodes {
@@ -12,7 +14,15 @@ export enum AuthCodes {
 
 export interface User {
   username: string,
-  name: string
+  name: string,
+  oatToken: ApiToken
+}
+
+export interface ApiToken {
+  type: string
+  token: string
+  expires_at?: string | undefined
+  expires_in?: number | undefined
 }
 
 
@@ -22,50 +32,67 @@ export interface User {
 export class AuthService {
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private socialAuth: SocialAuthService
+  ) {
+    this.currentUser.subscribe(user => {
+      localStorage.setItem("currentuser", user? JSON.stringify(user) : "")
+    })
+  }
 
-  public userCache = new Map<string, {name: string, password: string}>()
+  public signInOauth() {
+    return this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(user => {
+        return axios.post<ApiToken & {username: string, name: string}>("api/auth/oauth", {
+          username: user.email.split("@")[0],
+          name: user.name,
+          accessToken: user.id
+        })
+      })
+      .then(token => {
+        this.currentUser.next({
+          username: token.data.username, name: token.data.name, oatToken: token.data
+        })
+      })
+      .then(() => this.router.navigate(["dashboard"]))
+  }
 
-  public isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+  private storedUser = localStorage.getItem("currentuser")
 
-  public currentUser = new BehaviorSubject<User|undefined>(undefined)
+  public currentUser = new BehaviorSubject<User|undefined>(this.storedUser ? JSON.parse(this.storedUser) : undefined)
 
   public signOut(): void {
-    this.isLoggedIn.next(false)
     this.currentUser.next(undefined)
     this.router.navigate(["/"])
     return
   }
 
-  public signUp(username: string, name: string, password: string): AuthCodes {
-    if (this.userCache.get(username)) {
-      //If a user with the same username exists, then send error
-      return AuthCodes.usernameTaken
-    } else {
-      this.userCache.set(username, {name, password})
-      this.isLoggedIn.next(true)
-      this.currentUser.next({username, name})
-      return AuthCodes.success
-    }
+  public signUp(username: string, name: string, password: string): Promise<AuthCodes> {
+    return axios.post<ApiToken>("/api/auth/register", { username, name, password})
+      .then(token => {
+        this.currentUser.next({
+          username, name, oatToken: token.data
+        })
+        return AuthCodes.success
+      })
+      .catch(() => {
+        return AuthCodes.usernameTaken
+    })
   }
 
-  public attempt(username: string, password: string): AuthCodes {
-    //Get user from memory
-    let user = this.userCache.get(username)
-    if(!user) {
-      //If user does not exist, send error
-      this.isLoggedIn.next(false)
-      return AuthCodes.userDoesNotExist
-    } else if(user.password == password) {
-      //If username and password match login
-      this.isLoggedIn.next(true)
-      this.currentUser.next({username, name: user.name})
-      return AuthCodes.success
-    } else {
-      //Else fail
-      return AuthCodes.incorrectPassword
-    }
+  public attempt(username: string, password: string): Promise<AuthCodes> {
 
+    return axios.post<ApiToken & {name: string}>("/api/auth/login", {
+      username, password
+    })
+      .then(token => {
+        this.currentUser.next({
+          username, name: token.data.name, oatToken: token.data
+        })
+        return AuthCodes.success
+      })
+      .catch(error => {
+        return AuthCodes.userDoesNotExist
+      })
   }
 }

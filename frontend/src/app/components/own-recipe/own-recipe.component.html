@@ -1,0 +1,14 @@
+<nb-alert
+  (click)="router.navigate(['/recipe/'+recipe.id])"
+  (mouseenter)="isHovered=true"
+  (mouseleave)="isHovered=false"
+  [accent]="isHovered ? 'primary' : 'basic'">
+  <b>
+    <ng-container *ngIf="isHovered"><u>{{recipe.title}}</u></ng-container>
+    <ng-container *ngIf="!isHovered">{{recipe.title}}</ng-container>
+  </b>
+  <br>
+  <i>{{recipe.description}}</i>
+  <app-rating [rating]="recipe.rating"></app-rating>
+  <span><button nbButton status="info" (click)="edit()">Edit</button>&nbsp;<button nbButton status="danger" (click)="delete()">Delete</button></span>
+</nb-alert>

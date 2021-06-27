@@ -1,6 +1,6 @@
 <ng-container *ngFor="let result of results">
   <app-recipe-result [result] = "result"></app-recipe-result>
 </ng-container>
-<ng-container *ngIf="pagenumber !== pageamount">
+<ng-container *ngIf="!(pagenumber == pageamount)">
   <button nbButton (click)="nextPage()" status="primary">Next page</button>
 </ng-container>

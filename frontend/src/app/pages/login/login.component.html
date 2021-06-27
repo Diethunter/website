@@ -3,15 +3,18 @@
   <label>Username</label><br>
   <input formControlName="username" placeholder="Username" nbInput fullWidth><br><hr>
   <label>Password</label><br>
-  <nb-form-field><input type="password" placeholder="Password" formControlName="password" nbInput fullWidth [type]="getInputType()"><br>
+  <nb-form-field>
+    <input type="password" placeholder="Password" formControlName="password" nbInput fullWidth [type]="getInputType()"><br>
     <button type="button" nbSuffix nbButton ghost (click)="toggleShowPassword()">
       <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
                pack="eva"
                [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
       </nb-icon>
-    </button></nb-form-field>
+    </button>
+  </nb-form-field>
   <hr>
   <button type="submit" [disabled]="!loginForm.valid" nbButton>Log In</button>
 </form>
 <hr>
+<button (click)="logInWithGoogle()" nbButton status="basic" size="giant"><img src="assets/google-logo.png" alt="Google logo" width="30px">&nbsp;&nbsp;Log in With Google</button>
 <h6>Don't have an account? <a routerLink="/signup">Sign up</a></h6>

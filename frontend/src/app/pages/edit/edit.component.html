@@ -1,0 +1,46 @@
+<h1>Create a Recipe</h1>
+<hr>
+<form (ngSubmit)="submit()" [formGroup]="fields">
+  <app-required>Title</app-required>
+  <input nbInput fullWidth placeholder="Title" formControlName="title">
+  <hr>
+  <app-required>Description</app-required>
+  <input nbInput fullWidth placeholder="Description" formControlName="description">
+  <hr>
+  <app-required>Ingredients</app-required>
+  <br>
+  <ng-container *ngFor="let ingredient of ingredients">
+    <input nbInput placeholder="Amount" [(ngModel)]="ingredient.amount" [ngModelOptions]="{standalone: true}">
+    <input nbInput placeholder="Ingredient Name" [(ngModel)]="ingredient.ingredient" [ngModelOptions]="{standalone: true}">
+    <input nbInput placeholder="(Optional) Ingredient Notes" [(ngModel)]="ingredient.notes" [ngModelOptions]="{standalone: true}">
+    <hr>
+  </ng-container>
+  <br>
+  <button type="button" nbButton status="primary" (click)="addIngredient()">New Ingredient</button>
+  <hr>
+  <app-required>Instructions</app-required>
+  <ng-container *ngFor="let instruction of instructions">
+    <input nbInput fullWidth placeholder="Instruction" [(ngModel)]="instruction.val" [ngModelOptions]="{standalone: true}">
+  </ng-container>
+  <hr>
+  <button type="button" nbButton status="primary" (click)="addInstruction()">New Step</button>
+  <hr>
+  <app-required>Dietary Restrictions</app-required>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.halal"><div nbTooltip="Requires a recipe to not contain pork or alcoholic products">Halal</div></nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.kosher">
+    <div nbTooltip="Requires all meat products in a recipe to only be from animals who have split hooves and chew their cud. Fish must have fins and removable scales. This list is not exhaustive.">
+      Kosher
+    </div>
+  </nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.nutfree">
+    <div nbTooltip="Requires a recipe to not contain any nuts.">
+      Nut-free
+    </div>
+  </nb-checkbox>
+  <br>
+  <button nbButton [disabled]="!fields.valid || !ingredients[0].amount || !ingredients[0].ingredient || !ingredients[ingredients.length-1].amount || !ingredients[ingredients.length-1].ingredient || !instructions[0].val || !instructions[instructions.length-1].val" type="submit">Edit</button>
+</form>
+

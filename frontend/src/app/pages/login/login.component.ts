@@ -16,8 +16,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private toast: NbToastrService) {}
 
-  private isLoggedIn?: boolean
-
   public showPassword = false;
 
   public getInputType() {
@@ -25,6 +23,10 @@ export class LoginComponent implements OnInit {
       return 'text';
     }
     return 'password';
+  }
+
+  public logInWithGoogle() {
+    this.auth.signInOauth()
   }
 
   public toggleShowPassword() {
@@ -41,23 +43,23 @@ export class LoginComponent implements OnInit {
   public logIn() {
     const username = this.loginForm.get("username")!.value
     const password = this.loginForm.get("password")!.value
-    let attempt = this.auth.attempt(username, password)
-    if(attempt == AuthCodes.success) {
-      this.toast.success("Successfully Authenticated!")
-      this.router.navigate(["/dashboard"])
+    this.auth.attempt(username, password).then(attempt => {
+      if (attempt == AuthCodes.success) {
+        this.toast.success("Successfully Authenticated!")
+        this.router.navigate(["/dashboard"])
 
-    } else if(attempt == AuthCodes.userDoesNotExist) {
-      this.toast.warning("That user does not exist")
+      } else {
+        this.toast.warning("The username or password is incorrect.")
+      }
+    })
 
-    } else if(attempt == AuthCodes.incorrectPassword) {
-      this.toast.warning("Incorrect password")
-    }
   }
 
+  public currentUser? = this.auth.currentUser.value
+
   ngOnInit(): void {
-    this.auth.isLoggedIn.subscribe(_ => this.isLoggedIn = _)
-    if(this.isLoggedIn) {
-      this.router.navigate(["/dasnboard"])
+    if(this.currentUser) {
+      this.router.navigate(["/dashboard"])
     }
   }
 

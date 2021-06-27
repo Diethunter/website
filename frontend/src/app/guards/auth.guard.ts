@@ -12,15 +12,14 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     private auth: AuthService,
     private router: Router
   ) {
-    this.auth.isLoggedIn.subscribe(_ => this.isLoggedIn = _)
   }
 
-  public isLoggedIn?: boolean
+  public currentUser? = this.auth.currentUser.value
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.isLoggedIn) {
+    if(this.currentUser) {
       return true
     } else {
       return this.router.parseUrl("/login")
@@ -31,7 +30,7 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.isLoggedIn) {
+    if(this.currentUser) {
       return this.router.parseUrl("/dashboard")
     } else {
       return true
