@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://diethunter.up.railway.app",
+    "secure": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

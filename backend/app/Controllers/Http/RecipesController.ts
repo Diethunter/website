@@ -6,7 +6,7 @@ import Comment from 'App/Models/Comment'
 import axios, {AxiosResponse} from 'axios'
 import Env from '@ioc:Adonis/Core/Env'
 import { SearchAlgorithm } from 'App/Services/Diethunter/Algorithms/Search'
-import {ModelObject} from "@ioc:Adonis/Lucid/Model";
+import {ModelObject} from "@ioc:Adonis/Lucid/Orm";
 import {recipeCherryPick} from "App/Services/Diethunter/Helpers/cherryPick";
 import {fdaRequiredNutrients} from "App/Services/Diethunter/Helpers/fdaRequiredNutrients";
 import EditValidator from "App/Validators/EditValidator";
@@ -33,7 +33,7 @@ export default class RecipesController {
 		let recipe = await request.validate(RecipeValidator)
 
 		//Send Food API request to get recipe nutrition
-		let res: AxiosResponse<any>
+		let res: AxiosResponse
 		let data = {
 			title: recipe.title,
 			servings: 1,
@@ -89,9 +89,9 @@ export default class RecipesController {
 			await recipe.preload('user')
 			await recipe.preload('comments', comment => comment.preload('user'))
 			return {...recipe.serialize(recipeCherryPick),
-				nutrition: JSON.parse(recipe.nutrition),
-				ingredients: JSON.parse(recipe.ingredients),
-				instructions: JSON.parse(recipe.instructions),
+				nutrition: recipe.nutrition,
+				ingredients: recipe.ingredients,
+				instructions: recipe.instructions,
 			}
 		} else {
 			return response.notFound()
@@ -145,9 +145,10 @@ export default class RecipesController {
 		ctx.response.header("x-page-amount", Math.ceil(serializedRecipes.length/10))
 		return (serializedRecipes as ModelObject[]).slice((page-1)*10, (page*10)-1).map(recipe => {
 			return {...recipe,
-				nutrition: JSON.parse(recipe.nutrition),
-				ingredients: JSON.parse(recipe.ingredients),
-				instructions: JSON.parse(recipe.instructions)}
+				nutrition: recipe.nutrition,
+				ingredients: recipe.ingredients,
+				instructions: recipe.instructions
+			}
 		})
 	}
 
@@ -195,9 +196,9 @@ export default class RecipesController {
 
 		return (serializedRecipes as ModelObject[]).map(recipe => {
 			return {...recipe,
-				nutrition: JSON.parse(recipe.nutrition),
-				ingredients: JSON.parse(recipe.ingredients),
-				instructions: JSON.parse(recipe.instructions)}
+				nutrition: recipe.nutrition,
+				ingredients: recipe.ingredients,
+				instructions: recipe.instructions}
 		})
 	}
 

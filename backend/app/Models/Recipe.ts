@@ -37,13 +37,13 @@ export default class Recipe extends BaseModel {
 	public rawTitle: string
 
 	@column()
-	public ingredients: string
+	public ingredients: Array<{amount: string, ingredient: string, notes?: string}> | any
 
 	@column()
-	public instructions: string
+	public instructions: Array<string> | any
 
 	@column()
-	public nutrition: any
+	public nutrition: Array<any> | any
 
 	@column()
 	public halal: boolean
@@ -65,30 +65,30 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get calories() {
-		let calorieCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Calories')
+		let calorieCount = this.nutrition.find((nutrient) => nutrient.name == 'Calories')
 		return calorieCount.amount
 	}
 
 	@computed()
 	public get minerals() {
-		return JSON.parse(this.nutrition).map((nutrient) => nutrient.name)
+		return this.nutrition.map((nutrient) => nutrient.name)
 	}
 
 	@computed()
 	public get protein() {
-		let proteinCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Protein')
+		let proteinCount = this.nutrition.find((nutrient) => nutrient.name == 'Protein')
 		return proteinCount.amount
 	}
 
 	@computed()
 	public get fat() {
-		let fatCount = JSON.parse(this.nutrition).find((nutrient) => nutrient.name == 'Fat')
+		let fatCount =this.nutrition.find((nutrient) => nutrient.name == 'Fat')
 		return fatCount.amount
 	}
 
 	@computed()
 	public get carbs() {
-		let carbCount = JSON.parse(this.nutrition).find(
+		let carbCount = this.nutrition.find(
 			(nutrient) => nutrient.name == 'Carbohydrates'
 		)
 		return carbCount.amount

@@ -23,8 +23,8 @@ export default Env.rules({
 	DB_CONNECTION: Env.schema.enum(['sqlite', 'mysql'] as const),
 	SPOONACULAR_API_KEY: Env.schema.string(),
 	REDIS_CONNECTION: Env.schema.enum(['local', 'auth'] as const),
-	REDIS_HOST: Env.schema.string({ format: 'host' }),
-	REDIS_PORT: Env.schema.number(),
-	REDIS_PASSWORD: Env.schema.string.optional(),
+	REDISHOST: Env.schema.string({ format: 'host' }),
+	REDISPORT: Env.schema.number(),
+	REDISPASSWORD: Env.schema.string.optional(),
 	DEBUG_QUERIES: Env.schema.boolean()
 })

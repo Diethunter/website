@@ -27,8 +27,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/_redirects"
             ],
             "styles": [
               "./node_modules/@nebular/theme/styles/prebuilt/default.css",
@@ -56,8 +56,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -71,13 +71,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "frontend:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "frontend:build:production",
-              "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "frontend:build:production"
             }
           }
         },
@@ -95,7 +93,6 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -176,6 +173,14 @@
           },
           "configurations": {
             "production": {}
+          }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/frontend/browser",
+            "netlifyToken": "qCAvLozVsTX62iEGj7tkTEP0xMPcZgScN9kED5DnHBs",
+            "siteId": "4b4890bb-946d-4a68-8232-b82acf05162b"
           }
         }
       }

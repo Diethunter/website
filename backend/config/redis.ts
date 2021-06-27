@@ -36,17 +36,17 @@ const redisConfig: RedisConfig = {
     |
     */
     local: {
-      host: Env.get('REDIS_HOST'),
-      port: Env.get('REDIS_PORT'),
-      password: Env.get('REDIS_PASSWORD', ''),
+      host: Env.get('REDISHOST'),
+      port: Env.get('REDISPORT'),
+      password: Env.get('REDISPASSWORD', ''),
       db: 0,
       keyPrefix: '',
 			healthCheck: true
     },
 		auth: {
-			host: Env.get('REDIS_HOST'),
-			port: Env.get('REDIS_PORT'),
-			password: Env.get('REDIS_PASSWORD', ''),
+			host: Env.get('REDISHOST'),
+			port: Env.get('REDISPORT'),
+			password: Env.get('REDISPASSWORD', ''),
 			db: 0,
 			keyPrefix: 'auth-',
 			healthCheck: true

@@ -1,7 +1,7 @@
 import {HttpContextContract} from "@ioc:Adonis/Core/HttpContext";
 import Recipe from "App/Models/Recipe";
 import SearchValidator from "App/Validators/SearchValidator";
-import {ModelObject} from "@ioc:Adonis/Lucid/Model";
+import {ModelObject} from "@ioc:Adonis/Lucid/Orm";
 import {recipeCherryPick} from "App/Services/Diethunter/Helpers/cherryPick";
 import {Filter} from "App/Services/Diethunter/Algorithms/Filter";
 

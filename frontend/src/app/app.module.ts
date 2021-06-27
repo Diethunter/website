@@ -76,7 +76,7 @@ import {environment} from "../environments/environment";
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
         AppRoutingModule,
         BrowserAnimationsModule,
-        NbThemeModule.forRoot({name: "default"}),
+        NbThemeModule.forRoot({name: "dark"}),
         NbLayoutModule,
         NbEvaIconsModule,
         NbButtonModule,

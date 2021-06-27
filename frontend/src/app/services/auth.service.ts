@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 import { Router } from "@angular/router"
 import axios from "axios";
 import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
+import {environment} from "../../environments/environment";
 
 
 export enum AuthCodes {
@@ -43,7 +44,7 @@ export class AuthService {
   public signInOauth() {
     return this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then(user => {
-        return axios.post<ApiToken & {username: string, name: string}>("api/auth/oauth", {
+        return axios.post<ApiToken & {username: string, name: string}>(environment.base_url + "/auth/oauth", {
           username: user.email.split("@")[0],
           name: user.name,
           accessToken: user.id
@@ -68,7 +69,7 @@ export class AuthService {
   }
 
   public signUp(username: string, name: string, password: string): Promise<AuthCodes> {
-    return axios.post<ApiToken>("/api/auth/register", { username, name, password})
+    return axios.post<ApiToken>(environment.base_url+"/auth/register", { username, name, password})
       .then(token => {
         this.currentUser.next({
           username, name, oatToken: token.data
@@ -82,7 +83,7 @@ export class AuthService {
 
   public attempt(username: string, password: string): Promise<AuthCodes> {
 
-    return axios.post<ApiToken & {name: string}>("/api/auth/login", {
+    return axios.post<ApiToken & {name: string}>(environment.base_url+"/auth/login", {
       username, password
     })
       .then(token => {

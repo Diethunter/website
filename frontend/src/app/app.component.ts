@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   public copyrightYear = (new Date()).getFullYear()
 
-  public theme:"default"|"dark"|"cosmic" = localStorage.getItem("theme") as "default"|"dark"|"cosmic" || "default"
+  public theme:"default"|"dark"|"cosmic" = localStorage.getItem("theme") as "default"|"dark"|"cosmic" || "dark"
 
   public signOut() {
     return

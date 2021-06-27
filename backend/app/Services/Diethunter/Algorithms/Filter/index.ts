@@ -1,4 +1,4 @@
-import {ModelObject} from "@ioc:Adonis/Lucid/Model";
+import {ModelObject} from "@ioc:Adonis/Lucid/Orm";
 
 export class Filter {
 	public static include(validRecipes: Array<any>, include: Array<string>, recipes: ModelObject[]) {

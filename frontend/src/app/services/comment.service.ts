@@ -3,6 +3,7 @@ import {NbToastrService} from "@nebular/theme";
 import {AuthService, User} from "./auth.service";
 import {RecipeService} from "./recipe.service";
 import axios from "axios";
+import {environment} from "../../environments/environment";
 
 export interface Comment {
   recipeId: number,
@@ -28,7 +29,7 @@ export class CommentService {
   private currentUser?: User = this.auth.currentUser.value
 
   public create(details: Comment) {
-    return axios.post("api/recipes/comment/"+details.recipeId, {
+    return axios.post(environment.base_url + "/recipes/comment/"+details.recipeId, {
       text: details.text,
       rating: details.rating
     }, {

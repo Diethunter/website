@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService, User } from "./auth.service"
 import axios from "axios";
 import {Comment} from "./comment.service";
+import {environment} from "../../environments/environment";
 
 export enum Cuisines {
   African,
@@ -104,7 +105,7 @@ export class RecipeService {
   public state = {} as RecipeSearchParams
 
   public getRecipesByUser(): Promise<Recipe[]> {
-    return axios.get("/api/auth/profile",{
+    return axios.get(environment.base_url+"/auth/profile",{
       headers: {
         Authorization: "Bearer " + this.currentUser!.oatToken.token
       }
@@ -131,7 +132,7 @@ export class RecipeService {
   public currentUser?: User
 
   public create(details: RecipeInput): Promise<number | void> {
-    return axios.post<number>("/api/recipes/new", details, {
+    return axios.post<number>(environment.base_url+"/recipes/new", details, {
       headers: {
         Authorization: "Bearer " + this.currentUser!.oatToken.token
       }
@@ -147,7 +148,7 @@ export class RecipeService {
   }
 
   public find(id: number): Promise<Recipe | RecipeStatus> {
-    return axios.get("/api/recipes/"+id)
+    return axios.get(environment.base_url+"/recipes/"+id)
       .then(recipe => {
         return recipe.data
       })
@@ -157,7 +158,7 @@ export class RecipeService {
   }
 
   public edit(id: number, details: RecipeInput): Promise<number | RecipeStatus> {
-    return axios.put("/api/recipes/edit/"+id, details, {
+    return axios.put(environment.base_url+"/recipes/edit/"+id, details, {
       headers: {
         Authorization: "Bearer " + this.currentUser!.oatToken.token
       }
@@ -175,7 +176,7 @@ export class RecipeService {
   }
 
   public delete(id: number): Promise<RecipeStatus | undefined | void> {
-    return axios.delete("api/recipes/delete/"+id, {
+    return axios.delete(environment.base_url+"/recipes/delete/"+id, {
       headers: {
         Authorization: "Bearer " + this.currentUser!.oatToken.token
       }
@@ -193,7 +194,7 @@ export class RecipeService {
   }
 
   public search(details: RecipeSearchParams, page: number): Promise<{page: Recipe[], pageamount: number} | RecipeStatus> {
-    return axios.post<Recipe[]>("api/recipes/search", {...details, page})
+    return axios.post<Recipe[]>(environment.base_url+"/recipes/search", {...details, page})
       .then(_ => {
         return {page: _.data, pageamount: _.headers["x-page-amount"]}
       })
@@ -201,7 +202,7 @@ export class RecipeService {
   }
 
   public all(page: number): Promise<{page: Recipe[], pageamount: number} | RecipeStatus> {
-    return axios.get<Recipe[]>("api/recipes/explore?page="+page)
+    return axios.get<Recipe[]>(environment.base_url+"/recipes/explore?page="+page)
       .then(_ => {
         return {page: _.data, pageamount: _.headers["x-page-amount"]}
       })

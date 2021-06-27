@@ -23,7 +23,7 @@ test.group('Test user login', async function () {
 		assert.exists(text.token)
 	})
 
-	test('Incorrect login should not work', async function (assert) {
+	test('Incorrect login should not work', async function () {
 		//Register a user first
 		await register('login_testuser1')
 
@@ -34,7 +34,7 @@ test.group('Test user login', async function () {
 			.expect(400)
 	})
 
-	test('Logging in a nonexistant user should not work', async function (assert) {
+	test('Logging in a nonexistant user should not work', async function () {
 		//Register a user first
 		await register('login_testuser2')
 

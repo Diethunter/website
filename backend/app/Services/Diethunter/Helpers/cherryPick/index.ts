@@ -1,4 +1,4 @@
-import { CherryPick } from "@ioc:Adonis/Lucid/Model";
+import { CherryPick } from "@ioc:Adonis/Lucid/Orm";
 
 export let recipeCherryPick: CherryPick = {
 	fields: {

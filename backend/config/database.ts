@@ -6,11 +6,11 @@
  */
 
 import Env from '@ioc:Adonis/Core/Env'
-import { OrmConfig } from '@ioc:Adonis/Lucid/Orm'
+//import { OrmConfig } from '@ioc:Adonis/Lucid/Orm'
 import Application from '@ioc:Adonis/Core/Application'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
 
-const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
+const databaseConfig: DatabaseConfig = {
 	/*
   |--------------------------------------------------------------------------
   | Connection
@@ -57,13 +57,13 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
     |
     */
 		mysql: {
-			client: 'mysql',
+			client: 'mysql2',
 			connection: {
-				host: Env.get('MYSQL_HOST'),
-				port: Env.get('MYSQL_PORT'),
-				user: Env.get('MYSQL_USER'),
-				password: Env.get('MYSQL_PASSWORD', ''),
-				database: Env.get('MYSQL_DB_NAME'),
+				host: Env.get('MYSQLHOST'),
+				port: Env.get('MYSQLPORT'),
+				user: Env.get('MYSQLUSER'),
+				password: Env.get('MYSQLPASSWORD', ''),
+				database: Env.get('MYSQLDATABASE'),
 			},
 			healthCheck: Env.get("DB_CONNECTION") == 'mysql',
 			debug: Env.get("DEBUG_QUERIES"),
@@ -82,7 +82,6 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   | - Or define a custom function to compute the primary key for a given model.
   |
   */
-	orm: {},
 }
 
 export default databaseConfig
