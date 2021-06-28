@@ -99,8 +99,8 @@ export default class RecipesController {
 		let recipe = await Recipe.find(recipeId)
 		//If found, return it otherwise 404
 		if (recipe) {
-			await recipe.preload('user')
-			await recipe.preload('comments', (comment) => comment.preload('user'))
+			await recipe.load('user')
+			await recipe.load('comments', (comment) => comment.preload('user'))
 			return {
 				...recipe.serialize(recipeCherryPick),
 				nutrition: recipe.nutrition,
@@ -190,8 +190,8 @@ export default class RecipesController {
 			.where('id', '>', (page - 1) * 10)
 			.limit(10)
 		for (let recipe of recipes) {
-			await recipe.preload('user')
-			await recipe.preload('comments', (comment) => comment.preload('user'))
+			await recipe.load('user')
+			await recipe.load('comments', (comment) => comment.preload('user'))
 			serializedRecipes.push(recipe.serialize(recipeCherryPick))
 		}
 
@@ -244,7 +244,7 @@ export default class RecipesController {
 			return response.unprocessableEntity()
 		}
 		//Create comment
-		await recipe.preload('comments')
+		await recipe.load('comments')
 		try {
 			await Comment.create({
 				...comment,
