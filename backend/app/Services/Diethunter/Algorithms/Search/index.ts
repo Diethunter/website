@@ -31,6 +31,7 @@ export class SearchAlgorithm {
 		if (constraints.cuisine) {
 			recipeQuery.where('cuisine', constraints.cuisine)
 		}
+		recipeQuery.orderBy('id', 'desc')
 		recipeQuery.orderBy('rating', 'desc')
 
 		await recipeQuery.preload('comments', (comment) => comment.preload('user'))

@@ -11,6 +11,7 @@ import { recipeCherryPick } from 'App/Services/Diethunter/Helpers/cherryPick'
 import { fdaRequiredNutrients } from 'App/Services/Diethunter/Helpers/fdaRequiredNutrients'
 import EditValidator from 'App/Validators/EditValidator'
 import { GetRating } from 'App/Services/Diethunter/Helpers/getRating'
+import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class RecipesController {
 	/**
@@ -186,6 +187,7 @@ export default class RecipesController {
 		//Filter recipes
 		let serializedRecipes: ModelObject[] = []
 		let recipes = await Recipe.query()
+			.orderBy('id', 'desc')
 			.orderBy('rating', 'desc')
 			.where('id', '>', (page - 1) * 10)
 			.limit(10)
@@ -204,7 +206,7 @@ export default class RecipesController {
 			}
 			return 0
 		})
-		let pageAmount = (await Recipe.query().select('id').orderBy('id', 'desc').first())!.id / 10
+		let pageAmount = (await Database.from('recipes').count('*', 'amount'))[0]!.amount / 10
 
 		ctx.response.header('x-page-amount', Math.ceil(pageAmount))
 
