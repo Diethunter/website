@@ -3,7 +3,7 @@ import RegistrationValidator from 'App/Validators/RegistrationValidator'
 import UserValidator from 'App/Validators/UserValidator'
 import ApiToken from 'Contracts/apitoken'
 import User from 'App/Models/User'
-import OauthValidator from "App/Validators/OauthValidator";
+import OauthValidator from 'App/Validators/OauthValidator'
 
 export default class UsersController {
 	/**
@@ -35,7 +35,7 @@ export default class UsersController {
 
 		//Auto log in the new user
 		const token = await auth.attempt(username, password, {
-			expiresIn: '7days'
+			expiresIn: '7days',
 		})
 
 		//Return the token
@@ -51,15 +51,15 @@ export default class UsersController {
 	 *
 	 * @response token {ApiToken} The API token for the user
 	 */
-	public async login({ request, auth }: HttpContextContract): Promise<ApiToken & {name: string}> {
+	public async login({ request, auth }: HttpContextContract): Promise<ApiToken & { name: string }> {
 		//Validate
 		const userInfo = await request.validate(UserValidator)
 
 		const token = await auth.attempt(userInfo.username, userInfo.password, {
-			expiresIn: '7days'
+			expiresIn: '7days',
 		})
 
-		return {...token.toJSON(), name: auth.user!.name}
+		return { ...token.toJSON(), name: auth.user!.name }
 	}
 
 	/**
@@ -72,10 +72,7 @@ export default class UsersController {
 	 *
 	 */
 	public async profile({ response, auth }: HttpContextContract): Promise<Object | void> {
-		let user = await User.query()
-			.where('username', auth.user!.username)
-			.preload('recipes')
-			.first()
+		let user = await User.query().where('username', auth.user!.username).preload('recipes').first()
 
 		if (!user) {
 			return response.notFound()
@@ -84,19 +81,24 @@ export default class UsersController {
 		return user.toJSON()
 	}
 
-	public async oauth({ request, auth }: HttpContextContract): Promise<ApiToken & {username: string, name: string}> {
+	public async oauth({
+		request,
+		auth,
+	}: HttpContextContract): Promise<ApiToken & { username: string; name: string }> {
 		let userInfo = await request.validate(OauthValidator)
 		try {
-			let doesUserExist = await auth.use('api').verifyCredentials(userInfo.username, userInfo.accessToken)
+			let doesUserExist = await auth
+				.use('api')
+				.verifyCredentials(userInfo.username, userInfo.accessToken)
 			return {
-				...await auth.use('api').generate(doesUserExist),
+				...(await auth.use('api').generate(doesUserExist)),
 				username: doesUserExist.username,
-				name: doesUserExist.name
+				name: doesUserExist.name,
 			}
 		} catch (e) {
 			let userSlug = -1
 			let getUsername = async (username: string) => {
-				let user = await User.findBy("username", username)
+				let user = await User.findBy('username', username)
 				if (!user) {
 					return username
 				} else {
@@ -108,9 +110,9 @@ export default class UsersController {
 			let user = await User.create({
 				username: username,
 				name: userInfo.name,
-				password: userInfo.accessToken
+				password: userInfo.accessToken,
 			})
-			return {...await auth.use('api').generate(user), username: user.username, name: user.name}
+			return { ...(await auth.use('api').generate(user)), username: user.username, name: user.name }
 		}
 	}
 }

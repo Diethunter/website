@@ -43,6 +43,7 @@ export interface Recipe {
   ingredients: Array<{amount: string, ingredient: string, notes?: string}>
   instructions: Array<string>,
   nutrition: {
+    percentOfDailyNeeds: number;
     name: string,
     unit: string,
     amount: number

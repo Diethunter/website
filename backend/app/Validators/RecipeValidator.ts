@@ -36,7 +36,7 @@ export default class RecipeValidator {
 		instructions: schema.array().members(schema.string()),
 		halal: schema.boolean(),
 		kosher: schema.boolean(),
-		nutfree: schema.boolean()
+		nutfree: schema.boolean(),
 	})
 
 	/**

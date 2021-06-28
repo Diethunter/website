@@ -19,16 +19,14 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import HealthCheck from "@ioc:Adonis/Core/HealthCheck";
+import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 
-Route.get("/", async () => "Pong")
+Route.get('/', async () => 'Pong')
 
 //Test and healthcheck route
 Route.get('/health', async ({ response }) => {
 	let report = await HealthCheck.getReport()
-	return report.healthy
-		? response.ok(report)
-		: response.badRequest(report)
+	return report.healthy ? response.ok(report) : response.badRequest(report)
 })
 
 //API routes for user auth
@@ -45,9 +43,15 @@ Route.group(() => {
 Route.group(() => {
 	Route.post('/search', 'RecipesController.search')
 	Route.post('/new', 'RecipesController.create').middleware('auth')
-	Route.post('/comment/:id', 'RecipesController.comment').middleware('auth').where('id',/^[0-9]+$/)
-	Route.put('/edit/:id', 'RecipesController.edit').middleware('auth').where('id',/^[0-9]+$/)
-	Route.delete('/delete/:id', 'RecipesController.delete').middleware('auth').where('id',/^[0-9]+$/)
+	Route.post('/comment/:id', 'RecipesController.comment')
+		.middleware('auth')
+		.where('id', /^[0-9]+$/)
+	Route.put('/edit/:id', 'RecipesController.edit')
+		.middleware('auth')
+		.where('id', /^[0-9]+$/)
+	Route.delete('/delete/:id', 'RecipesController.delete')
+		.middleware('auth')
+		.where('id', /^[0-9]+$/)
 	Route.get('/explore', 'RecipesController.explore')
-	Route.get('/:id', 'RecipesController.find').where('id',/^[0-9]+$/)
+	Route.get('/:id', 'RecipesController.find').where('id', /^[0-9]+$/)
 }).prefix('/recipes')

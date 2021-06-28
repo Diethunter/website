@@ -3,14 +3,14 @@ import Recipe from 'App/Models/Recipe'
 import RecipeValidator from 'App/Validators/RecipeValidator'
 import CommentValidator from 'App/Validators/CommentValidator'
 import Comment from 'App/Models/Comment'
-import axios, {AxiosResponse} from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import Env from '@ioc:Adonis/Core/Env'
 import { SearchAlgorithm } from 'App/Services/Diethunter/Algorithms/Search'
-import {ModelObject} from "@ioc:Adonis/Lucid/Orm";
-import {recipeCherryPick} from "App/Services/Diethunter/Helpers/cherryPick";
-import {fdaRequiredNutrients} from "App/Services/Diethunter/Helpers/fdaRequiredNutrients";
-import EditValidator from "App/Validators/EditValidator";
-import {GetRating} from "App/Services/Diethunter/Helpers/getRating";
+import { ModelObject } from '@ioc:Adonis/Lucid/Orm'
+import { recipeCherryPick } from 'App/Services/Diethunter/Helpers/cherryPick'
+import { fdaRequiredNutrients } from 'App/Services/Diethunter/Helpers/fdaRequiredNutrients'
+import EditValidator from 'App/Validators/EditValidator'
+import { GetRating } from 'App/Services/Diethunter/Helpers/getRating'
 
 export default class RecipesController {
 	/**
@@ -37,12 +37,21 @@ export default class RecipesController {
 		let data = {
 			title: recipe.title,
 			servings: 1,
-			ingredients: recipe.ingredients.map(ingredient => `${ingredient.amount} of ${ingredient.ingredient} ${ingredient.notes ? "("+ingredient.notes+")" : ""}`),
-			instructions: recipe.instructions.reduce((accumulator, currentValue) => accumulator + " " + currentValue)
+			ingredients: recipe.ingredients.map(
+				(ingredient) =>
+					`${ingredient.amount} of ${ingredient.ingredient} ${
+						ingredient.notes ? '(' + ingredient.notes + ')' : ''
+					}`
+			),
+			instructions: recipe.instructions.reduce(
+				(accumulator, currentValue) => accumulator + ' ' + currentValue
+			),
 		}
 		try {
 			res = await axios.post(
-				`https://api.spoonacular.com/recipes/analyze?apiKey=${Env.get("SPOONACULAR_API_KEY")}&includeNutrition=true`,
+				`https://api.spoonacular.com/recipes/analyze?apiKey=${Env.get(
+					'SPOONACULAR_API_KEY'
+				)}&includeNutrition=true`,
 				data
 			)
 		} catch (e) {
@@ -55,7 +64,11 @@ export default class RecipesController {
 			rawTitle: recipe.title.toLowerCase(),
 			ingredients: JSON.stringify(recipe.ingredients),
 			instructions: JSON.stringify(recipe.instructions),
-			nutrition: JSON.stringify(res.data.nutrition.nutrients.filter(nutrient => fdaRequiredNutrients.includes(nutrient.name))),
+			nutrition: JSON.stringify(
+				res.data.nutrition.nutrients.filter((nutrient) =>
+					fdaRequiredNutrients.includes(nutrient.name)
+				)
+			),
 			description: recipe.description,
 			halal: recipe.halal,
 			kosher: recipe.kosher,
@@ -63,7 +76,7 @@ export default class RecipesController {
 			vegetarian: res.data.vegetarian,
 			nutfree: recipe.nutfree,
 			userId: auth.user!.id,
-			cuisine: res.data.cuisines[0] || "American"
+			cuisine: res.data.cuisines[0] || 'American',
 		})
 
 		//Return the recipe ID
@@ -87,8 +100,9 @@ export default class RecipesController {
 		//If found, return it otherwise 404
 		if (recipe) {
 			await recipe.preload('user')
-			await recipe.preload('comments', comment => comment.preload('user'))
-			return {...recipe.serialize(recipeCherryPick),
+			await recipe.preload('comments', (comment) => comment.preload('user'))
+			return {
+				...recipe.serialize(recipeCherryPick),
 				nutrition: recipe.nutrition,
 				ingredients: recipe.ingredients,
 				instructions: recipe.instructions,
@@ -129,7 +143,7 @@ export default class RecipesController {
 		let serializedRecipes: ModelObject[] | void
 		serializedRecipes = await SearchAlgorithm.filter(ctx)
 
-		if(!serializedRecipes) {
+		if (!serializedRecipes) {
 			return ctx.response.notFound()
 		}
 
@@ -142,14 +156,17 @@ export default class RecipesController {
 			}
 			return 0
 		})
-		ctx.response.header("x-page-amount", Math.ceil(serializedRecipes.length/10))
-		return (serializedRecipes as ModelObject[]).slice((page-1)*10, (page*10)-1).map(recipe => {
-			return {...recipe,
-				nutrition: recipe.nutrition,
-				ingredients: recipe.ingredients,
-				instructions: recipe.instructions
-			}
-		})
+		ctx.response.header('x-page-amount', Math.ceil(serializedRecipes.length / 10))
+		return (serializedRecipes as ModelObject[])
+			.slice((page - 1) * 10, page * 10 - 1)
+			.map((recipe) => {
+				return {
+					...recipe,
+					nutrition: recipe.nutrition,
+					ingredients: recipe.ingredients,
+					instructions: recipe.instructions,
+				}
+			})
 	}
 
 	/**
@@ -162,7 +179,7 @@ export default class RecipesController {
 	public async explore(ctx: HttpContextContract): Promise<Object[] | void> {
 		//Get pagination page
 		let page = ctx.request.qs().page
-		if(!Number(page)) {
+		if (!Number(page)) {
 			return ctx.response.unprocessableEntity()
 		}
 
@@ -170,11 +187,11 @@ export default class RecipesController {
 		let serializedRecipes: ModelObject[] = []
 		let recipes = await Recipe.query()
 			.orderBy('rating', 'desc')
-			.where('id', '>', (page-1)*10)
+			.where('id', '>', (page - 1) * 10)
 			.limit(10)
-		for(let recipe of recipes) {
+		for (let recipe of recipes) {
 			await recipe.preload('user')
-			await recipe.preload('comments', comment => comment.preload('user'))
+			await recipe.preload('comments', (comment) => comment.preload('user'))
 			serializedRecipes.push(recipe.serialize(recipeCherryPick))
 		}
 
@@ -187,18 +204,17 @@ export default class RecipesController {
 			}
 			return 0
 		})
-		let pageAmount = (await Recipe.query()
-			.select("id")
-			.orderBy("id", "desc")
-			.first())!.id/10
+		let pageAmount = (await Recipe.query().select('id').orderBy('id', 'desc').first())!.id / 10
 
-		ctx.response.header("x-page-amount", Math.ceil(pageAmount))
+		ctx.response.header('x-page-amount', Math.ceil(pageAmount))
 
-		return (serializedRecipes as ModelObject[]).map(recipe => {
-			return {...recipe,
+		return (serializedRecipes as ModelObject[]).map((recipe) => {
+			return {
+				...recipe,
 				nutrition: recipe.nutrition,
 				ingredients: recipe.ingredients,
-				instructions: recipe.instructions}
+				instructions: recipe.instructions,
+			}
 		})
 	}
 
@@ -211,24 +227,20 @@ export default class RecipesController {
 	 * @response success {“Success” | “Failure”} If the message was a success
 	 */
 
-	public async comment({
-		request,
-		auth,
-		response,
-	}: HttpContextContract): Promise<void> {
+	public async comment({ request, auth, response }: HttpContextContract): Promise<void> {
 		//Validate comment
 		let comment = await request.validate(CommentValidator)
 		//Check if recipe exists
 		let recipe = await Recipe.find(request.param('id'))
-		if(!recipe) {
+		if (!recipe) {
 			return response.notFound()
 		}
 		//Check if user has already commented
 		let alreadyCommented = await Comment.query()
-			.where("user_id", auth.user!.id)
-			.where("recipe_id", request.param('id'))
+			.where('user_id', auth.user!.id)
+			.where('recipe_id', request.param('id'))
 			.first()
-		if(alreadyCommented) {
+		if (alreadyCommented) {
 			return response.unprocessableEntity()
 		}
 		//Create comment
@@ -241,7 +253,7 @@ export default class RecipesController {
 			})
 			recipe.rating = await GetRating.calculate(recipe)
 			await recipe.save()
-			return response.ok("Success")
+			return response.ok('Success')
 		} catch {
 			return response.internalServerError()
 		}
@@ -277,13 +289,14 @@ export default class RecipesController {
 		}
 		//Function to recalculate recipe edits
 		//Edit recipe
-		typeof constraints.title == "boolean" && (recipeToEdit!.title = constraints.title)
-		typeof constraints.title == "boolean" && (recipeToEdit!.rawTitle = constraints.title)
+		typeof constraints.title == 'boolean' && (recipeToEdit!.title = constraints.title)
+		typeof constraints.title == 'boolean' && (recipeToEdit!.rawTitle = constraints.title)
 		constraints.ingredients && (recipeToEdit!.ingredients = JSON.stringify(constraints.ingredients))
-		constraints.instructions && (recipeToEdit!.instructions = JSON.stringify(constraints.instructions))
-		typeof constraints.halal == "boolean" && (recipeToEdit!.halal = constraints.halal)
-		typeof constraints.kosher == "boolean" && (recipeToEdit!.kosher = constraints.kosher)
-		typeof constraints.nutfree == "boolean" && (recipeToEdit!.nutfree = constraints.nutfree)
+		constraints.instructions &&
+			(recipeToEdit!.instructions = JSON.stringify(constraints.instructions))
+		typeof constraints.halal == 'boolean' && (recipeToEdit!.halal = constraints.halal)
+		typeof constraints.kosher == 'boolean' && (recipeToEdit!.kosher = constraints.kosher)
+		typeof constraints.nutfree == 'boolean' && (recipeToEdit!.nutfree = constraints.nutfree)
 		constraints.description && (recipeToEdit!.description = constraints.description)
 		//Save changes
 		recipeToEdit.save()
@@ -311,6 +324,6 @@ export default class RecipesController {
 			return response.forbidden()
 		}
 		recipeToDelete.delete()
-		return response.ok("Success")
+		return response.ok('Success')
 	}
 }

@@ -2,8 +2,7 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class OauthValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,11 +23,11 @@ export default class OauthValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
+	public schema = schema.create({
 		username: schema.string(),
 		name: schema.string(),
-		accessToken: schema.string()
-  })
+		accessToken: schema.string(),
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -41,5 +40,5 @@ export default class OauthValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+	public messages = {}
 }

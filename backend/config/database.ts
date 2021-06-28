@@ -41,8 +41,8 @@ const databaseConfig: DatabaseConfig = {
 				filename: Application.tmpPath('db.sqlite3'),
 			},
 			useNullAsDefault: true,
-			healthCheck: Env.get("DB_CONNECTION") == 'sqlite',
-			debug: Env.get("DEBUG_QUERIES"),
+			healthCheck: Env.get('DB_CONNECTION') == 'sqlite',
+			debug: Env.get('DEBUG_QUERIES'),
 		},
 
 		/*
@@ -65,8 +65,8 @@ const databaseConfig: DatabaseConfig = {
 				password: Env.get('MYSQLPASSWORD', ''),
 				database: Env.get('MYSQLDATABASE'),
 			},
-			healthCheck: Env.get("DB_CONNECTION") == 'mysql',
-			debug: Env.get("DEBUG_QUERIES"),
+			healthCheck: Env.get('DB_CONNECTION') == 'mysql',
+			debug: Env.get('DEBUG_QUERIES'),
 		},
 	},
 

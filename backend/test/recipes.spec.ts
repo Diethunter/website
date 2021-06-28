@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 import Recipe from 'App/Models/Recipe'
-import {created, register, TEST_RECIPE, token} from './utils'
+import { created, register, TEST_RECIPE, token } from './utils'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
@@ -31,9 +31,8 @@ test.group('Test recipes', async function () {
 			.expect(200)
 	})
 	test('Search recipes', async function (assert) {
-		let findRecipe = (
-			await supertest(BASE_URL).post('/recipes/search').send({name: "chicken"})
-		).text
+		let findRecipe = (await supertest(BASE_URL).post('/recipes/search').send({ name: 'chicken' }))
+			.text
 		assert.isNotEmpty(findRecipe)
 	})
 	test.failing('Search recipes by name', async function (assert) {
@@ -43,7 +42,7 @@ test.group('Test recipes', async function () {
 				minProtein: '99',
 				minCarbs: '99',
 				minFat: '99',
-				name: 'kuashdkah'
+				name: 'kuashdkah',
 			})
 		).text
 		assert.isNotEmpty(findRecipe)

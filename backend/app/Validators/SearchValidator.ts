@@ -2,8 +2,7 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SearchValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,7 +23,7 @@ export default class SearchValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
+	public schema = schema.create({
 		name: schema.string.optional(),
 		minCalories: schema.string.optional(),
 		maxCalories: schema.string.optional(),
@@ -42,33 +41,33 @@ export default class SearchValidator {
 		include: schema.array.optional().members(schema.string()),
 		exclude: schema.array.optional().members(schema.string()),
 		cuisine: schema.enum.optional([
-			"African",
-			"American",
-			"British",
-			"Cajun",
-			"Caribbean",
-			"Chinese",
-			"Eastern European",
-			"European",
-			"French",
-			"German",
-			"Greek",
-			"Indian",
-			"Irish",
-			"Italian",
-			"Japanese",
-			"Jewish",
-			"Korean",
-			"Latin American",
-			"Mediterranean",
-			"Mexican",
-			"Middle Eastern",
-			"Nordic",
-			"Southern",
-			"Spanish",
-			"Thai",
-			"Vietnamese",
-		] as const)
+			'African',
+			'American',
+			'British',
+			'Cajun',
+			'Caribbean',
+			'Chinese',
+			'Eastern European',
+			'European',
+			'French',
+			'German',
+			'Greek',
+			'Indian',
+			'Irish',
+			'Italian',
+			'Japanese',
+			'Jewish',
+			'Korean',
+			'Latin American',
+			'Mediterranean',
+			'Mexican',
+			'Middle Eastern',
+			'Nordic',
+			'Southern',
+			'Spanish',
+			'Thai',
+			'Vietnamese',
+		] as const),
 	})
 
 	/**
@@ -82,5 +81,5 @@ export default class SearchValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+	public messages = {}
 }

@@ -37,7 +37,7 @@ export default class Recipe extends BaseModel {
 	public rawTitle: string
 
 	@column()
-	public ingredients: Array<{amount: string, ingredient: string, notes?: string}> | any
+	public ingredients: Array<{ amount: string; ingredient: string; notes?: string }> | any
 
 	@column()
 	public instructions: Array<string> | any
@@ -82,15 +82,13 @@ export default class Recipe extends BaseModel {
 
 	@computed()
 	public get fat() {
-		let fatCount =this.nutrition.find((nutrient) => nutrient.name == 'Fat')
+		let fatCount = this.nutrition.find((nutrient) => nutrient.name == 'Fat')
 		return fatCount.amount
 	}
 
 	@computed()
 	public get carbs() {
-		let carbCount = this.nutrition.find(
-			(nutrient) => nutrient.name == 'Carbohydrates'
-		)
+		let carbCount = this.nutrition.find((nutrient) => nutrient.name == 'Carbohydrates')
 		return carbCount.amount
 	}
 

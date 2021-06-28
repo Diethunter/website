@@ -22,10 +22,10 @@ import { RedisConfig } from '@ioc:Adonis/Addons/Redis'
 | Make sure to check `contracts/redis.ts` file for defining extra connections
 */
 const redisConfig: RedisConfig = {
-  connection: Env.get('REDIS_CONNECTION'),
+	connection: Env.get('REDIS_CONNECTION'),
 
-  connections: {
-    /*
+	connections: {
+		/*
     |--------------------------------------------------------------------------
     | The default connection
     |--------------------------------------------------------------------------
@@ -35,23 +35,23 @@ const redisConfig: RedisConfig = {
     | redis driver.
     |
     */
-    local: {
-      host: Env.get('REDISHOST'),
-      port: Env.get('REDISPORT'),
-      password: Env.get('REDISPASSWORD', ''),
-      db: 0,
-      keyPrefix: '',
-			healthCheck: true
-    },
+		local: {
+			host: Env.get('REDISHOST'),
+			port: Env.get('REDISPORT'),
+			password: Env.get('REDISPASSWORD', ''),
+			db: 0,
+			keyPrefix: '',
+			healthCheck: true,
+		},
 		auth: {
 			host: Env.get('REDISHOST'),
 			port: Env.get('REDISPORT'),
 			password: Env.get('REDISPASSWORD', ''),
 			db: 0,
 			keyPrefix: 'auth-',
-			healthCheck: true
+			healthCheck: true,
 		},
-  },
+	},
 }
 
 export default redisConfig

@@ -26,5 +26,5 @@ export default Env.rules({
 	REDISHOST: Env.schema.string({ format: 'host' }),
 	REDISPORT: Env.schema.number(),
 	REDISPASSWORD: Env.schema.string.optional(),
-	DEBUG_QUERIES: Env.schema.boolean()
+	DEBUG_QUERIES: Env.schema.boolean(),
 })

@@ -46,10 +46,12 @@
       <tr>
         <th>Nutrient name</th>
         <th>Nutrient amount</th>
+        <th>Percent of Daily Needs</th>
       </tr>
       <tr *ngFor="let nutrient of recipe!.nutrition">
         <td>{{nutrient.name}}</td>
         <td>{{nutrient.amount}}&nbsp;{{nutrient.unit}}</td>
+        <td>{{nutrient.percentOfDailyNeeds}}%</td>
       </tr>
     </table>
   </nb-alert>

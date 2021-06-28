@@ -2,8 +2,7 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class EditValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,21 +23,21 @@ export default class EditValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
+	public schema = schema.create({
 		title: schema.string.optional(),
 		ingredients: schema.array.optional().members(
 			schema.object().members({
-			amount: schema.string(),
-			ingredient: schema.string(),
-			notes: schema.string.optional(),
+				amount: schema.string(),
+				ingredient: schema.string(),
+				notes: schema.string.optional(),
 			})
 		),
 		instructions: schema.array.optional().members(schema.string()),
 		halal: schema.boolean.optional(),
 		kosher: schema.boolean.optional(),
 		nutfree: schema.boolean.optional(),
-		description: schema.string.optional()
-  })
+		description: schema.string.optional(),
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -51,5 +50,5 @@ export default class EditValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+	public messages = {}
 }
