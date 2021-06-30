@@ -78,7 +78,15 @@ export default class UsersController {
 			return response.notFound()
 		}
 
-		return user.toJSON()
+		return user.toJSON().recipes.sort((a, b) => {
+			if (a.id < b.id) {
+				return 1
+			}
+			if (a.id > b.id) {
+				return -1
+			}
+			return 0
+		})
 	}
 
 	public async oauth({
