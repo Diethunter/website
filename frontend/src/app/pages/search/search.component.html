@@ -3,7 +3,38 @@
 <form [formGroup]="searchForm" (ngSubmit)="search()" (keydown.enter)="$event.preventDefault()">
   <label>Recipe Name</label><br>
   <input nbInput fullWidth placeholder="Recipe Name" formControlName="name">
-  <br><br>
+  <br>
+  <hr>
+  <nb-checkbox [(checked)]="checkedBoxes.halal">
+    <div nbTooltip="Requires a recipe to not contain pork or alcoholic products">Halal
+    </div>
+  </nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.kosher" >
+    <div nbTooltip="Requires all meat products in a recipe to only be from animals who have split hooves and chew their cud. Fish must have fins and removable scales. This list is not exhaustive.">
+    Kosher
+  </div>
+  </nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.vegetarian" [disabled]="checkedBoxes.vegan">
+    <div [nbTooltip]="checkedBoxes.vegan ? 'To uncheck this box, you must first uncheck the vegan box.' : 'Requires a recipe to not contain meat.'">
+      Vegetarian
+    </div>
+  </nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.vegan" (checkedChange)="checkedBoxes.vegan? checkedBoxes.vegetarian=true:null">
+    <div nbTooltip="Requires a recipe to not contain meat or any other animal products like eggs, honey, milk, etc.">
+    Vegan
+    </div>
+  </nb-checkbox>
+  <br>
+  <nb-checkbox [(checked)]="checkedBoxes.nutfree">
+    <div nbTooltip="Requires a recipe to not contain any nuts.">
+      Nut-free
+    </div>
+  </nb-checkbox>
+  <br>
+  <hr>
   <nb-toggle [(checked)]="advanced">Toggle Advanced Search</nb-toggle>
   <ng-container *ngIf="advanced">
     <hr>
@@ -48,34 +79,6 @@
       <nb-option *ngFor="let type of cuisineList" [value]="type">{{type}}</nb-option>
     </nb-select>
     <hr>
-    <nb-checkbox [(checked)]="checkedBoxes.halal">
-      <div nbTooltip="Requires a recipe to not contain pork or alcoholic products">Halal
-      </div>
-    </nb-checkbox>
-    <br>
-    <nb-checkbox [(checked)]="checkedBoxes.kosher" >
-      <div nbTooltip="Requires all meat products in a recipe to only be from animals who have split hooves and chew their cud. Fish must have fins and removable scales. This list is not exhaustive.">
-      Kosher
-    </div>
-    </nb-checkbox>
-    <br>
-    <nb-checkbox [(checked)]="checkedBoxes.vegetarian" [disabled]="checkedBoxes.vegan">
-      <div [nbTooltip]="checkedBoxes.vegan ? 'To uncheck this box, you must first uncheck the vegan box.' : 'Requires a recipe to not contain meat.'">
-        Vegetarian
-      </div>
-    </nb-checkbox>
-    <br>
-    <nb-checkbox [(checked)]="checkedBoxes.vegan" (checkedChange)="checkedBoxes.vegan? checkedBoxes.vegetarian=true:null">
-      <div nbTooltip="Requires a recipe to not contain meat or any other animal products like eggs, honey, milk, etc.">
-      Vegan
-      </div>
-    </nb-checkbox>
-    <br>
-    <nb-checkbox [(checked)]="checkedBoxes.nutfree">
-      <div nbTooltip="Requires a recipe to not contain any nuts.">
-        Nut-free
-      </div>
-    </nb-checkbox>
     <br>
   </ng-container>
   <hr>

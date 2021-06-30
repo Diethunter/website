@@ -44,6 +44,9 @@ export class FindrecipeComponent implements OnInit {
 
   public luxon = DateTime
 
+  //Template injections
+  public Number = Number; public isNaN = isNaN
+
   public cuisine: string = ""
 
   public currentUser?: User = this.auth.currentUser.value

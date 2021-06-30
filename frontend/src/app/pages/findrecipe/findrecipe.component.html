@@ -23,7 +23,7 @@
 <nb-alert accent="success">
   <ul>
     <li *ngFor="let ingredient of recipe!.ingredients">
-      {{ingredient.amount}} of {{ingredient.ingredient}} {{ingredient.notes ? "("+ingredient.notes+")" : ""}}
+      {{ingredient.amount}}{{isNaN(Number(ingredient.amount)) ? ' of ' : ' '}}{{ingredient.ingredient}} {{ingredient.notes ? "("+ingredient.notes+")" : ""}}
     </li>
   </ul>
 </nb-alert>

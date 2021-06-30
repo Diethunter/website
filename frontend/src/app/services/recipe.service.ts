@@ -112,7 +112,7 @@ export class RecipeService {
       }
     })
       .then(user => {
-        let recipes = user.data.recipes.map((recipe: any) => recipe)
+        let recipes = user.data
         if(recipes.length) {
           return recipes
         } else {
@@ -120,6 +120,8 @@ export class RecipeService {
         }
       })
       .catch(error => {
+        console.log(error);
+
         if(error.response.status == 401) {
           this.auth.signOut()
         }
