@@ -23,7 +23,7 @@
 <nb-alert accent="success">
   <ul>
     <li *ngFor="let ingredient of recipe!.ingredients">
-      {{ingredient.amount}} of {{ingredient.ingredient}} {{ingredient.notes ? "("+ingredient.notes+")" : ""}}
+      {{ingredient.amount}}{{isNaN(Number(ingredient.amount)) ? ' of ' : ' '}}{{ingredient.ingredient}} {{ingredient.notes ? "("+ingredient.notes+")" : ""}}
     </li>
   </ul>
 </nb-alert>
@@ -58,7 +58,7 @@
 </ng-container>
 <hr>
 
-<ng-container *ngIf="currentUser">
+<ng-container *ngIf="currentUser !== undefined && currentUser !== auth.currentUser.value">
   <h6>Comment down below!</h6>
   <nb-select [(selected)]="commentRating">
     <nb-option [value]="'title'">Rating out of 5</nb-option>

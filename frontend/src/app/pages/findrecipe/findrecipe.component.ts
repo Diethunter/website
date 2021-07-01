@@ -17,7 +17,7 @@ export class FindrecipeComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private recipeService: RecipeService,
-              private auth: AuthService,
+              public auth: AuthService,
               public commentService: CommentService,
               private toastr: NbToastrService,
               private location: Location) {
@@ -43,6 +43,9 @@ export class FindrecipeComponent implements OnInit {
   public recipe?: Recipe = {} as Recipe
 
   public luxon = DateTime
+
+  //Template injections
+  public Number = Number; public isNaN = isNaN
 
   public cuisine: string = ""
 

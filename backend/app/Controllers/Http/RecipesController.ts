@@ -39,15 +39,23 @@ export default class RecipesController {
 			title: recipe.title,
 			servings: 1,
 			ingredients: recipe.ingredients.map(
-				(ingredient) =>
-					`${ingredient.amount} of ${ingredient.ingredient} ${
-						ingredient.notes ? '(' + ingredient.notes + ')' : ''
-					}`
+				(ingredient) => {
+					if(isNaN(Number(ingredient.amount.trim()))) {
+						return `${ingredient.amount} of ${ingredient.ingredient} ${
+							ingredient.notes ? '(' + ingredient.notes + ')' : ''
+						}`
+					} else {
+						return `${ingredient.amount} ${ingredient.ingredient} ${
+							ingredient.notes ? '(' + ingredient.notes + ')' : ''
+						}`
+					}
+				}
 			),
 			instructions: recipe.instructions.reduce(
 				(accumulator, currentValue) => accumulator + ' ' + currentValue
 			),
 		}
+		console.log(data)
 		try {
 			res = await axios.post(
 				`https://api.spoonacular.com/recipes/analyze?apiKey=${Env.get(
@@ -61,8 +69,8 @@ export default class RecipesController {
 
 		//Create the recipe
 		let created: Recipe = await Recipe.create({
-			title: recipe.title,
-			rawTitle: recipe.title.toLowerCase(),
+			title: data.title,
+			rawTitle: data.title.toLowerCase(),
 			ingredients: JSON.stringify(recipe.ingredients),
 			instructions: JSON.stringify(recipe.instructions),
 			nutrition: JSON.stringify(
@@ -187,10 +195,13 @@ export default class RecipesController {
 		//Filter recipes
 		let serializedRecipes: ModelObject[] = []
 		let recipes = await Recipe.query()
-			.orderBy('id', 'desc')
 			.orderBy('rating', 'desc')
-			.where('id', '>', (page - 1) * 10)
-			.limit(10)
+			.orderBy('id', 'desc')
+			.limit(page * 10 - 1)
+
+		recipes = recipes.slice(-10)
+
+
 		for (let recipe of recipes) {
 			await recipe.load('user')
 			await recipe.load('comments', (comment) => comment.preload('user'))
@@ -236,6 +247,9 @@ export default class RecipesController {
 		let recipe = await Recipe.find(request.param('id'))
 		if (!recipe) {
 			return response.notFound()
+		}
+		if(recipe.userId == auth.user!.id) {
+			return response.unprocessableEntity()
 		}
 		//Check if user has already commented
 		let alreadyCommented = await Comment.query()
