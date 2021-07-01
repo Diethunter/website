@@ -17,7 +17,7 @@ export class FindrecipeComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private recipeService: RecipeService,
-              private auth: AuthService,
+              public auth: AuthService,
               public commentService: CommentService,
               private toastr: NbToastrService,
               private location: Location) {

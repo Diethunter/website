@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.recipeService.getRecipesByUser()
       .then(recipes => {
-        console.log("Recipes is ", recipes)
         this.recipes = recipes
       })
   }
