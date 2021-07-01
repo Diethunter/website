@@ -248,6 +248,9 @@ export default class RecipesController {
 		if (!recipe) {
 			return response.notFound()
 		}
+		if(recipe.userId == auth.user!.id) {
+			return response.unprocessableEntity()
+		}
 		//Check if user has already commented
 		let alreadyCommented = await Comment.query()
 			.where('user_id', auth.user!.id)

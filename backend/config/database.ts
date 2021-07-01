@@ -67,6 +67,9 @@ const databaseConfig: DatabaseConfig = {
 			},
 			healthCheck: Env.get('DB_CONNECTION') == 'mysql',
 			debug: Env.get('DEBUG_QUERIES'),
+			migrations: {
+				disableRollbacksInProduction: true
+			}
 		},
 	},
 
