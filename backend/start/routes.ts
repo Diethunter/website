@@ -38,6 +38,8 @@ Route.group(() => {
 	Route.get('/profile', 'UsersController.profile').middleware('auth')
 
 	Route.post('/oauth', 'UsersController.oauth')
+
+	Route.get('/logout', 'UsersController.logout')
 }).prefix('/auth')
 
 Route.group(() => {

@@ -15,7 +15,9 @@ export class ExploreComponent implements OnInit {
               public router: Router,
               private recipeService: RecipeService,
               private toastr: NbToastrService,
-              private location: Location) {  }
+              private location: Location) {
+    this.activatedRoute.queryParams.subscribe(_ => this.ngOnInit())
+  }
 
   public results?: Array<Recipe>
 
@@ -29,11 +31,6 @@ export class ExploreComponent implements OnInit {
         if(results !== RecipeStatus.doesNotExist) {
           this.results = (results as { page: Recipe[]; pageamount: number; }).page
           this.pageamount = (results as { page: Recipe[]; pageamount: number; }).pageamount
-          this.router.navigate([], {
-            relativeTo: this.activatedRoute,
-            queryParams: {page: this.pagenumber},
-            queryParamsHandling: "merge"
-          })
         } else {
           this.router.navigate(["/notfound"])
           this.toastr.warning("No recipes found.")
@@ -42,9 +39,11 @@ export class ExploreComponent implements OnInit {
   }
 
   public nextPage() {
-    this.pagenumber++
-    window.scrollBy(0,-9999)
-    this.searchPage()
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {page: this.pagenumber+1},
+      queryParamsHandling: "merge"
+    }).then(() => window.scrollBy(0,-9999))
   }
 
   public state?: RecipeSearchParams
