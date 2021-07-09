@@ -16,7 +16,7 @@ export default class UsersController {
 	 *
 	 * @response token {ApiToken} The API token for the user
 	 */
-	public async register({ request, auth }: HttpContextContract): Promise<ApiToken> {
+	public async register({ request, auth }: HttpContextContract): Promise<ApiToken | void> {
 		//Validate request to make sure info is valid
 		const userInfo = await request.validate(RegistrationValidator)
 
@@ -89,6 +89,17 @@ export default class UsersController {
 		})
 	}
 
+	/**
+	 * Invalidate an OAT Token.
+	 * Route: GET /auth/logout
+	 *
+	 * @body token {ApiToken}
+	 *
+	 */
+	public async logout({ auth }): Promise<void> {
+		await auth.logout()
+	}
+
 	public async oauth({
 		request,
 		auth,
@@ -99,7 +110,9 @@ export default class UsersController {
 				.use('api')
 				.verifyCredentials(userInfo.username, userInfo.accessToken)
 			return {
-				...(await auth.use('api').generate(doesUserExist)),
+				...(await auth.use('api').generate(doesUserExist, {
+					expiresIn: '7days',
+				})).toJSON(),
 				username: doesUserExist.username,
 				name: doesUserExist.name,
 			}
@@ -120,7 +133,10 @@ export default class UsersController {
 				name: userInfo.name,
 				password: userInfo.accessToken,
 			})
-			return { ...(await auth.use('api').generate(user)), username: user.username, name: user.name }
+			let loggedIn = { ...(await auth.use('api').generate(user, {
+					expiresIn: '7days',
+				})).toJSON(), username: user.username, name: user.name }
+			return loggedIn
 		}
 	}
 }

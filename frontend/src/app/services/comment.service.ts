@@ -28,6 +28,11 @@ export class CommentService {
 
   private currentUser?: User = this.auth.currentUser.value
 
+  /**
+   * Create a comment.
+   *
+   * @param details
+   */
   public create(details: Comment) {
     return axios.post(environment.base_url + "/recipes/comment/"+details.recipeId, {
       text: details.text,

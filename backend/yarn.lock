@@ -500,6 +500,11 @@
   dependencies:
     axios "*"
 
+"@types/bad-words@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bad-words/-/bad-words-3.0.0.tgz#73a753d691cf98359b25a844dfb6c9978d60ed81"
+  integrity sha512-QTOy+vQbDbRg0rbaSLb99bOJa16UZGO9cW4Qt0f/JAUghPXQcoH2eMdcNlYbPbpxhGpgur9+skGATssMCBSArA==
+
 "@types/bytes@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@types/bytes/-/bytes-3.1.0.tgz#835a3e4aea3b4d7604aca216a78de372bff3ecc3"

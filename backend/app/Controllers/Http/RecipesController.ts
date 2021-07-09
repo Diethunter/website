@@ -249,6 +249,8 @@ export default class RecipesController {
 			return response.notFound()
 		}
 		if(recipe.userId == auth.user!.id) {
+			console.log(recipe)
+			console.log(auth.user)
 			return response.unprocessableEntity()
 		}
 		//Check if user has already commented

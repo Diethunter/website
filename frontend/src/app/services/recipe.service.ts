@@ -105,6 +105,11 @@ export class RecipeService {
 
   public state = {} as RecipeSearchParams
 
+  /**
+   * Get a user's recipes.
+   *
+   * @return {Promise<Recipe[]>}
+   */
   public getRecipesByUser(): Promise<Recipe[]> {
     return axios.get(environment.base_url+"/auth/profile",{
       headers: {
@@ -128,12 +133,26 @@ export class RecipeService {
       })
   }
 
+  /**
+   * Format a cuisine correctly for user display.
+   *
+   * @param name
+   *
+   * @return {string}
+   */
   public formatCuisine(name: string): string {
     return name.replace("_", " ")
   }
 
   public currentUser?: User
 
+  /**
+   * Create a recipe.
+   *
+   * @param details
+   *
+   * @return Promise<number|void>
+   */
   public create(details: RecipeInput): Promise<number | void> {
     return axios.post<number>(environment.base_url+"/recipes/new", details, {
       headers: {
@@ -150,6 +169,13 @@ export class RecipeService {
       })
   }
 
+  /**
+   * FInd a recipe by its ID.
+   *
+   * @param id
+   *
+   * @return {Promise<Recipe|RecipeStatus>}
+   */
   public find(id: number): Promise<Recipe | RecipeStatus> {
     return axios.get(environment.base_url+"/recipes/"+id)
       .then(recipe => {
@@ -160,6 +186,14 @@ export class RecipeService {
       })
   }
 
+  /**
+   * Edit a recipe.
+   *
+   * @param id
+   * @param details
+   *
+   * @return {Promise<number|RecipeStatus>}
+   */
   public edit(id: number, details: RecipeInput): Promise<number | RecipeStatus> {
     return axios.put(environment.base_url+"/recipes/edit/"+id, details, {
       headers: {
@@ -178,6 +212,13 @@ export class RecipeService {
       })
   }
 
+  /**
+   * Delete a recipe.
+   *
+   * @param id
+   *
+   * @return {Promise<RecipeStatus|undefined|void>}
+   */
   public delete(id: number): Promise<RecipeStatus | undefined | void> {
     return axios.delete(environment.base_url+"/recipes/delete/"+id, {
       headers: {
@@ -196,6 +237,14 @@ export class RecipeService {
       })
   }
 
+  /**
+   * Search for a recipe.
+   *
+   * @param details
+   * @param page
+   *
+   * @return {Promise}
+   */
   public search(details: RecipeSearchParams, page: number): Promise<{page: Recipe[], pageamount: number} | RecipeStatus> {
     return axios.post<Recipe[]>(environment.base_url+"/recipes/search", {...details, page})
       .then(_ => {
@@ -204,6 +253,13 @@ export class RecipeService {
       .catch(e => RecipeStatus.doesNotExist)
   }
 
+  /**
+   * Get all recipes.
+   *
+   * @param page
+   *
+   * @return {Promise}
+   */
   public all(page: number): Promise<{page: Recipe[], pageamount: number} | RecipeStatus> {
     return axios.get<Recipe[]>(environment.base_url+"/recipes/explore?page="+page)
       .then(_ => {

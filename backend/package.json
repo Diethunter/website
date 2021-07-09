@@ -30,6 +30,7 @@
 		"@adonisjs/redis": "^7.0.6",
 		"@adonisjs/repl": "^3.1.4",
 		"@types/axios": "^0.14.0",
+		"@types/bad-words": "^3.0.0",
 		"@types/supertest": "^2.0.10",
 		"axios": "^0.21.1",
 		"execa": "^5.1.1",

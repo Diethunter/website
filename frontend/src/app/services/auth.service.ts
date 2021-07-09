@@ -41,6 +41,11 @@ export class AuthService {
     })
   }
 
+  /**
+   * Sign in a user with Oauth.
+   *
+   * @return {Promise<boolean>}
+   */
   public signInOauth() {
     return this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then(user => {
@@ -62,12 +67,30 @@ export class AuthService {
 
   public currentUser = new BehaviorSubject<User|undefined>(this.storedUser ? JSON.parse(this.storedUser) : undefined)
 
+  /**
+   * Sign out a user.
+   */
   public signOut(): void {
+    axios.get(environment.base_url+"/auth/logout", {
+        headers: {
+          Authorization: "Bearer " + this.currentUser.value!.oatToken.token
+        }
+      })
+      .then(() => null)
     this.currentUser.next(undefined)
     this.router.navigate(["/"])
     return
   }
 
+  /**
+   * Sign up for an account.
+   *
+   * @param username
+   * @param name
+   * @param password
+   *
+   * @return {Promise<AuthCodes>}
+   */
   public signUp(username: string, name: string, password: string): Promise<AuthCodes> {
     return axios.post<ApiToken>(environment.base_url+"/auth/register", { username, name, password})
       .then(token => {
@@ -81,6 +104,14 @@ export class AuthService {
     })
   }
 
+  /**
+   * Attempt to login a user.
+   *
+   * @param username
+   * @param password
+   *
+   * @return {Promise<AuthCodes>}
+   */
   public attempt(username: string, password: string): Promise<AuthCodes> {
 
     return axios.post<ApiToken & {name: string}>(environment.base_url+"/auth/login", {
