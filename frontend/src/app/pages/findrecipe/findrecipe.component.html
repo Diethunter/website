@@ -58,7 +58,7 @@
 </ng-container>
 <hr>
 
-<ng-container *ngIf="currentUser !== undefined && recipe!.user.username !== currentUser.username">
+<ng-container *ngIf="currentUser !== undefined && recipe!.user.username !== currentUser.username && currentUser.username !== 'DiethunterOfficial'">
   <h6>Comment down below!</h6>
   <nb-select [(selected)]="commentRating">
     <nb-option [value]="'title'">Rating out of 5</nb-option>

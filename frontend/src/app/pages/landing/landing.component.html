@@ -6,6 +6,11 @@
   <button (click)="logInWithGoogle()" nbButton status="basic" size="giant"><img src="assets/google-logo.png" alt="Google logo" width="30px">&nbsp;&nbsp;Log in With Google</button>
 </div>
 <hr>
+<h3>Search for Recipes</h3>
+<input nbInput fullWidth placeholder="Recipe Name" [(ngModel)]="recipeName">
+<hr>
+<button nbButton type="submit" (click)="search()" [disabled]="!recipeName">Search</button>
+<hr>
 <h2>Eating healthy shouldn't be hard. With Diethunter, you can eat healthy without compromises.</h2>
 <hr>
 <img src="assets/veganfood.jpg" style="float: left; padding-right: 10px">

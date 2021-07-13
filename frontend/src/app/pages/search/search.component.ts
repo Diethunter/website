@@ -29,13 +29,23 @@ export class SearchComponent {
   public cuisineList: string[] = []
 
   public search() {
-    const data = {
-      ...this.searchForm.value,
-      ...this.checkedBoxes,
-      include: Array.from(this.includeTree.values()),
-      exclude: Array.from(this.excludeTree.values()),
-      cuisine: this.cuisine
+    let data
+    if(this.advanced) {
+      data = {
+        ...this.searchForm.value,
+        ...this.checkedBoxes,
+        include: Array.from(this.includeTree.values()),
+        exclude: Array.from(this.excludeTree.values()),
+        cuisine: this.cuisine
+      }
+    } else {
+      data = {
+        name: this.searchForm.value.name,
+        ...this.checkedBoxes,
+        cuisine: this.cuisine
+      }
     }
+    console.log(data)
     localStorage.setItem("cuisine", this.cuisine ? this.cuisine : "")
     let isFormOk = false;
     for(let i of Object.keys(data)) {

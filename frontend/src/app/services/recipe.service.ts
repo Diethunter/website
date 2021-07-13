@@ -70,23 +70,23 @@ export interface RecipeInput {
 }
 
 export interface RecipeSearchParams {
-  minCalories: number,
-  maxCalories: number,
-  minProtein: number,
-  maxProtein: number,
-  minCarbs: number,
-  maxCarbs: number,
-  minFat: number,
-  maxFat: number,
-  halal: boolean,
-  kosher: boolean,
-  vegetarian: boolean,
-  vegan: boolean,
-  nutfree:boolean,
-  exclude: Array<string>,
-  include: Array<string>,
-  cuisine: string,
-  name: string
+  minCalories?: number,
+  maxCalories?: number,
+  minProtein?: number,
+  maxProtein?: number,
+  minCarbs?: number,
+  maxCarbs?: number,
+  minFat?: number,
+  maxFat?: number,
+  halal?: boolean,
+  kosher?: boolean,
+  vegetarian?: boolean,
+  vegan?: boolean,
+  nutfree?:boolean,
+  exclude?: Array<string>,
+  include?: Array<string>,
+  cuisine?: string,
+  name?: string
 }
 
 export enum RecipeStatus {

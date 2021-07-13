@@ -35,6 +35,13 @@
   </nb-checkbox>
   <br>
   <hr>
+  <label><span nbTooltip="Diethunter supports 26 cuisines.">Cuisine</span></label>
+  <br>
+  <nb-select [(selected)]="cuisine" placeholder="Select Cuisine">
+    <nb-option [value]="">Select Cuisine</nb-option>
+    <nb-option *ngFor="let type of cuisineList" [value]="type">{{type}}</nb-option>
+  </nb-select>
+  <hr>
   <nb-toggle [(checked)]="advanced">Toggle Advanced Search</nb-toggle>
   <ng-container *ngIf="advanced">
     <hr>
@@ -72,13 +79,6 @@
       <nb-tag *ngFor="let tree of excludeTree" [text]="tree!" removable></nb-tag>
       <input type="text" nbTagInput (tagAdd)="onExcludeTagAdd($event)" fullWidth>
     </nb-tag-list>
-    <label><span nbTooltip="Diethunter supports 26 cuisines.">Cuisine</span></label>
-    <br>
-    <nb-select [(selected)]="cuisine" placeholder="Select Cuisine">
-      <nb-option [value]="">Select Cuisine</nb-option>
-      <nb-option *ngFor="let type of cuisineList" [value]="type">{{type}}</nb-option>
-    </nb-select>
-    <hr>
     <br>
   </ng-container>
   <hr>

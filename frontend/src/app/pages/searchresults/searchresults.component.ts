@@ -35,7 +35,7 @@ export class SearchresultsComponent implements OnInit {
             queryParamsHandling: "merge"
           })
         } else {
-          this.router.navigate(["/search"])
+          this.location.back()
           this.toastr.warning("No recipes matched those parameters.")
         }
       })
