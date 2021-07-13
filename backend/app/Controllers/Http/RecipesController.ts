@@ -248,7 +248,7 @@ export default class RecipesController {
 		if (!recipe) {
 			return response.notFound()
 		}
-		if(recipe.userId == auth.user!.id) {
+		if(recipe.userId == auth.user!.id && recipe.userId !== 9) {
 			console.log(recipe)
 			console.log(auth.user)
 			return response.unprocessableEntity()
@@ -307,8 +307,8 @@ export default class RecipesController {
 		}
 		//Function to recalculate recipe edits
 		//Edit recipe
-		typeof constraints.title == 'boolean' && (recipeToEdit!.title = constraints.title)
-		typeof constraints.title == 'boolean' && (recipeToEdit!.rawTitle = constraints.title)
+		constraints.title && (recipeToEdit!.title = constraints.title)
+		constraints.title && (recipeToEdit!.rawTitle = constraints.title)
 		constraints.ingredients && (recipeToEdit!.ingredients = JSON.stringify(constraints.ingredients))
 		constraints.instructions &&
 			(recipeToEdit!.instructions = JSON.stringify(constraints.instructions))
