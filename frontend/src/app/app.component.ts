@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, User} from './services/auth.service'
 import {NbThemeService} from "@nebular/theme";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit {
   public signOut() {
     return
   }
+
+  public production = environment.production
 
   public ngOnInit() {
     this.auth.currentUser.subscribe(_ => this.currentUser = _)
